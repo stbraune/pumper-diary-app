@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{'exercise-add.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label floating>
+        {{'exercise.title' | translate}}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="exercise.title" (ngModelChange)="exerciseChanged()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        {{'exercise.description' | translate}}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="exercise.description" (ngModelChange)="exerciseChanged()"></ion-input>
+    </ion-item>
+
+    <ion-list-header>
+      <ion-label>
+        {{'exercise.difficulty' | translate}}
+      </ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-range [(ngModel)]="exercise.difficulty" (ngModelChange)="exerciseChanged()" [min]="1" [max]="6" [step]="1">
+        <ion-label range-left>
+          {{'exercise.difficulty.easy' | translate}}
+        </ion-label>
+        <ion-label range-right>
+          {{'exercise.difficulty.hard' | translate}}
+        </ion-label>
+      </ion-range>
+    </ion-item>
+
+    <ion-list-header>
+      <ion-label>
+        {{'exercise.measures' | translate}}
+      </ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let measure of measures">
+      <ion-label>
+        {{measure.key | translate}}
+      </ion-label>
+      <ion-checkbox [(ngModel)]="measure.checked" (ngModelChange)="measureToggled(measure)"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

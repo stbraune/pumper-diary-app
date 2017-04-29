@@ -1,0 +1,18 @@
+{
+  "exercise.title": "Title",
+  "exercise.description": "Description",
+  "exercise.difficulty": "Difficulty",
+  "exercise.difficulty.easy": "Easy",
+  "exercise.difficulty.hard": "Hard",
+  "exercise.measures": "Measures",
+
+  "exercises.title": "Exercises",
+  "exercise-add.title": "Add Exercise",
+  "exercise-edit.title": "Edit Exercise",
+
+  "Repetitions": "Repetitions",
+  "Weight": "Weight",
+  "Duration": "Duration",
+  "Distance": "Distance",
+  "Calories": "Calories"
+}

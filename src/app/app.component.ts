@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';
 
@@ -9,6 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 
+import { ExercisesComponent } from './views/exercises/exercises.component';
+
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -16,11 +20,12 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
+  rootPage = ExercisesComponent;
   pages: Array<{title: string, component: any}>;
 
   constructor(
     public platform: Platform,
+    private translateService: TranslateService,
     public menu: MenuController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen
@@ -30,7 +35,8 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       { title: 'Hello Ionic', component: HelloIonicPage },
-      { title: 'My First List', component: ListPage }
+      { title: 'My First List', component: ListPage },
+      { title: 'Exercises', component: ExercisesComponent }
     ];
   }
 
@@ -38,6 +44,8 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.translateService.use(this.platform.lang());
+
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

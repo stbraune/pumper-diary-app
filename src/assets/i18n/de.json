@@ -1,0 +1,16 @@
+{
+  "exercise.title": "Titel",
+  "exercise.description": "Beschreibung",
+  "exercise.difficulty": "Schwierigkeit",
+  "exercise.difficulty.easy": "Leicht",
+  "exercise.difficulty.hard": "Schwierig",
+  "exercise.measures": "Maße",
+
+  "exercise-add.title": "Übung anlegen",
+
+  "Repetitions": "Wiederholungen",
+  "Weight": "Gewicht",
+  "Duration": "Dauer",
+  "Distance": "Distanz",
+  "Calories": "Kalorien"
+}
