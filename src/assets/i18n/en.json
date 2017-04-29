@@ -1,14 +1,30 @@
 {
+  "plans.title": "Plans",
+  "plan-add.title": "Add Plan",
+  "plan-edit.title": "Edit Plan",
+
+  "goal-add.title": "Add Goal",
+  "goal-edit.title": "Edit Goal",
+  "entries": "Entries",
+  "pause": "Pause",
+  "duration": "Duration",
+  "action": "Action",
+
+  "plan.title": "Title",
+  "plan.description": "Description",
+  "plan.goals": "Goals",
+
+  "exercises.title": "Exercises",
+  "exercise-add.title": "Add Exercise",
+  "exercise-edit.title": "Edit Exercise",
+
+  "exercise": "Exercise",
   "exercise.title": "Title",
   "exercise.description": "Description",
   "exercise.difficulty": "Difficulty",
   "exercise.difficulty.easy": "Easy",
   "exercise.difficulty.hard": "Hard",
   "exercise.measures": "Measures",
-
-  "exercises.title": "Exercises",
-  "exercise-add.title": "Add Exercise",
-  "exercise-edit.title": "Edit Exercise",
 
   "Repetitions": "Repetitions",
   "Weight": "Weight",

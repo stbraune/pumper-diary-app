@@ -2,13 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { HttpModule, Http } from '@angular/http';
 
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Vibration } from '@ionic-native/vibration';
 import { NativeAudio } from '@ionic-native/native-audio';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 
@@ -19,7 +18,16 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { ExercisesService } from './services/exercises.service';
+import {
+  PlansService,
+  ExercisesService
+} from './services';
+
+import {
+  PlansComponent,
+  PlanEditComponent,
+  GoalEditComponent
+} from './views/plans';
 
 import {
   ExercisesComponent,
@@ -33,6 +41,9 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+    PlansComponent,
+    PlanEditComponent,
+    GoalEditComponent,
     ExercisesComponent,
     ExerciseAddComponent,
     ExerciseEditComponent
@@ -55,6 +66,9 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+    PlansComponent,
+    PlanEditComponent,
+    GoalEditComponent,
     ExercisesComponent,
     ExerciseAddComponent,
     ExerciseEditComponent
@@ -64,6 +78,7 @@ import {
     SplashScreen,
     Vibration,
     NativeAudio,
+    PlansService,
     ExercisesService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

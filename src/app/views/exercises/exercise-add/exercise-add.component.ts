@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Exercise } from '../../../model/exercise';
-import { Measure } from '../../../model/measure';
+import {
+  Exercise,
+  Measure
+} from '../../../model';
 
 @Component({
   selector: 'exercise-add',

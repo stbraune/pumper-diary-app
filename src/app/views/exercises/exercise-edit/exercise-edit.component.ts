@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 import { NavParams } from 'ionic-angular';
 
-import { Exercise } from '../../../model/exercise';
-import { Measure } from '../../../model/measure';
+import {
+  Exercise,
+  Measure
+} from '../../../model';
 
 @Component({
   selector: 'exercise-edit',

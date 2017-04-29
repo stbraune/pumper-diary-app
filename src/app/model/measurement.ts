@@ -1,8 +1,7 @@
-import { Entry } from './entry';
 import { Measure } from './measure';
 
-export interface Measurement extends Entry {
+export interface Measurement {
   measure: Measure,
   value: number,
-  unit: string
+  unit?: string
 }

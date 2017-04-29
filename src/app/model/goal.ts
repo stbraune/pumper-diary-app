@@ -4,5 +4,5 @@ import { Entry } from './entry';
 export interface Goal {
   id: number,
   exercise: Exercise,
-  measurements: Entry[]
+  entries: Entry[]
 }

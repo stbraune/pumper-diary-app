@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'goal-edit.title' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="dismissModal()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label>
+        {{'exercise' | translate}}
+      </ion-label>
+      <ion-select [(ngModel)]="goal.exercise">
+        <ion-option *ngFor="let exercise of getExercises() | async" [value]="exercise">
+          {{exercise.title}}
+        </ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-list-header>
+      <ion-label>
+        {{'entries' | translate}}
+      </ion-label>
+    </ion-list-header>
+  </ion-list>
+
+  <ng-container *ngFor="let entry of goal.entries">
+    <ng-container *ngIf="isPause(entry)">
+      <ion-card class="entry entry--action">
+        <ion-card-header class="entry-header">
+          <button ion-button item-left clear class="entry-header__button-reorder">
+            <ion-icon item-left name="reorder"></ion-icon>
+          </button>
+          <span class="entry-header__title">
+            {{'pause' | translate}}
+          </span>
+          <button ion-button item-right clear class="entry-header__button-trash">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-card-header>
+
+        <ion-item>
+          <ion-label>
+            {{'duration' | translate}}
+          </ion-label>
+          <ion-datetime displayFormat="HH:mm:ss" pickerFormat="HH mm ss" [(ngModel)]="entry.duration"></ion-datetime>
+        </ion-item>
+      </ion-card>
+    </ng-container>
+
+    <ng-container *ngIf="isAction(entry)">
+      <ion-card class="entry entry--action">
+        <ion-card-header class="entry-header">
+          <button ion-button item-left clear class="entry-header__button-reorder">
+            <ion-icon item-left name="reorder"></ion-icon>
+          </button>
+          <span class="entry-header__title">
+            {{'action' | translate}}
+          </span>
+          <button ion-button item-right clear class="entry-header__button-trash">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-card-header>
+        Action Action action
+      </ion-card>
+    </ng-container>
+  </ng-container>
+</ion-content>

@@ -9,9 +9,8 @@ import { ListPage } from '../pages/list/list';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-
-import { ExercisesComponent } from './views/exercises/exercises.component';
-
+import { PlansComponent } from './views/plans';
+import { ExercisesComponent } from './views/exercises';
 
 @Component({
   templateUrl: 'app.html'
@@ -36,6 +35,7 @@ export class MyApp {
     this.pages = [
       { title: 'Hello Ionic', component: HelloIonicPage },
       { title: 'My First List', component: ListPage },
+      { title: 'Plans', component: PlansComponent },
       { title: 'Exercises', component: ExercisesComponent }
     ];
   }

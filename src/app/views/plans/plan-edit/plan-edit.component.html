@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{'plan-edit.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label floating>
+        {{'plan.title' | translate}}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="plan.title" (ngModelChange)="planChanged()"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        {{'plan.description' | translate}}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="plan.description" (ngModelChange)="planChanged()"></ion-input>
+    </ion-item>
+
+    <ion-list-header>
+      <ion-label>
+        {{'plan.goals' | translate}}
+      </ion-label>
+    </ion-list-header>
+    <ion-item class="goals">
+      <ion-card class="goals-card">
+        <ion-fab top right edge class="fab-add-goal">
+          <button ion-fab mini (click)="addGoalClicked($event)">
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-fab>
+        <ion-list>
+          <ion-item *ngFor="let goal of plan.goals" (click)="goalSelected(goal)">
+            {{goal.exercise.title}}
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

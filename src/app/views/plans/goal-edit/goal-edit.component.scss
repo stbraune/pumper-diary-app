@@ -1,0 +1,20 @@
+.entry {
+  .entry-header {
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+
+    .entry-header__button-reorder {
+      margin: 0;
+    }
+
+    .entry-header__title {
+      flex-grow: 1;
+    }
+
+    .entry-header__button-trash {
+      margin: 0;
+    }
+  }
+}

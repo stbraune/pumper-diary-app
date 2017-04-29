@@ -1,12 +1,30 @@
 {
+  "plans.title": "Pläne",
+  "plan-add.title": "Plan anlegen",
+  "plan-edit.title": "Plan bearbeiten",
+
+  "goal-add.title": "Ziel anlegen",
+  "goal-edit.title": "Ziel bearbeiten",
+  "entries": "Einträge",
+  "pause": "Pause",
+  "duration": "Dauer",
+  "action": "Aktion",
+
+  "plan.title": "Titel",
+  "plan.description": "Beschreibung",
+  "plan.goals": "Ziele",
+
+  "exercises.title": "Übungen",
+  "exercise-add.title": "Übung anlegen",
+  "exercise-edit.title": "Übung bearbeiten",
+
+  "exercise": "Übung",
   "exercise.title": "Titel",
   "exercise.description": "Beschreibung",
   "exercise.difficulty": "Schwierigkeit",
   "exercise.difficulty.easy": "Leicht",
   "exercise.difficulty.hard": "Schwierig",
   "exercise.measures": "Maße",
-
-  "exercise-add.title": "Übung anlegen",
 
   "Repetitions": "Wiederholungen",
   "Weight": "Gewicht",

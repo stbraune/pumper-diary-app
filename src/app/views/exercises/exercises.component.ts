@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { Exercise } from '../../model/exercise';
+import { Exercise } from '../../model';
 
-import { ExercisesService } from '../../services/exercises.service';
+import { ExercisesService } from '../../services';
 
 import { ExerciseAddComponent } from './exercise-add';
 import { ExerciseEditComponent } from './exercise-edit';
@@ -15,7 +15,7 @@ import { ExerciseEditComponent } from './exercise-edit';
 export class ExercisesComponent { 
   public constructor(
     private exercisesService: ExercisesService,
-    public navController: NavController
+    private navController: NavController
   ) {
   }
 
