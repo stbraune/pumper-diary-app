@@ -1,8 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "version": "0.0.0",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "name": "pumper-diary-app",
+  "version": "0.0.1",
+  "author": "Stefan Braune <stefan.braune@gmail.com>",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -44,5 +43,5 @@
     "cordova-plugin-splashscreen"
   ],
   "cordovaPlatforms": [],
-  "description": "ionic-sample: An Ionic project"
+  "description": ""
 }

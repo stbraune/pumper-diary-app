@@ -28,5 +28,6 @@ export class ItemDetailsPage {
 
   playBeep(): void {
     this.nativeAudio.play('bass');
+    this.vibration.vibrate(1000);
   }
 }
