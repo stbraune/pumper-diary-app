@@ -36,6 +36,12 @@ export class GoalEditComponent {
     return this.exercisesService.getExercises();
   }
 
+  public reorderEntries($event: any) {
+    let entry = this.goal.entries[$event.from];
+    this.goal.entries.splice($event.from, 1);
+    this.goal.entries.splice($event.to, 0, entry);
+  }
+
   public isPause(entry: Entry): boolean {
     return entry.type === EntryType.Pause;
   }

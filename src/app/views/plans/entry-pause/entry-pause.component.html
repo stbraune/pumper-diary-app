@@ -1,0 +1,18 @@
+<ion-card class="entry entry--pause">
+  <ion-card-header class="entry-header">
+    <span class="entry-header__title">
+      {{'pause' | translate}}
+    </span>
+    <button ion-button clear class="entry-header__button-trash">
+      <ion-icon name="trash"></ion-icon>
+    </button>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-label>
+        {{'duration' | translate}}
+      </ion-label>
+      <ion-datetime displayFormat="HH:mm:ss" pickerFormat="HH mm ss" [(ngModel)]="entry.duration"></ion-datetime>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

@@ -26,7 +26,9 @@ import {
 import {
   PlansComponent,
   PlanEditComponent,
-  GoalEditComponent
+  GoalEditComponent,
+  EntryPauseComponent,
+  EntryActionComponent
 } from './views/plans';
 
 import {
@@ -46,7 +48,9 @@ import {
     GoalEditComponent,
     ExercisesComponent,
     ExerciseAddComponent,
-    ExerciseEditComponent
+    ExerciseEditComponent,
+    EntryPauseComponent,
+    EntryActionComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,9 @@ import {
     GoalEditComponent,
     ExercisesComponent,
     ExerciseAddComponent,
-    ExerciseEditComponent
+    ExerciseEditComponent,
+    EntryPauseComponent,
+    EntryActionComponent
   ],
   providers: [
     StatusBar,

@@ -37,7 +37,13 @@ export class ExercisesService {
     ExercisesService.Named.LegDrops,
     ExercisesService.Named.HandGripper,
     ExercisesService.Named.Planking,
-    ExercisesService.Named.Walking
+    ExercisesService.Named.Walking,
+    ExercisesService.Named.PushUpsPositive,
+    ExercisesService.Named.PullUps1,
+    ExercisesService.Named.ReverseCrunches,
+    ExercisesService.Named.Wadenheben,
+    ExercisesService.Named.PushUpsNegative,
+    ExercisesService.Named.KHRudern
   ];
 
   public getExercises(): Observable<Exercise[]> {

@@ -29,45 +29,10 @@
     </ion-list-header>
   </ion-list>
 
-  <ng-container *ngFor="let entry of goal.entries">
-    <ng-container *ngIf="isPause(entry)">
-      <ion-card class="entry entry--action">
-        <ion-card-header class="entry-header">
-          <button ion-button item-left clear class="entry-header__button-reorder">
-            <ion-icon item-left name="reorder"></ion-icon>
-          </button>
-          <span class="entry-header__title">
-            {{'pause' | translate}}
-          </span>
-          <button ion-button item-right clear class="entry-header__button-trash">
-            <ion-icon name="trash"></ion-icon>
-          </button>
-        </ion-card-header>
-
-        <ion-item>
-          <ion-label>
-            {{'duration' | translate}}
-          </ion-label>
-          <ion-datetime displayFormat="HH:mm:ss" pickerFormat="HH mm ss" [(ngModel)]="entry.duration"></ion-datetime>
-        </ion-item>
-      </ion-card>
-    </ng-container>
-
-    <ng-container *ngIf="isAction(entry)">
-      <ion-card class="entry entry--action">
-        <ion-card-header class="entry-header">
-          <button ion-button item-left clear class="entry-header__button-reorder">
-            <ion-icon item-left name="reorder"></ion-icon>
-          </button>
-          <span class="entry-header__title">
-            {{'action' | translate}}
-          </span>
-          <button ion-button item-right clear class="entry-header__button-trash">
-            <ion-icon name="trash"></ion-icon>
-          </button>
-        </ion-card-header>
-        Action Action action
-      </ion-card>
-    </ng-container>
-  </ng-container>
+  <ion-list no-lines reorder="true" (ionItemReorder)="reorderEntries($event)" class="entry-list">
+    <ion-item *ngFor="let entry of goal.entries" class="entry-list__item">
+      <entry-pause *ngIf="isPause(entry)" [entry]="entry"></entry-pause>
+      <entry-action *ngIf="isAction(entry)" [entry]="entry"></entry-action>
+    </ion-item>
+  </ion-list>
 </ion-content>
