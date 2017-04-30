@@ -14,6 +14,10 @@
   "plan.description": "Description",
   "plan.goals": "Goals",
 
+  "plan.goals.entries.add-action": "Add Action",
+  "plan.goals.entries.add-pause": "Add Pause",
+  "plan.goals.entries.delete-entry": "Delete Entry",
+
   "exercises.title": "Exercises",
   "exercise-add.title": "Add Exercise",
   "exercise-edit.title": "Edit Exercise",

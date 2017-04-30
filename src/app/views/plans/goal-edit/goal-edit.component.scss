@@ -3,8 +3,6 @@
     padding-left: 0;
 
     & > .item-inner {
-      //flex-direction: row-reverse;
-
       & > .input-wrapper {
         margin-right: -64px;
 
@@ -30,11 +28,8 @@
       align-items: center;
       padding-right: 0;
 
-      .entry-header__button-reorder {
+      .entry-header__button-more {
         margin: 0;
-      }
-
-      .entry-header__title {
       }
 
       .entry-header__button-trash {

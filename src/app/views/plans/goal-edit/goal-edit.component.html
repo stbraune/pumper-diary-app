@@ -31,8 +31,22 @@
 
   <ion-list no-lines reorder="true" (ionItemReorder)="reorderEntries($event)" class="entry-list">
     <ion-item *ngFor="let entry of goal.entries" class="entry-list__item">
-      <entry-pause *ngIf="isPause(entry)" [entry]="entry"></entry-pause>
-      <entry-action *ngIf="isAction(entry)" [entry]="entry"></entry-action>
+      <entry-pause *ngIf="isPause(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)"></entry-pause>
+      <entry-action *ngIf="isAction(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)"></entry-action>
     </ion-item>
   </ion-list>
+
+  <ion-fab right bottom #fabContainer class="fab-buttons-with-labels">
+    <button ion-fab color="accent">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab (click)="addActionClicked($event, fabContainer)" class="fab-button-with-label">
+        <ion-icon name="walk" class="fab-button-icon"></ion-icon>
+      </button>
+      <button ion-fab (click)="addPauseClicked($event, fabContainer)" class="fab-button-with-label">
+        <ion-icon name="body" class="fab-button-icon"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>

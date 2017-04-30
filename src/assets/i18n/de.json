@@ -14,6 +14,10 @@
   "plan.description": "Beschreibung",
   "plan.goals": "Ziele",
 
+  "plan.goals.entries.add-action": "Aktion hinzufügen",
+  "plan.goals.entries.add-pause": "Pause hinzufügen",
+  "plan.goals.entries.delete-entry": "Eintrag löschen",
+
   "exercises.title": "Übungen",
   "exercise-add.title": "Übung anlegen",
   "exercise-edit.title": "Übung bearbeiten",

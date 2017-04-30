@@ -28,7 +28,8 @@ import {
   PlanEditComponent,
   GoalEditComponent,
   EntryPauseComponent,
-  EntryActionComponent
+  EntryActionComponent,
+  EntryPopoverMenuComponent
 } from './views/plans';
 
 import {
@@ -50,7 +51,8 @@ import {
     ExerciseAddComponent,
     ExerciseEditComponent,
     EntryPauseComponent,
-    EntryActionComponent
+    EntryActionComponent,
+    EntryPopoverMenuComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,8 @@ import {
     ExerciseAddComponent,
     ExerciseEditComponent,
     EntryPauseComponent,
-    EntryActionComponent
+    EntryActionComponent,
+    EntryPopoverMenuComponent
   ],
   providers: [
     StatusBar,

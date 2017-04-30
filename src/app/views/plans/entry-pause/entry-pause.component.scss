@@ -11,7 +11,7 @@
 
     .item-inner {
       ion-reorder {
-        display: none;
+        display: none; // fixes buggy display of ion-reorder for nested ion-lists
       }
     }
   }

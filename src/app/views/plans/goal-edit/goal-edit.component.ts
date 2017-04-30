@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 
-import { NavParams, ViewController } from 'ionic-angular';
+import {
+  FabContainer,
+  NavParams,
+  PopoverController,
+  ViewController
+} from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -8,12 +13,18 @@ import {
   Goal,
   Entry,
   EntryType,
-  Exercise
+  Exercise,
+  Measure,
+  Measurement
 } from '../../../model';
 
 import {
   ExercisesService
 } from '../../../services';
+
+import {
+  EntryPopoverMenuComponent
+} from '../entry-popover-menu';
 
 @Component({
   selector: 'goal-edit',
@@ -26,6 +37,7 @@ export class GoalEditComponent {
 
   public constructor(
     private navParams: NavParams,
+    private popoverController: PopoverController,
     private viewController: ViewController,
     private exercisesService: ExercisesService
   ) {
@@ -48,6 +60,34 @@ export class GoalEditComponent {
 
   public isAction(entry: Entry): boolean {
     return entry.type === EntryType.Action;
+  }
+
+  public openEntryPopoverMenu($event: any): void {
+    let popover = this.popoverController.create(EntryPopoverMenuComponent, {
+      entry: $event.entry,
+      deleteClicked: (entry: Entry) => {
+        this.goal.entries.splice(this.goal.entries.indexOf(entry), 1);
+      }
+    });
+    popover.present({ ev: $event });
+  }
+
+  public addActionClicked($event: any, fabContainer: FabContainer): void {
+    console.log('add action');
+    this.goal.entries.push({
+      type: EntryType.Action,
+      measurements: this.goal.exercise.measures.map((measure) => ({
+        measure: measure,
+        value: 0
+      }))
+    });
+    fabContainer.close();
+  }
+
+  public addPauseClicked($event: any, fabContainer: FabContainer): void {
+    console.log('add pause');
+    this.goal.entries.push({ type: EntryType.Pause, duration: '00:00:00' });
+    fabContainer.close();
   }
 
   public goalChanged(): void {

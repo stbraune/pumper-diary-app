@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Entry } from '../../../model';
 
@@ -9,4 +9,12 @@ import { Entry } from '../../../model';
 export class EntryPauseComponent {
   @Input()
   public entry: Entry;
+
+  @Output()
+  public more = new EventEmitter<Entry>();
+
+  public moreButtonClicked($event: any) {
+    $event.entry = this.entry;
+    this.more.emit($event);
+  }
 }

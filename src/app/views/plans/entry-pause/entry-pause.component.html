@@ -1,11 +1,11 @@
 <ion-card class="entry entry--pause">
   <ion-card-header class="entry-header">
+    <button item-left ion-button clear icon-only (click)="moreButtonClicked($event)" class="entry-header__button-more">
+      <ion-icon name="more"></ion-icon>
+    </button>
     <span class="entry-header__title">
       {{'pause' | translate}}
     </span>
-    <button ion-button clear class="entry-header__button-trash">
-      <ion-icon name="trash"></ion-icon>
-    </button>
   </ion-card-header>
   <ion-card-content>
     <ion-item>
