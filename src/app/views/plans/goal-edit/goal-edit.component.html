@@ -31,8 +31,8 @@
 
   <ion-list no-lines reorder="true" (ionItemReorder)="reorderEntries($event)" class="entry-list">
     <ion-item *ngFor="let entry of goal.entries" class="entry-list__item">
-      <entry-pause *ngIf="isPause(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)"></entry-pause>
-      <entry-action *ngIf="isAction(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)"></entry-action>
+      <entry-pause *ngIf="isPause(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)" (change)="entryChanged($event)"></entry-pause>
+      <entry-action *ngIf="isAction(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)" (change)="entryChanged($event)"></entry-action>
     </ion-item>
   </ion-list>
 

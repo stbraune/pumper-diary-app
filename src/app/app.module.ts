@@ -20,8 +20,18 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import {
   PlansService,
-  ExercisesService
+  ExercisesService,
+  MeasurementsService
 } from './services';
+
+import {
+  MeasurementControlSmallComponent,
+  CaloriesControlSmallComponent,
+  DistanceControlSmallComponent,
+  DurationControlSmallComponent,
+  RepetitionsControlSmallComponent,
+  WeightControlSmallComponent
+} from './views/measurements';
 
 import {
   PlansComponent,
@@ -44,15 +54,24 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+
+    MeasurementControlSmallComponent,
+    CaloriesControlSmallComponent,
+    DistanceControlSmallComponent,
+    DurationControlSmallComponent,
+    RepetitionsControlSmallComponent,
+    WeightControlSmallComponent,
+
     PlansComponent,
     PlanEditComponent,
     GoalEditComponent,
-    ExercisesComponent,
-    ExerciseAddComponent,
-    ExerciseEditComponent,
     EntryPauseComponent,
     EntryActionComponent,
-    EntryPopoverMenuComponent
+    EntryPopoverMenuComponent,
+
+    ExercisesComponent,
+    ExerciseAddComponent,
+    ExerciseEditComponent
   ],
   imports: [
     BrowserModule,
@@ -72,23 +91,35 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+
+    MeasurementControlSmallComponent,
+    CaloriesControlSmallComponent,
+    DistanceControlSmallComponent,
+    DurationControlSmallComponent,
+    RepetitionsControlSmallComponent,
+    WeightControlSmallComponent,
+
     PlansComponent,
     PlanEditComponent,
     GoalEditComponent,
-    ExercisesComponent,
-    ExerciseAddComponent,
-    ExerciseEditComponent,
     EntryPauseComponent,
     EntryActionComponent,
-    EntryPopoverMenuComponent
+    EntryPopoverMenuComponent,
+
+    ExercisesComponent,
+    ExerciseAddComponent,
+    ExerciseEditComponent
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Vibration,
     NativeAudio,
+    
     PlansService,
     ExercisesService,
+    MeasurementsService,
+
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -13,13 +13,12 @@ import {
   Goal,
   Entry,
   EntryType,
-  Exercise,
-  Measure,
-  Measurement
+  Exercise
 } from '../../../model';
 
 import {
-  ExercisesService
+  ExercisesService,
+  MeasurementsService
 } from '../../../services';
 
 import {
@@ -39,7 +38,8 @@ export class GoalEditComponent {
     private navParams: NavParams,
     private popoverController: PopoverController,
     private viewController: ViewController,
-    private exercisesService: ExercisesService
+    private exercisesService: ExercisesService,
+    private measurementsService: MeasurementsService
   ) {
     this.goal = navParams.get('data');
   }
@@ -76,18 +76,23 @@ export class GoalEditComponent {
     console.log('add action');
     this.goal.entries.push({
       type: EntryType.Action,
-      measurements: this.goal.exercise.measures.map((measure) => ({
-        measure: measure,
-        value: 0
-      }))
+      measurements: this.goal.exercise.measures.map((measure) => this.measurementsService.createMeasurement(measure))
     });
     fabContainer.close();
   }
 
   public addPauseClicked($event: any, fabContainer: FabContainer): void {
     console.log('add pause');
-    this.goal.entries.push({ type: EntryType.Pause, duration: '00:00:00' });
+    this.goal.entries.push({
+      type: EntryType.Pause,
+      measurements: [ this.measurementsService.createDuration() ]
+    });
     fabContainer.close();
+  }
+
+  public entryChanged(): void {
+    console.log('entry changed');
+    this.goalChanged();
   }
 
   public goalChanged(): void {

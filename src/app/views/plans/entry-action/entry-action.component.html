@@ -8,6 +8,8 @@
     </span>
   </ion-card-header>
   <ion-card-content>
-    Action Action action
+    <measurement-control-small *ngFor="let measurement of entry.measurements"
+      [measurement]="measurement" (change)="measurementChanged(measurement)">
+    </measurement-control-small>
   </ion-card-content>
 </ion-card>

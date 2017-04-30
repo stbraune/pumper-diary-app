@@ -8,11 +8,8 @@
     </span>
   </ion-card-header>
   <ion-card-content>
-    <ion-item>
-      <ion-label>
-        {{'duration' | translate}}
-      </ion-label>
-      <ion-datetime displayFormat="HH:mm:ss" pickerFormat="HH mm ss" [(ngModel)]="entry.duration"></ion-datetime>
-    </ion-item>
+    <measurement-control-small *ngFor="let measurement of entry.measurements"
+      [measurement]="measurement" (change)="measurementChanged(measurement)">
+    </measurement-control-small>
   </ion-card-content>
 </ion-card>
