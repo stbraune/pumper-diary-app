@@ -22,7 +22,8 @@ import {
   PlansService,
   ExercisesService,
   MeasurementsService,
-  UnitConverterService
+  UnitConverterService,
+  ScoreCalculatorService
 } from './services';
 
 import {
@@ -124,6 +125,7 @@ import {
     ExercisesService,
     MeasurementsService,
     UnitConverterService,
+    ScoreCalculatorService,
 
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
