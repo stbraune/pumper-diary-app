@@ -1,4 +1,26 @@
+.header {
+  .row-exercise {
+    & > .item {
+      background-color: map-get($colors, primary);
+
+      & > .item-inner {
+        border-bottom: initial;
+
+        & > .input-wrapper {
+          & > .label {
+            color: initial;
+          }
+        }
+      }
+    }
+  }
+}
+
 .entry-list {
+  .list-header {
+    border-top: none;
+  }
+  
   .entry-list__item {
     padding-left: 0;
 

@@ -1,9 +1,17 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{'plan-edit.title' | translate}}</ion-title>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismissPlanClicked()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title *ngIf="plan.id == 0">{{'plan-add.title' | translate}}</ion-title>
+    <ion-title *ngIf="plan.id > 0">{{'plan-edit.title' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="savePlanClicked()">
+        {{'save' | translate}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

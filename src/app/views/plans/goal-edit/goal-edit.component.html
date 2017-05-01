@@ -1,27 +1,34 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>{{'goal-edit.title' | translate}}</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="dismissModal()">
+<ion-header class="header">
+  <ion-navbar class="header__navbar">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismissGoalClicked()">
         <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-title *ngIf="goal.id == 0">{{'goal-add.title' | translate}}</ion-title>
+    <ion-title *ngIf="goal.id > 0">{{'goal-edit.title' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="saveGoalClicked()">
+        {{'save' | translate}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
-</ion-header>
-
-<ion-content>
-  <ion-list no-lines>
+  <ion-row class="row-exercise">
     <ion-item>
       <ion-label>
         {{'exercise' | translate}}
       </ion-label>
-      <ion-select [(ngModel)]="goal.exercise">
-        <ion-option *ngFor="let exercise of getExercises() | async" [value]="exercise">
+      <ion-select [(ngModel)]="exercise" (ngModelChange)="exerciseSelected()">
+        <ion-option *ngFor="let exercise of getExercises() | async" [value]="exercise.id">
           {{exercise.title}}
         </ion-option>
       </ion-select>
     </ion-item>
+  </ion-row>
+</ion-header>
 
+<ion-content>
+  <ion-list no-lines class="entry-list">
     <ion-list-header>
       <ion-label>
         {{'entries' | translate}}
@@ -29,6 +36,12 @@
     </ion-list-header>
   </ion-list>
 
+  <ion-card *ngIf="goal.entries.length == 0">
+    <ion-card-content>
+      <em>{{'entries-no' | translate}}</em>
+    </ion-card-content>
+  </ion-card>
+  
   <ion-list no-lines reorder="true" (ionItemReorder)="reorderEntries($event)" class="entry-list">
     <ion-item *ngFor="let entry of goal.entries" class="entry-list__item">
       <entry-pause *ngIf="isPause(entry)" [entry]="entry" (more)="openEntryPopoverMenu($event)" (change)="entryChanged($event)"></entry-pause>

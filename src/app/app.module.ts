@@ -47,7 +47,6 @@ import {
 
 import {
   ExercisesComponent,
-  ExerciseAddComponent,
   ExerciseEditComponent
 } from './views/exercises';
 
@@ -74,7 +73,6 @@ import {
     EntryPopoverMenuComponent,
 
     ExercisesComponent,
-    ExerciseAddComponent,
     ExerciseEditComponent
   ],
   imports: [
@@ -112,7 +110,6 @@ import {
     EntryPopoverMenuComponent,
 
     ExercisesComponent,
-    ExerciseAddComponent,
     ExerciseEditComponent
   ],
   providers: [

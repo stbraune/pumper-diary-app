@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { NavParams } from 'ionic-angular';
+import {
+  NavParams,
+  ViewController
+} from 'ionic-angular';
 
 import {
   Exercise,
@@ -17,7 +20,8 @@ export class ExerciseEditComponent implements OnInit {
   public measures: { key: string, checked: boolean }[] = [];
 
   public constructor(
-    private navParams: NavParams
+    private navParams: NavParams,
+    private viewController: ViewController
   ) {
     this.exercise = navParams.get('data');
   }
@@ -43,5 +47,19 @@ export class ExerciseEditComponent implements OnInit {
 
   public exerciseChanged() {
     console.log(JSON.stringify(this.exercise));
+  }
+
+  public dismissExerciseClicked(): void {
+    this.viewController.dismiss({
+      success: false,
+      data: this.exercise
+    });
+  }
+
+  public saveExerciseClicked(): void {
+    this.viewController.dismiss({
+      success: true,
+      data: this.exercise
+    });
   }
 }

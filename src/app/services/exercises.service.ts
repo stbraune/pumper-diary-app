@@ -49,4 +49,19 @@ export class ExercisesService {
   public getExercises(): Observable<Exercise[]> {
     return Observable.of(this.exercises);
   }
+
+  public getExerciseById(id: number): Observable<Exercise> {
+    return Observable.of(this.exercises.find((x) => x.id === id));
+  }
+
+  public createExercise(exercise: Exercise): Observable<boolean> {
+    exercise.id = this.exercises.map((e) => e.id).sort((a, b) => b - a).shift() + 1;
+    this.exercises.push(exercise);
+    return Observable.of(true);
+  }
+
+  public updateExercise(exercise: Exercise): Observable<boolean> {
+    this.exercises.splice(this.exercises.findIndex((x) => x.id === exercise.id), 1, exercise);
+    return Observable.of(true);
+  }
 }

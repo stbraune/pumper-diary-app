@@ -1,9 +1,17 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>{{'exercise-edit.title' | translate}}</ion-title>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismissExerciseClicked()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title *ngIf="exercise.id == 0">{{'exercise-add.title' | translate}}</ion-title>
+    <ion-title *ngIf="exercise.id > 0">{{'exercise-edit.title' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear (click)="saveExerciseClicked()">
+        {{'save' | translate}}
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 

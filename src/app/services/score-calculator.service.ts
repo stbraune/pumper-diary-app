@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 import {
   EntryType,
   Measure,
@@ -10,13 +13,16 @@ import {
   UnitConverterService
 } from './unit-converter.service';
 
+import { ExercisesService } from './exercises.service';
+
 @Injectable()
 export class ScoreCalculatorService {
   public constructor(
-    private unitConverterService: UnitConverterService
+    private unitConverterService: UnitConverterService,
+    private exercisesService: ExercisesService
   ) { }
   
-  public calculateScore(set: Set): number {
+  public calculateScore(set: Set): Observable<number> {
     let totals = {
       calories: 0,
       distance: 0,
@@ -65,8 +71,9 @@ export class ScoreCalculatorService {
 
     score += totals.distance;
     score += totals.calories;
-    score *= set.goal.exercise.difficulty;
 
-    return score;
+    return this.exercisesService.getExerciseById(set.goal.exercise.id).map((exercise) => {
+      return score * exercise.difficulty;
+    });
   }
 }

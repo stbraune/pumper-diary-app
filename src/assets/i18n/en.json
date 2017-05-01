@@ -1,14 +1,22 @@
 {
+  "save": "Save",
+  "close": "Close",
+
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",
   "plan-edit.title": "Edit Plan",
+  "save-plan-failed": "Could not save plan. Please try again.",
 
   "goal-add.title": "Add Goal",
   "goal-edit.title": "Edit Goal",
   "entries": "Entries",
+  "entries-no": "There are no entries yet. Start adding entries to your goal by pushing the button in the bottom right corner.",
   "pause": "Pause",
   "duration": "Duration",
   "action": "Action",
+  "no-exercise-selected": "Please selected an exercise first before adding entries to this goal.",
+  "set-exercise-failed": "",
+  "add-action-failed": "Your internet connection appears to be offline. Please check your internet connection and try again.",
 
   "plan.title": "Title",
   "plan.description": "Description",
@@ -21,6 +29,7 @@
   "exercises.title": "Exercises",
   "exercise-add.title": "Add Exercise",
   "exercise-edit.title": "Edit Exercise",
+  "save-exercise-failed": "Could not save exercise. Please try again.",
 
   "exercise": "Exercise",
   "exercise.title": "Title",

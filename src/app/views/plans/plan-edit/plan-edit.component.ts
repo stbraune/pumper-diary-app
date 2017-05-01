@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import {
   ModalController,
   NavController,
-  NavParams
+  NavParams,
+  ViewController
 } from 'ionic-angular';
 
 import {
@@ -23,23 +24,57 @@ export class PlanEditComponent {
   public constructor(
     private modalController: ModalController,
     private navParams: NavParams,
-    private navController: NavController
+    private viewController: ViewController
   ) {
     this.plan = navParams.get('data');
   }
 
   public goalSelected(goal: Goal): void {
+    let indexOfGoal = this.plan.goals.indexOf(goal);
     let goalEditModal = this.modalController.create(GoalEditComponent, {
-      data: goal
+      data: JSON.parse(JSON.stringify(goal))
+    });
+    goalEditModal.onDidDismiss((result) => {
+      if (result && result.success) {
+        this.plan.goals.splice(indexOfGoal, 1, result.data);
+        this.planChanged();
+      }
     });
     goalEditModal.present();
   }
 
   public addGoalClicked($event: any) {
-
+    let newGoal: Goal = {
+      id: 0,
+      exercise: undefined,
+      entries: []
+    };
+    let goalEditModal = this.modalController.create(GoalEditComponent, {
+      data: newGoal
+    });
+    goalEditModal.onDidDismiss((result) => {
+      if (result && result.success) {
+        this.plan.goals.push(newGoal);
+        this.planChanged();
+      }
+    });
+    goalEditModal.present();
   }
 
   public planChanged(): void {
-    console.log('plan changed');
+  }
+
+  public savePlanClicked(): void {
+    this.viewController.dismiss({
+      success: true,
+      data: this.plan
+    });
+  }
+
+  public dismissPlanClicked(): void {
+    this.viewController.dismiss({
+      success: false,
+      data: this.plan
+    });
   }
 }

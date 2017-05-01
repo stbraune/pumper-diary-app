@@ -1,14 +1,22 @@
 {
+  "save": "Speichern",
+  "close": "Schließen",
+
   "plans.title": "Pläne",
   "plan-add.title": "Plan anlegen",
   "plan-edit.title": "Plan bearbeiten",
+  "save-plan-failed": "Der Plan konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
 
   "goal-add.title": "Ziel anlegen",
   "goal-edit.title": "Ziel bearbeiten",
   "entries": "Einträge",
+  "entries-no": "Es gibt noch keine Einträge. Beginne Einträge hinzuzufügen, in dem du den Button in der rechten unteren Ecke betätigst.",
   "pause": "Pause",
   "duration": "Dauer",
   "action": "Aktion",
+  "no-exercise-selected": "Du musst zu erst eine Übung wählen, bevor du Ziele hinzufügen kannst.",
+  "set-exercise-failed": "",
+  "add-action-failed": "Es sieht so aus, als sei deine Internetverbindung schlecht. Bitte prüfe deine Verbindung und versuche es noch einmal.",
 
   "plan.title": "Titel",
   "plan.description": "Beschreibung",
@@ -21,6 +29,7 @@
   "exercises.title": "Übungen",
   "exercise-add.title": "Übung anlegen",
   "exercise-edit.title": "Übung bearbeiten",
+  "save-exercise-failed": "Die Übung konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
 
   "exercise": "Übung",
   "exercise.title": "Titel",
