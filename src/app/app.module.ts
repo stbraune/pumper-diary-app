@@ -21,10 +21,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import {
   PlansService,
   ExercisesService,
-  MeasurementsService
+  MeasurementsService,
+  UnitConverterService
 } from './services';
 
 import {
+  NumericUpDownSmallComponent,
   MeasurementControlSmallComponent,
   CaloriesControlSmallComponent,
   DistanceControlSmallComponent,
@@ -55,6 +57,7 @@ import {
     ItemDetailsPage,
     ListPage,
 
+    NumericUpDownSmallComponent,
     MeasurementControlSmallComponent,
     CaloriesControlSmallComponent,
     DistanceControlSmallComponent,
@@ -92,6 +95,7 @@ import {
     ItemDetailsPage,
     ListPage,
 
+    NumericUpDownSmallComponent,
     MeasurementControlSmallComponent,
     CaloriesControlSmallComponent,
     DistanceControlSmallComponent,
@@ -119,6 +123,7 @@ import {
     PlansService,
     ExercisesService,
     MeasurementsService,
+    UnitConverterService,
 
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

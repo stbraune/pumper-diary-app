@@ -1,3 +1,4 @@
+export * from './numeric-up-down-small';
 export * from './measurement-control-small';
 export * from './calories-control-small';
 export * from './distance-control-small';

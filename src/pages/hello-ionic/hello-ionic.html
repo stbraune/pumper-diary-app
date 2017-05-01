@@ -17,9 +17,30 @@
   </p>
   <p>
     Follow along on the tutorial section of the Ionic docs!
+    <ion-icon name="minus"></ion-icon>
   </p>
   <p>
     <button ion-button color="primary" menuToggle>Toggle Menu</button>
   </p>
+
+  <ion-list>
+    <ion-item>
+      <ion-row>
+        <ion-col width-50>
+          <ion-item>
+            <ion-select>
+              <ion-option value="kgs">Kilograms</ion-option>
+              <ion-option value="lbs">Pounds</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col width-50>
+          <ion-item>
+            <ion-input type="number" class="input-value"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

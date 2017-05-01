@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import {
   Entry,
-  Measure,
   Measurement
 } from '../../../model';
 
@@ -32,7 +31,6 @@ export class EntryPauseComponent {
   }
 
   public emitChange() {
-    console.log('changed: ' + JSON.stringify(this.entry));
     this.change.emit(this.entry);
   }
 }

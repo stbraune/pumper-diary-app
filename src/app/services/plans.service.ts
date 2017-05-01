@@ -35,11 +35,11 @@ export class PlansService {
           id: 2,
           exercise: ExercisesService.Named.ConcentrationCurls,
           entries: [
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
           ]
         },
@@ -47,11 +47,11 @@ export class PlansService {
           id: 3,
           exercise: ExercisesService.Named.KHRudern,
           entries: [
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
           ]
         },
@@ -71,11 +71,11 @@ export class PlansService {
           id: 5,
           exercise: ExercisesService.Named.Wadenheben,
           entries: [
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
-            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kgs' } ] },
+            { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
             { type: EntryType.Pause, measurements: [ { measure: Measure.Duration, value: '00:00:45' } ] },
           ]
         },

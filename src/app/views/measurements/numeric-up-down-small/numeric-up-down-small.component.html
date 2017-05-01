@@ -1,0 +1,40 @@
+<ion-row class="numeric-up-down-small">
+  <ion-col col-4 class="numeric-up-down-small__col-label">
+    <ion-item class="item-input">
+      <ion-label>
+        {{label}}
+      </ion-label>
+    </ion-item>
+  </ion-col>
+  <ion-col col-1 class="numeric-up-down-small__col-decrement">
+    <ion-item>
+      <button ion-button icon-only clear (click)="decrementValue()">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-col>
+  <ion-col *ngIf="units.length > 0" col-3 class="numeric-up-down-small__col-value">
+    <ion-item>
+      <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col *ngIf="units.length == 0" col-6 class="numeric-up-down-small__col-value">
+    <ion-item>
+      <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
+    </ion-item>
+  </ion-col>
+  <ion-col col-1 class="numeric-up-down-small__col-increment">
+    <ion-item>
+      <button ion-button icon-only clear (click)="incrementValue()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-col>
+  <ion-col *ngIf="units.length > 0" col-3 class="numeric-up-down-small__col-unit">
+    <ion-item>
+      <ion-select [(ngModel)]="unit" (ngModelChange)="unitChanged()">
+        <ion-option *ngFor="let unit of units" [value]="unit.key">{{unit.value}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-col>
+</ion-row>

@@ -5,6 +5,10 @@ import {
   Measurement
 } from '../model';
 
+import {
+  UnitConverterService
+} from './unit-converter.service';
+
 @Injectable()
 export class MeasurementsService {
   public createMeasurement(measure: Measure): Measurement {
@@ -35,7 +39,7 @@ export class MeasurementsService {
     return {
       measure: Measure.Distance,
       value: '0',
-      unit: 'm'
+      unit: UnitConverterService.units.km
     };
   }
 
@@ -57,7 +61,7 @@ export class MeasurementsService {
     return {
       measure: Measure.Weight,
       value: '0',
-      unit: 'kgs'
+      unit: UnitConverterService.units.kg
     };
   }
 }

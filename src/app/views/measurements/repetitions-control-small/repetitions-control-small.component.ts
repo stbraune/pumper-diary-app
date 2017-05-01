@@ -22,6 +22,11 @@ export class RepetitionsControlSmallComponent {
       .key;
   }
 
+  public valueChanged(value: number): void {
+    this.measurement.value = value.toString();
+    this.emitChange();
+  }
+
   public emitChange() {
     this.change.emit(this.measurement);
   }

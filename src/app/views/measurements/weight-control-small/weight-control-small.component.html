@@ -1,2 +1,7 @@
-{{measurement.value}}
-{{measurement.unit}}
+<ion-item>
+  <numeric-up-down-small label="{{measureKey(measurement.measure) | translate}}"
+    [min]="0" [max]="1000" [step]="2.5" [units]="units"
+    [value]="measurement.value" [unit]="measurement.unit"
+    (valueChange)="valueChanged($event)" (unitChange)="unitChanged($event)">
+  </numeric-up-down-small>
+</ion-item>
