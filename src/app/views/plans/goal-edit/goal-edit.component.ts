@@ -32,10 +32,6 @@ import {
 export class GoalEditComponent {
   private goal: Goal;
 
-  public date: string = '';
-
-  public m = this.measurementsService.createWeight();
-
   public constructor(
     private navParams: NavParams,
     private popoverController: PopoverController,
