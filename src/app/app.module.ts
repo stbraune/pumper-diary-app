@@ -19,6 +19,7 @@ import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 
 import {
+  DatabaseService,
   PlansService,
   ExercisesService,
   MeasurementsService,
@@ -120,6 +121,7 @@ import {
     Vibration,
     NativeAudio,
     
+    DatabaseService,
     PlansService,
     ExercisesService,
     MeasurementsService,

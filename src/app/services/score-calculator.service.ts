@@ -72,7 +72,7 @@ export class ScoreCalculatorService {
     score += totals.distance;
     score += totals.calories;
 
-    return this.exercisesService.getExerciseById(set.goal.exercise.id).map((exercise) => {
+    return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
       return score * exercise.difficulty;
     });
   }

@@ -54,7 +54,6 @@ export class ExercisesComponent {
 
   public addExerciseClicked($event: any): void {
     let newExercise: Exercise = {
-      id: 0,
       title: '',
       description: '',
       difficulty: 1,

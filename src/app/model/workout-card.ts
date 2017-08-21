@@ -1,6 +1,6 @@
 import { Workout } from './workout';
 
 export interface WorkoutCard {
-  id: number,
-  workout: Workout
+  id: number;
+  workout: Workout;
 }

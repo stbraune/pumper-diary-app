@@ -35,7 +35,7 @@ import {
 })
 export class GoalEditComponent {
   private goal: Goal;
-  private exercise: number;
+  private exercise: string;
 
   public constructor(
     private translateService: TranslateService,
@@ -50,7 +50,7 @@ export class GoalEditComponent {
   }
 
   public ionViewDidLoad(): void {
-    this.exercise = this.goal.exercise ? this.goal.exercise.id : 0;
+    this.exercise = this.goal.exercise ? this.goal.exercise._id : '';
   }
 
   public exerciseSelected(): void {
@@ -114,7 +114,7 @@ export class GoalEditComponent {
       return;
     }
 
-    this.exercisesService.getExerciseById(this.goal.exercise.id).subscribe((exercise) => {
+    this.exercisesService.getExerciseById(this.goal.exercise._id).subscribe((exercise) => {
       this.goal.entries.push({
         type: EntryType.Action,
         measurements: exercise.measures.map((measure) => this.measurementsService.createMeasurement(measure))
