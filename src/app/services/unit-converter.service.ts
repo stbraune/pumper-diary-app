@@ -48,7 +48,7 @@ export class UnitConverterService {
           return value * UnitConverterService.facs.km_in_mi;
         }
 
-        throw new Error(`Cannot convert '{value}' from 'km' to '{target}'`);
+        throw new Error(`Cannot convert '${value}' from 'km' to '${target}'`);
       }
     };
   }
@@ -64,7 +64,7 @@ export class UnitConverterService {
           return value / UnitConverterService.facs.km_in_mi;
         }
 
-        throw new Error(`Cannot convert '{value}' from 'mi' to '{target}'`);
+        throw new Error(`Cannot convert '${value}' from 'mi' to '${target}'`);
       }
     };
   }
@@ -80,7 +80,7 @@ export class UnitConverterService {
           return value / UnitConverterService.facs.lb_in_kg;
         }
 
-        throw new Error(`Cannot convert '{value}' from 'kg' to '{target}'`);
+        throw new Error(`Cannot convert '${value}' from 'kg' to '${target}'`);
       }
     };
   }
@@ -96,7 +96,7 @@ export class UnitConverterService {
           return value * UnitConverterService.facs.lb_in_kg;
         }
 
-        throw new Error(`Cannot convert '{value}' from 'lb' to '{target}'`);
+        throw new Error(`Cannot convert '${value}' from 'lb' to '${target}'`);
       }
     };
   }

@@ -1,4 +1,10 @@
 .header {
+  .header__navbar {
+    .toolbar-background {
+      border: none;
+    }
+  }
+
   .row-exercise {
     & > .item {
       background-color: map-get($colors, primary);
