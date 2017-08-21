@@ -49,7 +49,7 @@ export class GoalEditComponent implements OnInit {
     private exercisesService: ExercisesService,
     private measurementsService: MeasurementsService
   ) {
-    this.goal = navParams.get('data');
+    this.goal = this.navParams.get('data');
   }
 
   public ngOnInit(): void {

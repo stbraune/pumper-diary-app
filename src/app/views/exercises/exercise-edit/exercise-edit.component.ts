@@ -23,7 +23,7 @@ export class ExerciseEditComponent implements OnInit {
     private navParams: NavParams,
     private viewController: ViewController
   ) {
-    this.exercise = navParams.get('data');
+    this.exercise = this.navParams.get('data');
   }
 
   public ngOnInit(): void {

@@ -3,41 +3,38 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Platform, MenuController, Nav } from 'ionic-angular';
 
-import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
-import { ListPage } from '../pages/list/list';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
+import { ListPage } from '../pages/list/list';
 
 import { PlansComponent } from './views/plans';
 import { ExercisesComponent } from './views/exercises';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.component.html'
 })
-export class MyApp {
+export class AppComponent {
   @ViewChild(Nav) nav: Nav;
 
   // make HelloIonicPage the root (or first) page
   rootPage = HelloIonicPage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, component: any}> = [
+    { title: 'Hello Ionic', component: HelloIonicPage },
+    { title: 'My First List', component: ListPage },
+    { title: 'Plans', component: PlansComponent },
+    { title: 'Exercises', component: ExercisesComponent }
+  ];
 
   constructor(
-    public platform: Platform,
+    private platform: Platform,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
     private translateService: TranslateService,
-    public menu: MenuController,
-    public statusBar: StatusBar,
-    public splashScreen: SplashScreen
+    private menu: MenuController
   ) {
     this.initializeApp();
-
-    // set our app's pages
-    this.pages = [
-      { title: 'Hello Ionic', component: HelloIonicPage },
-      { title: 'My First List', component: ListPage },
-      { title: 'Plans', component: PlansComponent },
-      { title: 'Exercises', component: ExercisesComponent }
-    ];
   }
 
   initializeApp() {

@@ -83,10 +83,6 @@ export class PlansService {
     }
   ];
 
-  public constructor(
-    private exercisesService: ExercisesService
-  ) { }
-
   public getPlans(): Observable<Plan[]> {
     return Observable.of(this.plans);
   }

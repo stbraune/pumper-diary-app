@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  ModalController,
-  NavController,
-  ToastController
-} from 'ionic-angular';
+import { ModalController, ToastController } from 'ionic-angular';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,9 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { Exercise } from '../../model';
-
 import { ExercisesService } from '../../services';
-
 import { ExerciseEditComponent } from './exercise-edit';
 
 @Component({
@@ -25,8 +19,7 @@ export class ExercisesComponent {
     private translateService: TranslateService,
     private modalController: ModalController,
     private toastController: ToastController,
-    private exercisesService: ExercisesService,
-    private navController: NavController
+    private exercisesService: ExercisesService
   ) {
   }
 

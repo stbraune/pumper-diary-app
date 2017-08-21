@@ -25,7 +25,7 @@ export class PlanEditComponent {
     private navParams: NavParams,
     private viewController: ViewController
   ) {
-    this.plan = navParams.get('data');
+    this.plan = this.navParams.get('data');
   }
 
   public goalSelected(goal: Goal): void {
