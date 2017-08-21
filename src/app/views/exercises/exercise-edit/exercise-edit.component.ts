@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   NavParams,
@@ -14,7 +14,7 @@ import {
   selector: 'exercise-edit',
   templateUrl: './exercise-edit.component.html'
 })
-export class ExerciseEditComponent implements OnInit {
+export class ExerciseEditComponent {
   private exercise: Exercise;
 
   public measures: { key: string, checked: boolean }[] = [];
@@ -26,7 +26,7 @@ export class ExerciseEditComponent implements OnInit {
     this.exercise = this.navParams.get('data');
   }
 
-  public ngOnInit(): void {
+  public ionViewDidLoad(): void {
     Object.keys(Measure).map(k => Measure[k]).filter(x => typeof x === 'string').forEach((key: string) => {
       this.measures.push({
         key: key,

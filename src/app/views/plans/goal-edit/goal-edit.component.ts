@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component } from '@angular/core';
 
 import {
   FabContainer,
@@ -36,7 +33,7 @@ import {
   selector: 'goal-edit',
   templateUrl: './goal-edit.component.html'
 })
-export class GoalEditComponent implements OnInit {
+export class GoalEditComponent {
   private goal: Goal;
   private exercise: number;
 
@@ -52,7 +49,7 @@ export class GoalEditComponent implements OnInit {
     this.goal = this.navParams.get('data');
   }
 
-  public ngOnInit(): void {
+  public ionViewDidLoad(): void {
     this.exercise = this.goal.exercise ? this.goal.exercise.id : 0;
   }
 
