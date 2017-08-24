@@ -10,7 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateHttpLoaderFactory } from './translate-http-loader-factory';
 
 import { AppComponent } from './app.component';
 
@@ -83,7 +83,7 @@ import {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (http: Http) => new TranslateHttpLoader(http, './assets/i18n/', '.json'),
+        useFactory: TranslateHttpLoaderFactory,
         deps: [ Http ]
       }
     })

@@ -1,6 +1,9 @@
 {
   "save": "Save",
   "close": "Close",
+  "cancel": "Cancel",
+  "no": "No",
+  "yes": "Yes",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",
@@ -29,7 +32,10 @@
   "exercises.title": "Exercises",
   "exercise-add.title": "Add Exercise",
   "exercise-edit.title": "Edit Exercise",
+  "exercise-delete.title": "Delete Exercise",
+  "exercise-delete.prompt": "Are you sure to delete this exercise?",
   "save-exercise-failed": "Could not save exercise. Please try again.",
+  "delete-exercise-failed": "Could not delete exercise. Please try again.",
 
   "exercise": "Exercise",
   "exercise.title": "Title",

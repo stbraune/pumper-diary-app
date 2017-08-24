@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ModalController, ToastController } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
 
 import { TranslateService } from '@ngx-translate/core';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
 
 import { Exercise } from '../../model';
 import { ExercisesService } from '../../services';
@@ -14,13 +12,26 @@ import { ExerciseEditComponent } from './exercise-edit';
   selector: 'exercises',
   templateUrl: './exercises.component.html'
 })
-export class ExercisesComponent { 
+export class ExercisesComponent {
+  private exercisesChangedSubscription: Subscription;
+
   public constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private translateService: TranslateService,
     private modalController: ModalController,
     private toastController: ToastController,
     private exercisesService: ExercisesService
   ) {
+  }
+
+  public ionViewDidLoad(): void {
+    this.exercisesChangedSubscription = this.exercisesService.exercisesChanged.subscribe((change) => {
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  public ionViewWillUnload(): void {
+    this.exercisesChangedSubscription.unsubscribe();
   }
 
   public getExercises() {
@@ -32,21 +43,34 @@ export class ExercisesComponent {
       data: JSON.parse(JSON.stringify(exercise))
     });
     exerciseEditModal.onDidDismiss((result) => {
-      if (result && result.success) {
+      if (!result) {
+        return;
+      }
+      
+      if (result.success) {
         this.exercisesService.updateExercise(result.data).subscribe((result) => {
           console.log('exercise saved');
         }, (error) => {
-          Observable.forkJoin(
-            this.translateService.get('save-exercise-failed'),
-            this.translateService.get('close')
-          ).subscribe((texts) => {
+          this.translateService.get(['save-exercise-failed', 'close']).subscribe((texts) => {
             this.toastController.create({
-              message: texts[0],
-              showCloseButton: true,
-              closeButtonText: texts[1]
+              message: texts['save-exercise-failed'],
+              closeButtonText: texts['close'],
+              showCloseButton: true
             }).present();
           });
         });
+      } else if (result.delete) {
+        this.exercisesService.deleteExercise(result.data).subscribe((result) => {
+          console.log('exercise deleted', result);
+        }, (error) => {
+          this.translateService.get(['delete-exercise-failed', 'close']).subscribe((texts) => {
+            this.toastController.create({
+              message: texts['delete-exercise-failed'],
+              closeButtonText: texts['close'],
+              showCloseButton: true
+            }).present();
+          });
+        })
       }
     });
     exerciseEditModal.present();
@@ -67,14 +91,11 @@ export class ExercisesComponent {
         this.exercisesService.createExercise(result.data).subscribe((result) => {
           console.log('exercise saved');
         }, (error) => {
-          Observable.forkJoin(
-            this.translateService.get('save-exercise-failed'),
-            this.translateService.get('close')
-          ).subscribe((texts) => {
+          this.translateService.get(['save-exercise-failed', 'close']).subscribe((texts) => {
             this.toastController.create({
-              message: texts[0],
+              message: texts['save-exercise-failed'],
               showCloseButton: true,
-              closeButtonText: texts[1]
+              closeButtonText: texts['closed']
             }).present();
           });
         });

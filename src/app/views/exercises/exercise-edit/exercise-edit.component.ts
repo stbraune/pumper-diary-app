@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 
 import {
   NavParams,
-  ViewController
+  ViewController,
+  AlertController
 } from 'ionic-angular';
+
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   Exercise,
@@ -15,13 +18,17 @@ import {
   templateUrl: './exercise-edit.component.html'
 })
 export class ExerciseEditComponent {
-  private exercise: Exercise;
+  public exercise: Exercise;
+
+  public edit = false;
 
   public measures: { key: string, checked: boolean }[] = [];
 
   public constructor(
     private navParams: NavParams,
-    private viewController: ViewController
+    private viewController: ViewController,
+    private alertController: AlertController,
+    private translateService: TranslateService
   ) {
     this.exercise = this.navParams.get('data');
   }
@@ -33,10 +40,11 @@ export class ExerciseEditComponent {
         checked: this.exercise.measures.find((x) => x === Measure[key]) !== undefined
       });
     });
+    this.edit = !!this.exercise._id;
   }
 
   public measureToggled(measure: { key: string, checked: boolean}) {
-    let measures = this.exercise.measures.filter(x => x !== Measure[measure.key]);
+    const measures = this.exercise.measures.filter(x => x !== Measure[measure.key]);
     if (measure.checked) {
       measures.push(Measure[measure.key]);
     }
@@ -54,6 +62,33 @@ export class ExerciseEditComponent {
       success: false,
       data: this.exercise
     });
+  }
+
+  public deleteExerciseClicked(): void {
+    this.translateService.get(['exercise-delete.title', 'exercise-delete.prompt', 'yes', 'no'])
+      .subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['exercise-delete.title'],
+          message: texts['exercise-delete.prompt'],
+          buttons: [
+            {
+              text: texts['no'],
+              role: 'cancel'
+            },
+            {
+              text: texts['yes'],
+              handler: () => {
+                this.viewController.dismiss({
+                  success: false,
+                  delete: true,
+                  data: this.exercise
+                });
+              }
+            }
+          ]
+        });
+        alert.present();
+      });
   }
 
   public saveExerciseClicked(): void {

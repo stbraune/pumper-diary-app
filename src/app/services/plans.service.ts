@@ -4,12 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import {
-  EntryType,
-  Plan,
-  Measure
+  // EntryType,
+  Plan
+  // Measure
 } from '../model';
 
-import { ExercisesService } from './exercises.service';
+// import { ExercisesService } from './exercises.service';
 
 @Injectable()
 export class PlansService {

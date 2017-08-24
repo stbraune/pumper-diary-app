@@ -7,4 +7,6 @@ export interface Exercise {
   description: string;
   difficulty: number;
   measures: Measure[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }

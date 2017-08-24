@@ -5,11 +5,14 @@
         <ion-icon name="close"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title *ngIf="exercise.id == 0">{{'exercise-add.title' | translate}}</ion-title>
-    <ion-title *ngIf="exercise.id > 0">{{'exercise-edit.title' | translate}}</ion-title>
+    <ion-title *ngIf="!edit">{{'exercise-add.title' | translate}}</ion-title>
+    <ion-title *ngIf="edit">{{'exercise-edit.title' | translate}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only clear (click)="saveExerciseClicked()">
-        {{'save' | translate}}
+      <button *ngIf="edit" ion-button icon-only (click)="deleteExerciseClicked()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="saveExerciseClicked()">
+        <ion-icon name="checkmark"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
