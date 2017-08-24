@@ -5,4 +5,6 @@ export interface Plan {
   title: string;
   description: string;
   goals: Goal[];
+  createdAt?: Date;
+  updatedAt?: Date;
 }
