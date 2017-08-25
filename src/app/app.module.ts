@@ -25,7 +25,9 @@ import {
   MeasurementsService,
   UnitConverterService,
   ScoreCalculatorService,
-  ToastService
+  ToastService,
+  WorkoutsService,
+  WorkoutCardsService
 } from './services';
 
 import {
@@ -37,6 +39,10 @@ import {
   RepetitionsControlSmallComponent,
   WeightControlSmallComponent
 } from './views/measurements';
+
+import {
+  WorkoutCardsComponent
+} from './views/workout-cards';
 
 import {
   PlansComponent,
@@ -66,6 +72,8 @@ import {
     DurationControlSmallComponent,
     RepetitionsControlSmallComponent,
     WeightControlSmallComponent,
+
+    WorkoutCardsComponent,
 
     PlansComponent,
     PlanEditComponent,
@@ -105,6 +113,8 @@ import {
     DurationControlSmallComponent,
     RepetitionsControlSmallComponent,
     WeightControlSmallComponent,
+    
+    WorkoutCardsComponent,
 
     PlansComponent,
     PlanEditComponent,
@@ -129,6 +139,8 @@ import {
     UnitConverterService,
     ScoreCalculatorService,
     ToastService,
+    WorkoutsService,
+    WorkoutCardsService,
 
     {
       provide: ErrorHandler,

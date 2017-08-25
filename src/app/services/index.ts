@@ -5,3 +5,5 @@ export * from './measurements.service';
 export * from './unit-converter.service';
 export * from './score-calculator.service';
 export * from './toast.service';
+export * from './workouts.service';
+export * from './workout-cards.service';

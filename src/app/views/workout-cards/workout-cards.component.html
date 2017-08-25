@@ -1,0 +1,104 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{'workouts.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+  
+<ion-content>
+  <ion-list no-lines>
+    <ion-item *ngIf="true || workoutCards.length === 0">
+      <ion-card>
+        <ion-card-header>
+          Welcome!
+        </ion-card-header>
+        <ion-card-content>
+          <p text-wrap>
+            Welcome to Pumper Diary, your personal assistant while doing
+            workouts. You may not see very much here until now... Try creating your first training plan
+            and start a workout from this screen today!
+          </p>
+          <ion-grid>
+            <ion-row>
+              <ion-col col-auto align-self-center>
+                <ion-img width="56" height="56" src="assets/img/noun_318.png"></ion-img>
+              </ion-col>
+              <ion-col>
+                <h2>Exercises</h2>
+                <p text-wrap>
+                  Create your own exercises, configure their difficulty and tell what data to measure.
+                </p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-auto align-self-center>
+                <ion-img width="56" height="56" src="assets/img/noun_577567_cc.png"></ion-img>
+              </ion-col>
+              <ion-col>
+                <h2>Plans</h2>
+                <p text-wrap>
+                  Manage your own training plans matching your personal needs.
+                  Define the number of sets and goals for each exercise in the plan.
+                </p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-auto align-self-center>
+                <ion-img width="56" height="56" src="assets/img/noun_556966_cc.png"></ion-img>
+              </ion-col>
+              <ion-col>
+                <h2>Workouts</h2>
+                <p text-wrap>
+                  Start a workout according to one of your training plans and track your results!
+                </p>
+              </ion-col>
+              <ion-col col-auto align-self-center>
+                <button ion-fab color="accent" (click)="startWorkoutClicked($event)">
+                  <ion-icon name="play"></ion-icon>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+    <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index" (ionSwipe)="confirmDeleteWorkoutCard(workoutCard)">
+      <ion-item>
+        <ion-card (click)="workoutCardSelected(workoutCard)">
+          <ion-card-header>
+            {{formatWorkoutDate(workoutCard.workout) | async}}
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col col-auto>
+                  {{formatWorkoutMood(workoutCard.workout)}}
+                </ion-col>
+                <ion-col>
+                  {{workoutCard.workout.plan.title}}
+                  <p text-wrap>
+                    {{formatScore(workoutCard.workout) | async}}
+                  </p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+      <ion-item-options icon-start side="right">
+        <button ion-button expandable color="danger" (click)="confirmDeleteWorkoutCard(workoutCard)">
+          <ion-icon name="trash"></ion-icon>
+          {{'delete' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab right bottom>
+    <button ion-fab color="accent" (click)="startWorkoutClicked($event)">
+      <ion-icon name="play"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

@@ -6,6 +6,15 @@
   "no": "No",
   "yes": "Yes",
 
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "xdaysago": "{{days}} days ago",
+  "shortDateFormat": "yyyy/MM/dd",
+  "shortTimeFormat": "HH:mm",
+  
+  "workouts.title": "Workouts",
+  "workouts.workout-score": "You reached <ion-icon name=\"star\"></ion-icon> {{score}} points!",
+
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",
   "plan-edit.title": "Edit Plan",

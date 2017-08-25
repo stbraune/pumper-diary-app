@@ -2,11 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/forkJoin';
 
 import {
   EntryType,
   Measure,
-  Set
+  Set,
+  Workout
 } from '../model';
 
 import {
@@ -21,8 +23,14 @@ export class ScoreCalculatorService {
     private unitConverterService: UnitConverterService,
     private exercisesService: ExercisesService
   ) { }
+
+  public calculateScoreForWorkout(workout: Workout): Observable<number> {
+    return Observable.forkJoin(...workout.sets.map((set) => this.calculateScoreForSet(set))).map((results) => {
+      return results.reduce((prev, cur) => prev + cur, 0);
+    });
+  }
   
-  public calculateScore(set: Set): Observable<number> {
+  public calculateScoreForSet(set: Set): Observable<number> {
     let totals = {
       calories: 0,
       distance: 0,
@@ -64,7 +72,7 @@ export class ScoreCalculatorService {
       // Only one of these two measurements is greater than 0, so simply add them
       // (zero and the other) and save another if.
       score += totals.repetitions + totals.weight;
-    } else if (totals.distance == 0) {
+    } else if (totals.distance == 0 && totals.duration > 0) {
       // Use duration in calculation only if no weight, repetitions or distance was measured.
       score += totals.duration * set.goal.entries.filter((e) => e.type === EntryType.Action).length;
     }

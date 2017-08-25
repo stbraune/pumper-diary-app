@@ -9,6 +9,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
 
+import { WorkoutCardsComponent } from './views/workout-cards';
 import { PlansComponent } from './views/plans';
 import { ExercisesComponent } from './views/exercises';
 
@@ -18,13 +19,13 @@ import { ExercisesComponent } from './views/exercises';
 export class AppComponent {
   @ViewChild(Nav) nav: Nav;
 
-  // make HelloIonicPage the root (or first) page
-  rootPage = HelloIonicPage;
+  rootPage = WorkoutCardsComponent;
   pages: Array<{title: string, component: any}> = [
-    { title: 'Hello Ionic', component: HelloIonicPage },
-    { title: 'My First List', component: ListPage },
+    { title: 'Workouts', component: WorkoutCardsComponent },
     { title: 'Plans', component: PlansComponent },
-    { title: 'Exercises', component: ExercisesComponent }
+    { title: 'Exercises', component: ExercisesComponent },
+    { title: 'Hello Ionic', component: HelloIonicPage },
+    { title: 'My First List', component: ListPage }
   ];
 
   constructor(

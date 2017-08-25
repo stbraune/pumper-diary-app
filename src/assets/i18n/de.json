@@ -5,6 +5,14 @@
   "delete": "Löschen",
   "no": "Nein",
   "yes": "Ja",
+  
+  "today": "Heute",
+  "yesterday": "Gestern",
+  "xdaysago": "Vor {{days}} Tagen",
+  "shortDateFormat": "dd.MM.yyyy",
+  "shortTimeFormat": "HH:mm",
+
+  "workouts.title": "Workouts",
 
   "plans.title": "Pläne",
   "plan-add.title": "Plan anlegen",
