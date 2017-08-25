@@ -44,7 +44,6 @@ export class PlanEditComponent {
 
   public addGoalClicked($event: any) {
     let newGoal: Goal = {
-      id: 0,
       exercise: undefined,
       entries: []
     };
