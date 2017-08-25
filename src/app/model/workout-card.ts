@@ -1,6 +1,9 @@
 import { Workout } from './workout';
 
 export interface WorkoutCard {
-  id: number;
+  _id?: string;
+  _rev?: string;
   workout: Workout;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
