@@ -4,11 +4,8 @@ import {
   FabContainer,
   NavParams,
   PopoverController,
-  ToastController,
   ViewController
 } from 'ionic-angular';
-
-import { TranslateService } from '@ngx-translate/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -40,7 +37,6 @@ export class GoalEditComponent {
   private exercises: Exercise[] = [];
 
   public constructor(
-    private translateService: TranslateService,
     private navParams: NavParams,
     private popoverController: PopoverController,
     private toastService: ToastService,
