@@ -1,7 +1,8 @@
 import { Goal } from './goal';
 
 export interface Plan {
-  id: number;
+  _id?: string;
+  _rev?: string;
   title: string;
   description: string;
   goals: Goal[];

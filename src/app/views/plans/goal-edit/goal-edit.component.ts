@@ -22,7 +22,8 @@ import {
 
 import {
   ExercisesService,
-  MeasurementsService
+  MeasurementsService,
+  ToastService
 } from '../../../services';
 
 import {
@@ -36,12 +37,13 @@ import {
 export class GoalEditComponent {
   private goal: Goal;
   private exercise: string;
+  private exercises: Exercise[] = [];
 
   public constructor(
     private translateService: TranslateService,
     private navParams: NavParams,
     private popoverController: PopoverController,
-    private toastController: ToastController,
+    private toastService: ToastService,
     private viewController: ViewController,
     private exercisesService: ExercisesService,
     private measurementsService: MeasurementsService
@@ -51,28 +53,21 @@ export class GoalEditComponent {
 
   public ionViewDidLoad(): void {
     this.exercise = this.goal.exercise ? this.goal.exercise._id : '';
+    this.loadExercises();
+  }
+
+  private loadExercises() {
+    this.exercisesService.getExercises().subscribe((exercises) => {
+      this.exercises = exercises;
+    });
   }
 
   public exerciseSelected(): void {
     this.exercisesService.getExerciseById(this.exercise).subscribe((exercise) => {
-      console.log('selected: ' + JSON.stringify(exercise));
       this.goal.exercise = exercise;
     }, (error) => {
-      Observable.forkJoin(
-        this.translateService.get('set-exercise-failed'),
-        this.translateService.get('close')
-      ).subscribe((texts) => {
-        this.toastController.create({
-          message: texts[0],
-          showCloseButton: true,
-          closeButtonText: texts[1]
-        }).present();
-      });
+      this.toastService.showErrorToast('set-exercise-failed', error);
     });
-  }
-
-  public getExercises(): Observable<Exercise[]> {
-    return this.exercisesService.getExercises();
   }
 
   public reorderEntries($event: any) {
@@ -101,16 +96,7 @@ export class GoalEditComponent {
 
   public addActionClicked($event: any, fabContainer: FabContainer): void {
     if (!this.goal.exercise) {
-      Observable.forkJoin(
-        this.translateService.get('no-exercise-selected'),
-        this.translateService.get('close')
-      ).subscribe((texts) => {
-        this.toastController.create({
-          message: texts[0],
-          duration: 3000,
-          closeButtonText: texts[1]
-        }).present();
-      });
+      this.toastService.showErrorToast('no-exercise-selected', undefined, 3000);
       return;
     }
 
@@ -121,31 +107,13 @@ export class GoalEditComponent {
       });
       fabContainer.close();
     }, (error) => {
-      Observable.forkJoin(
-        this.translateService.get('add-action-failed'),
-        this.translateService.get('close')
-      ).subscribe((texts) => {
-        this.toastController.create({
-          message: texts[0],
-          showCloseButton: true,
-          closeButtonText: texts[1]
-        }).present();
-      });
+      this.toastService.showErrorToast('add-action-failed', error);
     });
   }
 
   public addPauseClicked($event: any, fabContainer: FabContainer): void {
     if (!this.goal.exercise) {
-      Observable.forkJoin(
-        this.translateService.get('no-exercise-selected'),
-        this.translateService.get('close')
-      ).subscribe((texts) => {
-        this.toastController.create({
-          message: texts[0],
-          duration: 3000,
-          closeButtonText: texts[1]
-        }).present();
-      });
+      this.toastService.showErrorToast('no-exercise-selected', undefined, 3000);
       return;
     }
 

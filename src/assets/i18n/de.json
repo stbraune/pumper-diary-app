@@ -9,7 +9,12 @@
   "plans.title": "Pläne",
   "plan-add.title": "Plan anlegen",
   "plan-edit.title": "Plan bearbeiten",
+  "plan-delete.title": "Plan löschen",
+  "plan-delete.prompt": "Möchtest du diesen Plan wirklich löschen?",
+  "save-plan-succeeded": "Plan gespeichert.",
   "save-plan-failed": "Der Plan konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
+  "delete-plan-succeeded": "Plan gelöscht.",
+  "delete-plan-failed": "Der Plan konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
 
   "goal-add.title": "Ziel anlegen",
   "goal-edit.title": "Ziel bearbeiten",

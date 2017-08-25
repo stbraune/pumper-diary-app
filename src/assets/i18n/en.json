@@ -9,7 +9,12 @@
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",
   "plan-edit.title": "Edit Plan",
+  "plan-delete.title": "Delete Plan",
+  "plan-delete.prompt": "Are you sure to delete this plan?",
+  "save-plan-succeeded": "Plan saved.",
   "save-plan-failed": "Could not save plan. Please try again.",
+  "delete-plan-succeeded": "Plan deleted.",
+  "delete-plan-failed": "Could not delete plan. Please try again.",
 
   "goal-add.title": "Add Goal",
   "goal-edit.title": "Edit Goal",

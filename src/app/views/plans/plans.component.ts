@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {
   ModalController,
-  ToastController
+  ToastController,
+  AlertController
 } from 'ionic-angular';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -11,7 +12,7 @@ import 'rxjs/add/observable/forkJoin';
 
 import { Plan } from '../../model';
 
-import { PlansService } from '../../services';
+import { PlansService, ToastService } from '../../services';
 
 import { PlanEditComponent } from './plan-edit';
 
@@ -20,16 +21,25 @@ import { PlanEditComponent } from './plan-edit';
   templateUrl: './plans.component.html'
 })
 export class PlansComponent {
+  public plans: Plan[] = [];
+
   public constructor(
     private translateService: TranslateService,
     private modalController: ModalController,
-    private toastController: ToastController,
+    private alertController: AlertController,
+    private toastService: ToastService,
     private plansService: PlansService,
   ) {
   }
 
-  public getPlans() {
-    return this.plansService.getPlans();
+  public ionViewDidLoad(): void {
+    this.loadPlans();
+  }
+
+  private loadPlans() {
+    this.plansService.getPlans().subscribe((plans) => {
+      this.plans = plans;
+    });
   }
 
   public planSelected(plan: Plan): void {
@@ -38,28 +48,37 @@ export class PlansComponent {
     });
     planEditModal.onDidDismiss((result) => {
       if (result && result.success) {
-        this.plansService.updatePlan(result.data).subscribe((result) => {
-          console.log('plan saved');
-        }, (error) => {
-          Observable.forkJoin(
-            this.translateService.get('save-plan-failed'),
-            this.translateService.get('close')
-          ).subscribe((texts) => {
-            this.toastController.create({
-              message: texts[0],
-              showCloseButton: true,
-              closeButtonText: texts[1]
-            }).present();
-          });
-        });
+        this.updatePlan(result.data);
       }
     });
     planEditModal.present();
   }
 
+  public confirmDeletePlan(plan: Plan): void {
+    this.translateService.get(['plan-delete.title', 'plan-delete.prompt', 'yes', 'no'])
+      .subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['plan-delete.title'],
+          message: texts['plan-delete.prompt'],
+          buttons: [
+            {
+              text: texts['no'],
+              role: 'cancel'
+            },
+            {
+              text: texts['yes'],
+              handler: () => {
+                this.deletePlan(plan);
+              }
+            }
+          ]
+        });
+        alert.present();
+      });
+  }
+
   public addPlanClicked($event: any): void {
     let newPlan: Plan = {
-      id: 0,
       title: '',
       description: '',
       goals: []
@@ -69,22 +88,42 @@ export class PlansComponent {
     });
     planEditModal.onDidDismiss((result) => {
       if (result && result.success) {
-        this.plansService.createPlan(newPlan).subscribe((result) => {
-          console.log('plan saved');
-        }, (error) => {
-          Observable.forkJoin(
-            this.translateService.get('save-plan-failed'),
-            this.translateService.get('close')
-          ).subscribe((texts) => {
-            this.toastController.create({
-              message: texts[0],
-              showCloseButton: true,
-              closeButtonText: texts[1]
-            }).present();
-          });
-        });
+        this.createPlan(result.data);
       }
     });
     planEditModal.present();
+  }
+
+  private createPlan(plan: Plan): void {
+    this.plansService.createPlan(plan).subscribe((result) => {
+      this.plans.push(result);
+      this.toastService.showSuccessToast('save-plan-succeeded', result);
+    }, (error) => {
+      this.toastService.showErrorToast('save-plan-failed', error);
+    });
+  }
+
+  private updatePlan(plan: Plan): void {
+    this.plansService.updatePlan(plan).subscribe((result) => {
+      const index = this.plans.findIndex((p) => p._id === plan._id);
+      if (index !== -1) {
+        this.plans.splice(index, 1, result);
+      }
+      this.toastService.showSuccessToast('save-plan-succeeded', result);
+    }, (error) => {
+      this.toastService.showErrorToast('save-plan-failed', error);
+    });
+  }
+
+  private deletePlan(plan: Plan): void {
+    this.plansService.deletePlan(plan).subscribe((result) => {
+      const index = this.plans.indexOf(plan);
+      if (index !== -1) {
+        this.plans.splice(index, 1);
+      }
+      this.toastService.showSuccessToast('delete-plan-succeeded', result);
+    }, (error) => {
+      this.toastService.showErrorToast('delete-plan-failed', error);
+    })
   }
 }

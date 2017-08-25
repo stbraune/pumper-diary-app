@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let exercise of getExercises() | async" (ionSwipe)="confirmDeleteExercise(exercise)">
+    <ion-item-sliding *ngFor="let exercise of exercises" (ionSwipe)="confirmDeleteExercise(exercise)">
       <ion-item (click)="exerciseSelected(exercise)">
         {{exercise.title}}
         <p *ngIf="exercise.description">

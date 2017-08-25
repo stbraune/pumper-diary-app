@@ -24,7 +24,8 @@ import {
   ExercisesService,
   MeasurementsService,
   UnitConverterService,
-  ScoreCalculatorService
+  ScoreCalculatorService,
+  ToastService
 } from './services';
 
 import {
@@ -127,6 +128,7 @@ import {
     MeasurementsService,
     UnitConverterService,
     ScoreCalculatorService,
+    ToastService,
 
     {
       provide: ErrorHandler,

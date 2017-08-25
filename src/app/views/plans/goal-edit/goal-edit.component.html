@@ -19,7 +19,7 @@
         {{'exercise' | translate}}
       </ion-label>
       <ion-select [(ngModel)]="exercise" (ngModelChange)="exerciseSelected()">
-        <ion-option *ngFor="let exercise of getExercises() | async" [value]="exercise._id">
+        <ion-option *ngFor="let exercise of exercises" [value]="exercise._id">
           {{exercise.title}}
         </ion-option>
       </ion-select>
@@ -28,14 +28,6 @@
 </ion-header>
 
 <ion-content>
-  <ion-list no-lines class="entry-list">
-    <ion-list-header>
-      <ion-label>
-        {{'entries' | translate}}
-      </ion-label>
-    </ion-list-header>
-  </ion-list>
-
   <ion-card *ngIf="goal.entries.length == 0">
     <ion-card-content>
       <em>{{'entries-no' | translate}}</em>
