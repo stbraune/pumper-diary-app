@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/switchMap';
 
 import { byDate } from './utils';
 import { DatabaseService } from './database.service';
@@ -22,22 +23,23 @@ export class PlansService {
 
   public getPlans(): Observable<Plan[]> {
     return Observable.fromPromise(this.plansDatabase.allDocs({ include_docs: true }))
-      .map((documents: any) => {
+      .switchMap((documents: any) => {
         if (documents.total_rows === 0) {
-          this.initializeDatabase();
+          return this.initializeDatabase();
         }
 
-        return documents.rows.map((row) => row.doc).map((plan: Plan) => {
+        return Observable.of(documents.rows.map((row) => row.doc).map((plan: Plan) => {
           plan.createdAt = new Date(plan.createdAt);
           plan.updatedAt = new Date(plan.updatedAt);
           return plan;
-        }).sort(byDate<Plan>((plan) => plan.createdAt));
+        }).sort(byDate<Plan>((plan) => plan.createdAt)));
       });
   }
 
-  private initializeDatabase() {
-    this.createPlans(...PLANS_SAMPLES).subscribe((responses) => {
-        console.info('Created sample plans', responses);
+  private initializeDatabase(): Observable<Plan[]> {
+    return this.createPlans(...PLANS_SAMPLES).map((responses) => {
+      console.info('Created sample plans', responses);
+      return responses;
     });
   }
 
