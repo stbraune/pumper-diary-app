@@ -8,11 +8,8 @@
     <ion-title *ngIf="!edit">{{'exercise-add.title' | translate}}</ion-title>
     <ion-title *ngIf="edit">{{'exercise-edit.title' | translate}}</ion-title>
     <ion-buttons end>
-      <button *ngIf="edit" ion-button icon-only (click)="deleteExerciseClicked()">
-        <ion-icon name="trash"></ion-icon>
-      </button>
-      <button ion-button icon-only (click)="saveExerciseClicked()">
-        <ion-icon name="checkmark"></ion-icon>
+      <button ion-button clear (click)="saveExerciseClicked()">
+        {{'save' | translate}}
       </button>
     </ion-buttons>
   </ion-navbar>

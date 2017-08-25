@@ -2,6 +2,7 @@
   "save": "Save",
   "close": "Close",
   "cancel": "Cancel",
+  "delete": "Delete",
   "no": "No",
   "yes": "Yes",
 
@@ -34,7 +35,9 @@
   "exercise-edit.title": "Edit Exercise",
   "exercise-delete.title": "Delete Exercise",
   "exercise-delete.prompt": "Are you sure to delete this exercise?",
+  "save-exercise-succeeded": "Exercise saved.",
   "save-exercise-failed": "Could not save exercise. Please try again.",
+  "delete-exercise-succeeded": "Exercise deleted.",
   "delete-exercise-failed": "Could not delete exercise. Please try again.",
 
   "exercise": "Exercise",

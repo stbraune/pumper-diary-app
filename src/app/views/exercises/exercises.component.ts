@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { ModalController, ToastController } from 'ionic-angular';
+import { ModalController, ToastController, AlertController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +20,7 @@ export class ExercisesComponent {
     private translateService: TranslateService,
     private modalController: ModalController,
     private toastController: ToastController,
+    private alertController: AlertController,
     private exercisesService: ExercisesService
   ) {
   }
@@ -48,32 +49,70 @@ export class ExercisesComponent {
       }
       
       if (result.success) {
-        this.exercisesService.updateExercise(result.data).subscribe((result) => {
-          console.log('exercise saved');
-        }, (error) => {
-          this.translateService.get(['save-exercise-failed', 'close']).subscribe((texts) => {
-            this.toastController.create({
-              message: texts['save-exercise-failed'],
-              closeButtonText: texts['close'],
-              showCloseButton: true
-            }).present();
-          });
-        });
+        this.updateExercise(result.data);
       } else if (result.delete) {
-        this.exercisesService.deleteExercise(result.data).subscribe((result) => {
-          console.log('exercise deleted', result);
-        }, (error) => {
-          this.translateService.get(['delete-exercise-failed', 'close']).subscribe((texts) => {
-            this.toastController.create({
-              message: texts['delete-exercise-failed'],
-              closeButtonText: texts['close'],
-              showCloseButton: true
-            }).present();
-          });
-        })
+        this.deleteExercise(result.data);
       }
     });
     exerciseEditModal.present();
+  }
+
+  public confirmDeleteExercise(exercise: Exercise): void {
+    this.translateService.get(['exercise-delete.title', 'exercise-delete.prompt', 'yes', 'no'])
+    .subscribe((texts) => {
+      const alert = this.alertController.create({
+        title: texts['exercise-delete.title'],
+        message: texts['exercise-delete.prompt'],
+        buttons: [
+          {
+            text: texts['no'],
+            role: 'cancel'
+          },
+          {
+            text: texts['yes'],
+            handler: () => {
+              this.deleteExercise(exercise);
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
+  }
+
+  private updateExercise(exercise: Exercise): void {
+    this.exercisesService.updateExercise(exercise).subscribe((result) => {
+      this.showSuccessToast('save-exercise-succeeded');
+    }, (error) => {
+      this.showErrorToast('save-exercise-failed');
+    });
+  }
+
+  private deleteExercise(exercise: Exercise): void {
+    this.exercisesService.deleteExercise(exercise).subscribe((result) => {
+      this.showSuccessToast('delete-exercise-succeeded');
+    }, (error) => {
+      this.showErrorToast('delete-exercise-failed');
+    })
+  }
+
+  private showSuccessToast(messageKey: string) {
+    this.translateService.get([messageKey]).subscribe((texts) => {
+      this.toastController.create({
+        message: texts[messageKey],
+        duration: 2000
+      }).present();
+    });
+  }
+
+  private showErrorToast(messageKey: string) {
+    this.translateService.get([messageKey, 'close']).subscribe((texts) => {
+      this.toastController.create({
+        message: texts[messageKey],
+        closeButtonText: texts['close'],
+        showCloseButton: true
+      }).present();
+    });
   }
 
   public addExerciseClicked($event: any): void {

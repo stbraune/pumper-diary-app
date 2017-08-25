@@ -2,6 +2,7 @@
   "save": "Speichern",
   "close": "Schließen",
   "cancel": "Abbrechen",
+  "delete": "Löschen",
   "no": "Nein",
   "yes": "Ja",
 
@@ -34,7 +35,9 @@
   "exercise-edit.title": "Übung bearbeiten",
   "exercise-delete.title": "Übung löschen",
   "exercise-delete.prompt": "Möchtest du diese Übung wirklich löschen?",
+  "save-exercise-succeeded": "Übung gespeichert.",
   "save-exercise-failed": "Die Übung konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
+  "delete-exercise-succeeded": "Übung gelöscht.",
   "delete-exercise-failed": "Die Übung konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
 
   "exercise": "Übung",

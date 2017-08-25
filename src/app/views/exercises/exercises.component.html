@@ -9,12 +9,20 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let exercise of getExercises() | async" (click)="exerciseSelected(exercise)">
-      {{exercise.title}}
-      <p>
-        {{exercise.description}}
-      </p>
-    </ion-item>
+    <ion-item-sliding *ngFor="let exercise of getExercises() | async" (ionSwipe)="confirmDeleteExercise(exercise)">
+      <ion-item (click)="exerciseSelected(exercise)">
+        {{exercise.title}}
+        <p *ngIf="exercise.description">
+          {{exercise.description}}
+        </p>
+      </ion-item>
+      <ion-item-options icon-start side="right">
+        <button ion-button expandable color="danger" (click)="confirmDeleteExercise(exercise)">
+          <ion-icon name="trash"></ion-icon>
+          {{'delete' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <ion-fab right bottom>

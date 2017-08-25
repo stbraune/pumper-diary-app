@@ -8,7 +8,7 @@
     <ion-title *ngIf="plan.id == 0">{{'plan-add.title' | translate}}</ion-title>
     <ion-title *ngIf="plan.id > 0">{{'plan-edit.title' | translate}}</ion-title>
     <ion-buttons end>
-      <button ion-button icon-only clear (click)="savePlanClicked()">
+      <button ion-button clear (click)="savePlanClicked()">
         {{'save' | translate}}
       </button>
     </ion-buttons>
