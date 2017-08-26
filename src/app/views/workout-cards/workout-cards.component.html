@@ -23,7 +23,8 @@
           <ion-grid>
             <ion-row>
               <ion-col col-auto align-self-center>
-                <ion-img width="56" height="56" src="assets/img/noun_318.png"></ion-img>
+                <img src="assets/img/noun_318.png"
+                  style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
                 <h2>Exercises</h2>
@@ -34,7 +35,8 @@
             </ion-row>
             <ion-row>
               <ion-col col-auto align-self-center>
-                <ion-img width="56" height="56" src="assets/img/noun_577567_cc.png"></ion-img>
+                <img src="assets/img/noun_577567_cc.png"
+                  style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
                 <h2>Plans</h2>
@@ -46,7 +48,8 @@
             </ion-row>
             <ion-row>
               <ion-col col-auto align-self-center>
-                <ion-img width="56" height="56" src="assets/img/noun_556966_cc.png"></ion-img>
+                <img src="assets/img/noun_556966_cc.png"
+                  style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
                 <h2>Workouts</h2>
@@ -73,13 +76,23 @@
           <ion-card-content>
             <ion-grid>
               <ion-row>
-                <ion-col col-auto>
-                  {{formatWorkoutMood(workoutCard.workout)}}
+                <ion-col [ngSwitch]="formatWorkoutMood(workoutCard.workout)" col-auto align-self-center>
+                  <img *ngSwitchCase="'happy'" src="assets/img/emoji_happy.png"
+                    style="width: 56px !important; height: 56px !important;">
+                  <img *ngSwitchCase="'neutral'" src="assets/img/emoji_neutral.png"
+                    style="width: 56px !important; height: 56px !important;">
+                  <img *ngSwitchCase="'unhappy'" src="assets/img/emoji_unhappy.png"
+                    style="width: 56px !important; height: 56px !important;">
+                  <img *ngSwitchCase="'unknown'" src="assets/img/emoji_unknown.png"
+                    style="width: 56px !important; height: 56px !important;">
                 </ion-col>
                 <ion-col>
                   {{workoutCard.workout.plan.title}}
                   <p text-wrap>
+                    {{'workouts.workout-score.before' | translate}}
+                    <ion-icon name="star"></ion-icon>
                     {{formatScore(workoutCard.workout) | async}}
+                    {{'workouts.workout-score.after' | translate}}
                   </p>
                 </ion-col>
               </ion-row>

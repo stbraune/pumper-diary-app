@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
+import { AlertController, ModalController } from 'ionic-angular';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/catch';
 
-import { WorkoutCardsService, ScoreCalculatorService } from '../../services';
-import { WorkoutCard, Workout, Mood, Measure, Measurement } from '../../model';
+import { WorkoutCardsService, PlansService, ScoreCalculatorService, ToastService } from '../../services';
+import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
 
 @Component({
   selector: 'workout-cards',
@@ -18,8 +20,12 @@ export class WorkoutCardsComponent {
 
   public constructor(
     private translateService: TranslateService,
+    private alertController: AlertController,
+    private modalController: ModalController,
+    private plansService: PlansService,
     private WorkoutCardsService: WorkoutCardsService,
-    private scoreCalculatorService: ScoreCalculatorService
+    private scoreCalculatorService: ScoreCalculatorService,
+    private toastService: ToastService
   ) {
   }
 
@@ -79,6 +85,7 @@ export class WorkoutCardsComponent {
             { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
             { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
             { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
+            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
             { mood: Mood.Neutral, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] }
           ]
         }
@@ -103,7 +110,7 @@ export class WorkoutCardsComponent {
   }
 
   public formatScore(workout: Workout): Observable<string> {
-    return this.translateService.get('workouts.workout-score', { score: 42 });
+    return this.translateService.get('workouts.workout-score.score', { score: 42 });
 
     // TODO use the following code instead of the dummy calculation above
     // return this.scoreCalculatorService.calculateScoreForWorkout(workout).switchMap((score) => {
@@ -113,8 +120,8 @@ export class WorkoutCardsComponent {
 
   public formatWorkoutMood(workout: Workout) {
     const moods = workout.sets.map((set) => set.mood);
-    const average = Math.floor(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
-    console.log(moods, average);
+    const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
+    console.log(moods, moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
     switch (average) {
       case Mood.Happy:
         return 'happy';
@@ -177,6 +184,50 @@ export class WorkoutCardsComponent {
   }
 
   public startWorkoutClicked($event: any) {
-    // TODO implement me somehow
+    this.plansService.getPlans().subscribe((plans) => {
+      const inputs = plans.map((plan) => ({
+        type: 'radio',
+        value: plan._id,
+        label: plan.title
+      }));
+
+      this.translateService.get([
+        'workouts.start-workout.title', 'workouts.start-workout.message',
+        'workouts.start-workout.start', 'cancel'
+      ]).subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['workouts.start-workout.title'],
+          message: texts['workouts.start-workout.message'],
+          inputs,
+          buttons: [
+            {
+              text: texts['cancel'],
+              role: 'cancel'
+            },
+            {
+              text: texts['workouts.start-workout.start'],
+              handler: (data) => {
+                if (!data) {
+                  this.toastService.showErrorToast('workouts.start-workout.no-plan-selected',
+                    undefined, 3000);
+                  return false;
+                }
+
+                this.plansService.getPlanById(data).subscribe((plan) => {
+                  this.startWorkout(plan);
+                }, (error) => {
+                  this.toastService.showErrorToast('workouts.start-workout.no-plan-selected');
+                });
+              }
+            }
+          ]
+        });
+        alert.present();
+      });
+    });
+  }
+
+  private startWorkout(plan: Plan) {
+    console.log('Starting workout for', plan);
   }
 }
