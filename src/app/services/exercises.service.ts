@@ -32,7 +32,7 @@ export class ExercisesService {
           return this.initializeDatabase();
         }
 
-        return Observable.of(documents.rows.map((row) => row.doc).map((exercise) => {
+        return Observable.of(documents.rows.map((row) => row.doc).map((exercise: Exercise) => {
           exercise.createdAt = new Date(exercise.createdAt);
           exercise.updatedAt = new Date(exercise.updatedAt);
           return exercise;
@@ -48,7 +48,11 @@ export class ExercisesService {
   }
 
   public getExerciseById(id: string): Observable<Exercise> {
-    return Observable.fromPromise(this.exercisesDatabase.get(id));
+    return Observable.fromPromise(this.exercisesDatabase.get(id)).map((exercise: Exercise) => {
+      exercise.createdAt = new Date(exercise.createdAt);
+      exercise.updatedAt = new Date(exercise.updatedAt);
+      return exercise;
+    });
   }
 
   public createExercises(...exercises: Exercise[]): Observable<Exercise[]> {

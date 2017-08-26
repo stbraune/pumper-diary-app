@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+      <ion-buttons left>
+        <button ion-button icon-only (click)="dismissWorkoutClicked()">
+          <ion-icon name="close"></ion-icon>
+        </button>
+      </ion-buttons>
+      <ion-title *ngIf="!edit">{{'exercise-add.title' | translate}}</ion-title>
+      <ion-title *ngIf="edit">{{'exercise-edit.title' | translate}}</ion-title>
+      <ion-buttons end>
+        <button ion-button clear (click)="saveWorkoutClicked()">
+          {{'save' | translate}}
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content>
+  </ion-content>
+  

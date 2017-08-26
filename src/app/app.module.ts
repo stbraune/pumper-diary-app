@@ -41,7 +41,8 @@ import {
 } from './views/measurements';
 
 import {
-  WorkoutCardsComponent
+  WorkoutCardsComponent,
+  WorkoutComponent
 } from './views/workout-cards';
 
 import {
@@ -74,6 +75,7 @@ import {
     WeightControlSmallComponent,
 
     WorkoutCardsComponent,
+    WorkoutComponent,
 
     PlansComponent,
     PlanEditComponent,
@@ -115,6 +117,7 @@ import {
     WeightControlSmallComponent,
     
     WorkoutCardsComponent,
+    WorkoutComponent,
 
     PlansComponent,
     PlanEditComponent,

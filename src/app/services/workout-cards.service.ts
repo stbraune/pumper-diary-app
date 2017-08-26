@@ -31,15 +31,22 @@ export class WorkoutCardsService {
   }
 
   public getWorkoutCardById(id: string): Observable<WorkoutCard> {
-    return Observable.fromPromise(this.workoutCardsDatabase.get(id));
+    return Observable.fromPromise(this.workoutCardsDatabase.get(id)).map((workoutCard: WorkoutCard) => {
+      workoutCard.createdAt = new Date(workoutCard.createdAt);
+      workoutCard.updatedAt = new Date(workoutCard.updatedAt);
+      return workoutCard;
+    });
   }
 
   public createWorkoutCard(workoutCard: WorkoutCard): Observable<WorkoutCard> {
+    const workout = workoutCard.workout;
+    workoutCard.workout = undefined;
     workoutCard.updatedAt = workoutCard.createdAt = new Date();
     return Observable.fromPromise(this.workoutCardsDatabase.post(workoutCard)).map((result: any) => {
       if (result.ok) {
         workoutCard._id = result.id;
         workoutCard._rev = result.rev;
+        workoutCard.workout = workout;
         return workoutCard;
       } else {
         throw new Error(`Error while creating workout card ${JSON.stringify(workoutCard)}`);
@@ -48,10 +55,13 @@ export class WorkoutCardsService {
   }
 
   public updateWorkoutCard(workoutCard: WorkoutCard): Observable<WorkoutCard> {
+    const workout = workoutCard.workout;
+    workoutCard.workout = undefined;
     workoutCard.updatedAt = new Date();
     return Observable.fromPromise(this.workoutCardsDatabase.put(workoutCard)).map((result: any) => {
       if (result.ok) {
         workoutCard._rev = result.rev;
+        workoutCard.workout = workout;
         return workoutCard;
       } else {
         throw new Error(`Error while updating workout card ${workoutCard._id} ${JSON.stringify(workoutCard)}`);

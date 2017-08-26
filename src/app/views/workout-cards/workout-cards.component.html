@@ -68,7 +68,7 @@
       </ion-card>
     </ion-item>
     <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index" (ionSwipe)="confirmDeleteWorkoutCard(workoutCard)">
-      <ion-item>
+      <ion-item *ngIf="workoutCard.workout">
         <ion-card (click)="workoutCardSelected(workoutCard)">
           <ion-card-header>
             {{formatWorkoutDate(workoutCard.workout) | async}}
@@ -89,10 +89,7 @@
                 <ion-col>
                   {{workoutCard.workout.plan.title}}
                   <p text-wrap>
-                    {{'workouts.workout-score.before' | translate}}
-                    <ion-icon name="star"></ion-icon>
-                    {{formatScore(workoutCard.workout) | async}}
-                    {{'workouts.workout-score.after' | translate}}
+                    {{'workouts.workout-score.before' | translate}}<ion-icon name="star" color="accent"></ion-icon> {{formatScore(workoutCard.workout) | async}}{{'workouts.workout-score.after' | translate}}
                   </p>
                 </ion-col>
               </ion-row>

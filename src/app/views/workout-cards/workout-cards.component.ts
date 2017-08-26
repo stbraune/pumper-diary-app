@@ -8,8 +8,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/catch';
 
-import { WorkoutCardsService, PlansService, ScoreCalculatorService, ToastService } from '../../services';
+import { WorkoutCardsService, WorkoutsService,
+  PlansService, ScoreCalculatorService, ToastService } from '../../services';
 import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
+
+import { WorkoutComponent } from './workout';
 
 @Component({
   selector: 'workout-cards',
@@ -23,7 +26,8 @@ export class WorkoutCardsComponent {
     private alertController: AlertController,
     private modalController: ModalController,
     private plansService: PlansService,
-    private WorkoutCardsService: WorkoutCardsService,
+    private workoutCardsService: WorkoutCardsService,
+    private workoutsService: WorkoutsService,
     private scoreCalculatorService: ScoreCalculatorService,
     private toastService: ToastService
   ) {
@@ -34,94 +38,26 @@ export class WorkoutCardsComponent {
   }
 
   private loadWorkoutCards() {
-    this.WorkoutCardsService.getWorkoutCards().subscribe((workoutCards) => {
+    this.workoutCardsService.getWorkoutCards().subscribe((workoutCards) => {
       this.workoutCards = workoutCards;
-
-      this.workoutCards.push(<WorkoutCard>{
-        workout: {
-          plan: {
-            title: 'Sample',
-            description: 'Sample description lalala'
-          },
-          start: new Date(),
-          end: new Date(),
-          sets: [
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ { measure: Measure.Calories, value: '250' } ] },
-            { mood: Mood.Happy, measurements: [ { measure: Measure.Calories, value: '750' } ] },
-            { mood: Mood.Neutral, measurements: [ { measure: Measure.Calories, value: '50' } ] }
-          ]
-        }
-      });
-      this.workoutCards.push(<WorkoutCard>{
-        workout: {
-          plan: {
-            title: 'Sample',
-            description: 'Sample description lalala'
-          },
-          start: new Date("August 24, 2017 11:13:00"),
-          end: new Date("August 24, 2017 11:15:00"),
-          sets: [
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Neutral, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] }
-          ]
-        }
-      });
-      this.workoutCards.push(<WorkoutCard>{
-        workout: {
-          plan: {
-            title: 'Sample',
-            description: 'Sample description lalala'
-          },
-          start: new Date("August 20, 2017 11:13:00"),
-          end: new Date("August 20, 2017 11:15:00"),
-          sets: [
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Neutral, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] }
-          ]
-        }
-      });
-      this.workoutCards.push(<WorkoutCard>{
-        workout: {
-          plan: {
-            title: 'Sample',
-            description: 'Sample description lalala'
-          },
-          start: new Date("October 13, 2014 11:13:00"),
-          end: new Date("October 13, 2014 11:15:00"),
-          sets: [
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Unhappy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Happy, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] },
-            { mood: Mood.Neutral, measurements: [ <Measurement>{ measure: Measure.Calories, value: '500' } ] }
-          ]
-        }
+      // TODO improve performance on this, as it is a expensive query
+      this.workoutCards.map((workoutCard) => {
+        this.workoutsService.getWorkoutById(workoutCard.workoutId).subscribe((workout) => {
+          workoutCard.workout = workout;
+        });
       });
     });
   }
 
   public formatScore(workout: Workout): Observable<string> {
-    return this.translateService.get('workouts.workout-score.score', { score: 42 });
-
-    // TODO use the following code instead of the dummy calculation above
-    // return this.scoreCalculatorService.calculateScoreForWorkout(workout).switchMap((score) => {
-    //   return this.translateService.get('workouts.workout-score', { score });
-    // });
+    return this.scoreCalculatorService.calculateScoreForWorkout(workout).switchMap((score) => {
+      return this.translateService.get('workouts.workout-score.score', { score });
+    });
   }
 
   public formatWorkoutMood(workout: Workout) {
     const moods = workout.sets.map((set) => set.mood);
     const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
-    console.log(moods, moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
     switch (average) {
       case Mood.Happy:
         return 'happy';
@@ -229,5 +165,27 @@ export class WorkoutCardsComponent {
 
   private startWorkout(plan: Plan) {
     console.log('Starting workout for', plan);
+    const workoutModal = this.modalController.create(WorkoutComponent, {
+      data: plan
+    });
+    workoutModal.onDidDismiss((result) => {
+      if (result && result.delete) {
+        this.deleteWorkout(result.data.workout);
+        this.deleteWorkoutCard(result.data.workoutCard);
+      }
+    });
+    workoutModal.present();
+  }
+
+  private deleteWorkout(workout: Workout) {
+    this.workoutsService.deleteWorkout(workout).subscribe((result) => {
+      this.toastService.showSuccessToast('delete-workout-succeeded', workout);
+    });
+  }
+
+  private deleteWorkoutCard(workoutCard: WorkoutCard) {
+    this.workoutCardsService.deleteWorkoutCard(workoutCard).subscribe((result) => {
+      console.log('Workout card deleted', workoutCard);
+    });
   }
 }

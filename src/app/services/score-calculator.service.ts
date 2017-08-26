@@ -25,6 +25,10 @@ export class ScoreCalculatorService {
   ) { }
 
   public calculateScoreForWorkout(workout: Workout): Observable<number> {
+    if (workout.sets.length === 0) {
+      return Observable.of(0);
+    }
+
     return Observable.forkJoin(...workout.sets.map((set) => this.calculateScoreForSet(set))).map((results) => {
       return results.reduce((prev, cur) => prev + cur, 0);
     });
@@ -74,14 +78,24 @@ export class ScoreCalculatorService {
       score += totals.repetitions + totals.weight;
     } else if (totals.distance == 0 && totals.duration > 0) {
       // Use duration in calculation only if no weight, repetitions or distance was measured.
-      score += totals.duration * set.goal.entries.filter((e) => e.type === EntryType.Action).length;
+      if (set.goal) {
+        score += totals.duration * set.goal.entries.filter((e) => e.type === EntryType.Action).length;
+      } else if (set.exercise) {
+        score += totals.duration;
+      }
     }
 
     score += totals.distance;
     score += totals.calories;
 
-    return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
-      return score * exercise.difficulty;
-    });
+    if (set.goal) {
+      return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
+        return score * exercise.difficulty;
+      });
+    } else if (set.exercise) {
+      return this.exercisesService.getExerciseById(set.exercise._id).map((exercise) => {
+        return score * exercise.difficulty;
+      });
+    }
   }
 }

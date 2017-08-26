@@ -25,13 +25,21 @@ export class WorkoutsService {
         return documents.rows.map((row) => row.doc).map((workout: Workout) => {
           workout.createdAt = new Date(workout.createdAt);
           workout.updatedAt = new Date(workout.updatedAt);
+          workout.start = new Date(workout.start);
+          workout.end = new Date(workout.end);
           return workout;
         }).sort(byDate<Workout>((workout) => workout.createdAt));
       });
   }
 
   public getWorkoutById(id: string): Observable<Workout> {
-    return Observable.fromPromise(this.workoutsDatabase.get(id));
+    return Observable.fromPromise(this.workoutsDatabase.get(id)).map((workout: Workout) => {
+      workout.createdAt = new Date(workout.createdAt);
+      workout.updatedAt = new Date(workout.updatedAt);
+      workout.start = new Date(workout.start);
+      workout.end = new Date(workout.end);
+      return workout;
+    });
   }
 
   public createWorkout(workout: Workout): Observable<Workout> {

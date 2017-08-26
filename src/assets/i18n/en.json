@@ -13,13 +13,14 @@
   "shortTimeFormat": "HH:mm",
   
   "workouts.title": "Workouts",
-  "workouts.workout-score.before": "You reached",
+  "workouts.workout-score.before": "You reached ",
   "workouts.workout-score.score": "{{score}} points",
   "workouts.workout-score.after": "!",
   "workouts.start-workout.title": "Start a Workout",
   "workouts.start-workout.message": "Select a plan you want to workout.",
   "workouts.start-workout.start": "Start",
   "workouts.start-workout.no-plan-selected": "Please select a plan!",
+  "delete-workout-succeeded": "Workout deleted.",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",

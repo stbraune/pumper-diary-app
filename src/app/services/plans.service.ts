@@ -44,7 +44,11 @@ export class PlansService {
   }
 
   public getPlanById(id: string): Observable<Plan> {
-    return Observable.fromPromise(this.plansDatabase.get(id));
+    return Observable.fromPromise(this.plansDatabase.get(id)).map((plan: Plan) => {
+      plan.createdAt = new Date(plan.createdAt);
+      plan.updatedAt = new Date(plan.updatedAt);
+      return plan;
+    });
   }
 
   public createPlans(...plans: Plan[]): Observable<Plan[]> {
