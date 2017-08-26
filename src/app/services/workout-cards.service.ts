@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 
-import { byDate } from './utils';
+import { by } from './utils';
 import { DatabaseService } from './database.service';
 
 import { WorkoutCard } from '../model';
@@ -26,7 +26,7 @@ export class WorkoutCardsService {
           workoutCard.createdAt = new Date(workoutCard.createdAt);
           workoutCard.updatedAt = new Date(workoutCard.updatedAt);
           return workoutCard;
-        }).sort(byDate<WorkoutCard>((workoutCard) => workoutCard.createdAt));
+        }).sort(by<WorkoutCard>((workoutCard) => -workoutCard.createdAt.getTime()));
       });
   }
 

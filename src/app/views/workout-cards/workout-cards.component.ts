@@ -169,9 +169,12 @@ export class WorkoutCardsComponent {
       data: plan
     });
     workoutModal.onDidDismiss((result) => {
+      console.log(result);
       if (result && result.delete) {
         this.deleteWorkout(result.data.workout);
         this.deleteWorkoutCard(result.data.workoutCard);
+      } else if (result.success) {
+        this.workoutCards.unshift(result.data.workoutCard);
       }
     });
     workoutModal.present();

@@ -30,7 +30,8 @@ export class WorkoutComponent {
       this.workout = workout;
 
       this.workoutCardsService.createWorkoutCard({
-        workoutId: this.workout._id
+        workoutId: this.workout._id,
+        workout: this.workout
       }).subscribe((workoutCard) => {
         this.workoutCard = workoutCard;
       });
@@ -71,7 +72,10 @@ export class WorkoutComponent {
   public saveWorkoutClicked(): void {
     this.viewController.dismiss({
       success: true,
-      data: this.workout
+      data: {
+        workout: this.workout,
+        workoutCard: this.workoutCard
+      }
     });
   }
 
