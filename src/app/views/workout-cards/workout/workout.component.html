@@ -32,10 +32,12 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides #slides>
+  <ion-slides #slides (ionSlideDidChange)="stepChanged()" [zoom]="false">
     <ion-slide *ngFor="let step of steps">
-      {{step.entry.type}}<br>
-      {{step | json}}
+      <ion-content scroll="true" [style.position]="'static'">
+        {{step.entry.type}}<br>
+        {{step | json}}
+      </ion-content>
     </ion-slide>
   </ion-slides>
 </ion-content>

@@ -116,6 +116,10 @@ export class WorkoutComponent {
     }
   }
 
+  public stepChanged(): void {
+    this.updateWorkout();
+  }
+
   public dismissWorkoutClicked(): void {
     this.translateService.get(['workout-delete.title', 'workout-delete.prompt', 'yes', 'no'])
       .subscribe((texts) => {
