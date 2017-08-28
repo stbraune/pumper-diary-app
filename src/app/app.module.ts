@@ -31,6 +31,10 @@ import {
 } from './services';
 
 import {
+  ProgressBarComponent
+} from './views/progress-bar';
+
+import {
   NumericUpDownSmallComponent,
   MeasurementControlSmallComponent,
   CaloriesControlSmallComponent,
@@ -65,6 +69,8 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
+
+    ProgressBarComponent,
 
     NumericUpDownSmallComponent,
     MeasurementControlSmallComponent,

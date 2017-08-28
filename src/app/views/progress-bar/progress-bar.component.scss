@@ -1,0 +1,16 @@
+@import '../../../theme/variables.scss';
+
+.progress-bar {
+  background-color: map-get($colors, shadow);
+  box-shadow: 0 0 3px rgba(map-get($colors, shadow), 0.3);
+  height: 0.6rem;
+  border-radius: 0.3rem;
+
+  &__progress {
+    background-color: map-get($colors, accent);
+    box-shadow: 0 0 3px rgba(map-get($colors, accent), 0.5);
+    height: 100%;
+    border-radius: 0.3rem;
+    transition: width 500ms;
+  }
+}

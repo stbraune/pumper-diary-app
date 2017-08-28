@@ -5,6 +5,9 @@
   "delete": "Delete",
   "no": "No",
   "yes": "Yes",
+  "next": "Next",
+  "back": "Back",
+  "finish": "Finish",
 
   "today": "Today",
   "yesterday": "Yesterday",
@@ -21,6 +24,9 @@
   "workouts.start-workout.start": "Start",
   "workouts.start-workout.no-plan-selected": "Please select a plan!",
   "delete-workout-succeeded": "Workout deleted.",
+
+  "workout-delete.title": "Cancel Workout",
+  "workout-delete.prompt": "Are you sure to cancel your current workout? All progress up to this set will be saved.",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",

@@ -86,7 +86,7 @@
                   <img *ngSwitchCase="'unknown'" src="assets/img/emoji_unknown.png"
                     style="width: 56px !important; height: 56px !important;">
                 </ion-col>
-                <ion-col>
+                <ion-col align-self-center>
                   {{workoutCard.workout.plan.title}}
                   <p text-wrap>
                     {{'workouts.workout-score.before' | translate}}<ion-icon name="star" color="accent"></ion-icon> {{formatScore(workoutCard.workout) | async}}{{'workouts.workout-score.after' | translate}}

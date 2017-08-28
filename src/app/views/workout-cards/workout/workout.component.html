@@ -1,20 +1,68 @@
 <ion-header>
-    <ion-navbar>
-      <ion-buttons left>
-        <button ion-button icon-only (click)="dismissWorkoutClicked()">
-          <ion-icon name="close"></ion-icon>
-        </button>
-      </ion-buttons>
-      <ion-title *ngIf="!edit">{{'exercise-add.title' | translate}}</ion-title>
-      <ion-title *ngIf="edit">{{'exercise-edit.title' | translate}}</ion-title>
-      <ion-buttons end>
-        <button ion-button clear (click)="saveWorkoutClicked()">
-          {{'save' | translate}}
-        </button>
-      </ion-buttons>
-    </ion-navbar>
-  </ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismissWorkoutClicked()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      <ng-container *ngIf="currentEntryIsAction">
+        Set {{currentGoalIndex + 1}}.{{currentGoalPosition + 1}}
+      </ng-container>
+      <ng-container *ngIf="currentEntryIsPause">
+        Pause
+      </ng-container>
+    </ion-title>
+    <ion-buttons end>
+      <ion-grid no-padding>
+        <ion-row>
+          <ion-col col-auto align-self-center>
+            <ion-icon name="star" color="accent"></ion-icon>
+            <strong>{{score}}</strong>
+          </ion-col>
+          <ion-col align-self-center>
+            <button ion-button clear (click)="saveWorkoutClicked()" class="bar-button-clear-md bar-button-clear">
+              {{'save' | translate}}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
 
-  <ion-content>
-  </ion-content>
-  
+<ion-content>
+  <ion-slides #slides>
+    <ion-slide *ngFor="let step of steps">
+      {{step.entry.type}}<br>
+      {{step | json}}
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+
+<ion-footer>
+  <ion-grid no-padding>
+    <ion-row>
+      <ion-col col-auto align-self-center>
+        <button [style.visibility]="currentStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear">
+          <ion-icon name="arrow-back"></ion-icon>
+          {{'back' | translate}}
+        </button>
+      </ion-col>
+      <ion-col align-self-center>
+        <progress-bar [min]="0" [max]="steps.length - 1" [value]="currentStepIndex"></progress-bar>
+      </ion-col>
+      <ion-col col-auto align-self-center>
+        <button ion-button icon-end clear (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear">
+          <ng-container *ngIf="currentStepIndex === steps.length - 1; else next">
+            {{'finish' | translate}}
+          </ng-container>
+          <ng-template #next>
+            {{'next' | translate}}
+          </ng-template>
+          <ion-icon name="arrow-forward"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

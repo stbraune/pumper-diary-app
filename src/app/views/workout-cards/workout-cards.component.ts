@@ -56,6 +56,10 @@ export class WorkoutCardsComponent {
   }
 
   public formatWorkoutMood(workout: Workout) {
+    if (workout.sets.length === 0) {
+      return 'neutral';
+    }
+
     const moods = workout.sets.map((set) => set.mood);
     const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
     switch (average) {
@@ -169,7 +173,6 @@ export class WorkoutCardsComponent {
       data: plan
     });
     workoutModal.onDidDismiss((result) => {
-      console.log(result);
       if (result && result.delete) {
         this.deleteWorkout(result.data.workout);
         this.deleteWorkoutCard(result.data.workoutCard);
