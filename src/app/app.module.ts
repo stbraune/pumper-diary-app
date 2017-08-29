@@ -41,7 +41,8 @@ import {
   DistanceControlSmallComponent,
   DurationControlSmallComponent,
   RepetitionsControlSmallComponent,
-  WeightControlSmallComponent
+  WeightControlSmallComponent,
+  ChronometerComponent
 } from './views/measurements';
 
 import {
@@ -79,6 +80,7 @@ import {
     DurationControlSmallComponent,
     RepetitionsControlSmallComponent,
     WeightControlSmallComponent,
+    ChronometerComponent,
 
     WorkoutCardsComponent,
     WorkoutComponent,
@@ -113,14 +115,6 @@ import {
     HelloIonicPage,
     ItemDetailsPage,
     ListPage,
-
-    NumericUpDownSmallComponent,
-    MeasurementControlSmallComponent,
-    CaloriesControlSmallComponent,
-    DistanceControlSmallComponent,
-    DurationControlSmallComponent,
-    RepetitionsControlSmallComponent,
-    WeightControlSmallComponent,
     
     WorkoutCardsComponent,
     WorkoutComponent,

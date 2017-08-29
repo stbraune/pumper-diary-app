@@ -5,3 +5,5 @@ export * from './distance-control-small';
 export * from './duration-control-small';
 export * from './repetitions-control-small';
 export * from './weight-control-small';
+export * from './chronometer';
+export * from './chronometer-control';

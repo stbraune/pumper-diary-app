@@ -9,14 +9,14 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let plan of plans" (ionSwipe)="confirmDeletePlan(plan)">
+    <ion-item-sliding *ngFor="let plan of plans">
       <ion-item (click)="planSelected(plan)">
         {{plan.title}}
         <p>
           {{plan.description}}
         </p>
       </ion-item>
-      <ion-item-options icon-start side="right">
+      <ion-item-options icon-start side="right" (ionSwipe)="confirmDeletePlan(plan)">
         <button ion-button expandable color="danger" (click)="confirmDeletePlan(plan)">
           <ion-icon name="trash"></ion-icon>
           {{'delete' | translate}}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,6 +13,7 @@ import { WorkoutCardsService, WorkoutsService,
 import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
 
 import { WorkoutComponent } from './workout';
+import { ChronometerComponent } from '../measurements';
 
 @Component({
   selector: 'workout-cards',
@@ -20,6 +21,9 @@ import { WorkoutComponent } from './workout';
 })
 export class WorkoutCardsComponent {
   private workoutCards: WorkoutCard[] = [];
+
+  @ViewChild('chronometer')
+  public chronometer: ChronometerComponent;
 
   public constructor(
     private translateService: TranslateService,
@@ -31,6 +35,17 @@ export class WorkoutCardsComponent {
     private scoreCalculatorService: ScoreCalculatorService,
     private toastService: ToastService
   ) {
+  }
+
+  public startChronometer() {
+    const d = new Date();
+    d.setTime(d.getTime() + 6000);
+    this.chronometer.base = d;
+    this.chronometer.start();
+  }
+
+  public stopChronometer() {
+    this.chronometer.stop();
   }
 
   public ionViewDidLoad(): void {
@@ -87,13 +102,9 @@ export class WorkoutCardsComponent {
     });
   }
 
-  private differenceInDays(a: Date, b: Date) {
-    return Math.floor(Math.abs(a.getTime() - b.getTime()) / (1000 * 3600 * 24));
-  }
-
   private formatDay(date: Date): Observable<string> {
     const now = new Date();
-    const diff = this.differenceInDays(date, now);
+    const diff = this.differenceInDays(this.normalizeDate(date), now);
     if (diff === 0) {
       return this.translateService.get('today');
     } else if (diff === 1) {
@@ -108,6 +119,14 @@ export class WorkoutCardsComponent {
     });
   }
 
+  private normalizeDate(a: Date) {
+    return new Date(a.getFullYear(), a.getMonth(), a.getDate());
+  }
+  
+  private differenceInDays(a: Date, b: Date) {
+    return Math.floor(Math.abs(a.getTime() - b.getTime()) / (1000 * 3600 * 24));
+  }
+
   private formatTime(date: Date): Observable<string> {
     return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
       return new DatePipe(this.translateService.currentLang)
@@ -116,7 +135,26 @@ export class WorkoutCardsComponent {
   }
 
   public confirmDeleteWorkoutCard(workoutCard: WorkoutCard) {
-    // TODO implement me somehow
+    this.translateService.get(['workout-card-delete.title', 'workout-card-delete.prompt', 'yes', 'no'])
+    .subscribe((texts) => {
+      const alert = this.alertController.create({
+        title: texts['workout-card-delete.title'],
+        message: texts['workout-card-delete.prompt'],
+        buttons: [
+          {
+            text: texts['no'],
+            role: 'cancel'
+          },
+          {
+            text: texts['yes'],
+            handler: () => {
+              this.deleteWorkoutCard(workoutCard);
+            }
+          }
+        ]
+      });
+      alert.present();
+    });
   }
 
   public workoutCardSelected(workoutCard: WorkoutCard) {
@@ -175,7 +213,7 @@ export class WorkoutCardsComponent {
     workoutModal.onDidDismiss((result) => {
       if (result && result.delete) {
         this.deleteWorkout(result.data.workout);
-        this.deleteWorkoutCard(result.data.workoutCard);
+        this.deleteWorkoutCard(result.data.workoutCard, true);
       } else if (result.success) {
         this.workoutCards.unshift(result.data.workoutCard);
       }
@@ -186,12 +224,29 @@ export class WorkoutCardsComponent {
   private deleteWorkout(workout: Workout) {
     this.workoutsService.deleteWorkout(workout).subscribe((result) => {
       this.toastService.showSuccessToast('delete-workout-succeeded', workout);
+    }, (error) => {
+      this.toastService.showErrorToast('delete-workout-failed', error);
     });
   }
 
-  private deleteWorkoutCard(workoutCard: WorkoutCard) {
+  private deleteWorkoutCard(workoutCard: WorkoutCard, hideToast: boolean = false) {
     this.workoutCardsService.deleteWorkoutCard(workoutCard).subscribe((result) => {
-      console.log('Workout card deleted', workoutCard);
+      const index = this.workoutCards.indexOf(workoutCard);
+      if (index !== -1) {
+        this.workoutCards.splice(index, 1);
+      }
+
+      if (hideToast) {
+        console.log('Workout card deleted', workoutCard);
+      } else {
+        this.toastService.showSuccessToast('delete-workout-card-succeeded', workoutCard);
+      }
+    }, (error) => {
+      if (hideToast) {
+        console.warn('Could not delete workout card', error);
+      } else {
+        this.toastService.showErrorToast('delete-workout-card-failed', error);
+      }
     });
   }
 }

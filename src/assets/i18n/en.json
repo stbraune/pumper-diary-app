@@ -24,6 +24,11 @@
   "workouts.start-workout.start": "Start",
   "workouts.start-workout.no-plan-selected": "Please select a plan!",
   "delete-workout-succeeded": "Workout deleted.",
+  "delete-workout-failed": "Could not delete workout. Please try again.",
+  "workout-card-delete.title": "Deleted Workout Card",
+  "workout-card-delete.prompt": "Are you sure to delete this card? Your tracked workout data will still be available.",
+  "delete-workout-card-succeeded": "Card deleted.",
+  "delete-workout-card-failed": "Could not delete workout card. Please try again.",
 
   "workout-delete.title": "Cancel Workout",
   "workout-delete.prompt": "Are you sure to cancel your current workout? All progress up to this set will be saved.",

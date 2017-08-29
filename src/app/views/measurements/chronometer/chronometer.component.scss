@@ -1,0 +1,12 @@
+.chronometer {
+  &--neutral {
+  }
+
+  &--positive {
+    color: #5E8F1E;
+  }
+
+  &--negative {
+    color: #9C3621;
+  }
+}

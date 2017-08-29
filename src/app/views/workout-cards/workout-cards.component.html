@@ -20,6 +20,15 @@
             workouts. You may not see very much here until now... Try creating your first training plan
             and start a workout from this screen today!
           </p>
+          <p text-wrap>
+            <chronometer #chronometer></chronometer>
+            <button (click)="startChronometer()">
+              Start
+            </button>
+            <button (click)="stopChronometer()">
+              Stop
+            </button>
+          </p>
           <ion-grid>
             <ion-row>
               <ion-col col-auto align-self-center>
@@ -67,7 +76,7 @@
         </ion-card-content>
       </ion-card>
     </ion-item>
-    <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index" (ionSwipe)="confirmDeleteWorkoutCard(workoutCard)">
+    <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index">
       <ion-item *ngIf="workoutCard.workout">
         <ion-card (click)="workoutCardSelected(workoutCard)">
           <ion-card-header>
@@ -97,7 +106,7 @@
           </ion-card-content>
         </ion-card>
       </ion-item>
-      <ion-item-options icon-start side="right">
+      <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteWorkoutCard(workoutCard)">
         <button ion-button expandable color="danger" (click)="confirmDeleteWorkoutCard(workoutCard)">
           <ion-icon name="trash"></ion-icon>
           {{'delete' | translate}}
