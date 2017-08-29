@@ -1,0 +1,5 @@
+<numeric-up-down-large label="{{measureKey(measurement.measure) | translate}}"
+  [min]="0" [max]="1000" [step]="1" [units]="units"
+  [value]="measurement.value" [unit]="measurement.unit"
+  (valueChange)="valueChanged($event)" (unitChange)="unitChanged($event)">
+</numeric-up-down-large>

@@ -8,6 +8,15 @@
 </ion-header>
   
 <ion-content>
+  <numeric-up-down-large label="Testmeasure"
+    [min]="0" [max]="20000" [step]="50" [units]="[{key:'a', value:'A'},{key:'b',value:'B'}]"
+    [unit]="'a'">
+  </numeric-up-down-large>
+  <numeric-up-down-small label="Testmeasure"
+    [min]="0" [max]="20000" [step]="50" [units]="[{key:'a', value:'A'},{key:'b',value:'B'}]"
+    [unit]="'a'">
+  </numeric-up-down-small>
+
   <ion-list no-lines>
     <ion-item *ngIf="true || workoutCards.length === 0">
       <ion-card>
@@ -28,6 +37,8 @@
             <button (click)="stopChronometer()">
               Stop
             </button>
+          </p>
+          <p>
           </p>
           <ion-grid>
             <ion-row>

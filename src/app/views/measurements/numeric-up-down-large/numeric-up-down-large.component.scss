@@ -1,4 +1,4 @@
-.numeric-up-down-small {
+.numeric-up-down-large {
   ion-col {
     padding: 0;
   }
@@ -7,18 +7,6 @@
     .item {
       padding-left: 0;
       border-bottom: none;
-
-      .item-inner {
-        padding-right: 0;
-        border-bottom: none;
-      }
-    }
-  }
-
-  &__col-increment {
-    .item {
-      padding-left: 0;
-      color: initial;
 
       .item-inner {
         padding-right: 0;
@@ -39,6 +27,18 @@
             text-align: right;
           }
         }
+      }
+    }
+  }
+
+  &__col-increment {
+    .item {
+      padding-left: 0;
+      color: initial;
+
+      .item-inner {
+        padding-right: 0;
+        border-bottom: none;
       }
     }
   }

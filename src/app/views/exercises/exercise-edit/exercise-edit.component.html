@@ -31,9 +31,7 @@
     </ion-item>
 
     <ion-list-header>
-      <ion-label>
-        {{'exercise.difficulty' | translate}}
-      </ion-label>
+      {{'exercise.difficulty' | translate}}
     </ion-list-header>
     <ion-item>
       <ion-range [(ngModel)]="exercise.difficulty" (ngModelChange)="exerciseChanged()" [min]="1" [max]="6" [step]="1">
@@ -47,9 +45,7 @@
     </ion-item>
 
     <ion-list-header>
-      <ion-label>
-        {{'exercise.measures' | translate}}
-      </ion-label>
+      {{'exercise.measures' | translate}}
     </ion-list-header>
     <ion-item *ngFor="let measure of measures">
       <ion-label>

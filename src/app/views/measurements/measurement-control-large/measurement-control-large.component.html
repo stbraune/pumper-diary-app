@@ -1,0 +1,5 @@
+<calories-control-large *ngIf="isCalories()" [measurement]="measurement" (change)="emitChange()"></calories-control-large>
+<distance-control-large *ngIf="isDistance()" [measurement]="measurement" (change)="emitChange()"></distance-control-large>
+<duration-control-large *ngIf="isDuration()" [measurement]="measurement" (change)="emitChange()"></duration-control-large>
+<repetitions-control-large *ngIf="isRepetitions()" [measurement]="measurement" (change)="emitChange()"></repetitions-control-large>
+<weight-control-large *ngIf="isWeight()" [measurement]="measurement" (change)="emitChange()"></weight-control-large>

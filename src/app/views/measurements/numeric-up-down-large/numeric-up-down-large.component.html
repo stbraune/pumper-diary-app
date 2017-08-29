@@ -1,0 +1,45 @@
+<ion-card>
+  <ion-card-content no-padding>
+    <ion-grid no-padding>
+      <ion-row align-items-stretch class="numeric-up-down-large">
+        <ion-col align-self-center>
+          <ion-grid no-padding>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col col-auto>
+                <ion-item class="item-input">
+                  {{label}}
+                </ion-item>
+              </ion-col>
+              <ion-col>
+                <ion-item>
+                  <ion-select *ngIf="units.length > 0" [(ngModel)]="unit" (ngModelChange)="unitChanged()">
+                    <ion-option *ngFor="let unit of units" [value]="unit.key">{{unit.value}}</ion-option>
+                  </ion-select>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col col-auto>
+          <ion-item>
+            <button ion-button icon-only clear (click)="incrementValue()">
+              <ion-icon name="arrow-up"></ion-icon>
+            </button>
+          </ion-item>
+          <ion-item>
+            <button ion-button icon-only clear (click)="decrementValue()">
+              <ion-icon name="arrow-down"></ion-icon>
+            </button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

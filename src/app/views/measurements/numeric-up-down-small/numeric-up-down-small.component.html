@@ -1,9 +1,7 @@
 <ion-row class="numeric-up-down-small">
   <ion-col col-4 class="numeric-up-down-small__col-label">
-    <ion-item class="item-input">
-      <ion-label>
-        {{label}}
-      </ion-label>
+    <ion-item class="item-input item-input-no-bottom-border">
+      {{label}}
     </ion-item>
   </ion-col>
   <ion-col col-1 class="numeric-up-down-small__col-decrement">
@@ -14,12 +12,12 @@
     </ion-item>
   </ion-col>
   <ion-col *ngIf="units.length > 0" col-3 class="numeric-up-down-small__col-value">
-    <ion-item>
+    <ion-item class="item-input-no-bottom-border">
       <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
     </ion-item>
   </ion-col>
   <ion-col *ngIf="units.length == 0" col-6 class="numeric-up-down-small__col-value">
-    <ion-item>
+    <ion-item class="item-input-no-bottom-border">
       <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
     </ion-item>
   </ion-col>

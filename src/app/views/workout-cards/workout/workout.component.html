@@ -37,6 +37,10 @@
       <ion-content scroll="true" [style.position]="'static'">
         {{step.entry.type}}<br>
         {{step | json}}
+
+        <measurement-control-large  *ngFor="let measurement of step.entry.measurements"
+          [measurement]="measurement">
+        </measurement-control-large>
       </ion-content>
     </ion-slide>
   </ion-slides>

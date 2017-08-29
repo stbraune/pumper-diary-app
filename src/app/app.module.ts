@@ -36,13 +36,21 @@ import {
 
 import {
   NumericUpDownSmallComponent,
+  NumericUpDownLargeComponent,
   MeasurementControlSmallComponent,
+  MeasurementControlLargeComponent,
   CaloriesControlSmallComponent,
+  CaloriesControlLargeComponent,
   DistanceControlSmallComponent,
+  DistanceControlLargeComponent,
   DurationControlSmallComponent,
+  DurationControlLargeComponent,
   RepetitionsControlSmallComponent,
+  RepetitionsControlLargeComponent,
   WeightControlSmallComponent,
-  ChronometerComponent
+  WeightControlLargeComponent,
+  ChronometerComponent,
+  ChronometerControlComponent
 } from './views/measurements';
 
 import {
@@ -74,13 +82,21 @@ import {
     ProgressBarComponent,
 
     NumericUpDownSmallComponent,
+    NumericUpDownLargeComponent,
     MeasurementControlSmallComponent,
+    MeasurementControlLargeComponent,
     CaloriesControlSmallComponent,
+    CaloriesControlLargeComponent,
     DistanceControlSmallComponent,
+    DistanceControlLargeComponent,
     DurationControlSmallComponent,
+    DurationControlLargeComponent,
     RepetitionsControlSmallComponent,
+    RepetitionsControlLargeComponent,
     WeightControlSmallComponent,
+    WeightControlLargeComponent,
     ChronometerComponent,
+    ChronometerControlComponent,
 
     WorkoutCardsComponent,
     WorkoutComponent,
