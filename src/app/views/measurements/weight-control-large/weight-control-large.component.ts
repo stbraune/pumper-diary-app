@@ -15,10 +15,16 @@ import {
 })
 export class WeightControlLargeComponent {
   @Input()
-  public measurement: Measurement;
+  public original: Measurement;
+
+  @Input()
+  public actual: Measurement;
 
   @Output()
   public change = new EventEmitter<Measurement>();
+  
+  @Output()
+  public complete = new EventEmitter<Measurement>();
 
   public units: { key: string, value: string }[] = [
     { key: UnitConverterService.units.kg, value: 'kg' },
@@ -36,22 +42,22 @@ export class WeightControlLargeComponent {
   }
 
   public valueChanged(value: number): void {
-    this.measurement.value = value.toString();
+    this.actual.value = value.toString();
     this.emitChange();
   }
 
   public unitChanged(unit: string): void {
-    this.measurement.value = this.unitConverterService.convert(parseFloat(this.measurement.value))
-      .from(this.measurement.unit)
+    this.actual.value = this.unitConverterService.convert(parseFloat(this.actual.value))
+      .from(this.actual.unit)
       .to(unit)
       .toFixed(2)
       .replace(/0+$/, '')
       .replace(/\.$/, '');
-    this.measurement.unit = unit;
+    this.actual.unit = unit;
     this.emitChange();
   }
 
   public emitChange() {
-    this.change.emit(this.measurement);
+    this.change.emit(this.actual);
   }
 }

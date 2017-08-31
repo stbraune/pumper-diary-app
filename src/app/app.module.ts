@@ -56,8 +56,8 @@ import {
 import {
   WorkoutCardsComponent,
   WorkoutComponent,
-  ActionStep,
-  PauseStep,
+  ActionStepComponent,
+  PauseStepComponent,
   SlideHostDirective
 } from './views/workout-cards';
 
@@ -103,8 +103,8 @@ import {
 
     WorkoutCardsComponent,
     WorkoutComponent,
-    ActionStep,
-    PauseStep,
+    ActionStepComponent,
+    PauseStepComponent,
     SlideHostDirective,
 
     PlansComponent,
@@ -140,8 +140,8 @@ import {
     
     WorkoutCardsComponent,
     WorkoutComponent,
-    ActionStep,
-    PauseStep,
+    ActionStepComponent,
+    PauseStepComponent,
 
     PlansComponent,
     PlanEditComponent,

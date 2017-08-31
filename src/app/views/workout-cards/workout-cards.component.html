@@ -29,17 +29,6 @@
             workouts. You may not see very much here until now... Try creating your first training plan
             and start a workout from this screen today!
           </p>
-          <p text-wrap>
-            <chronometer #chronometer></chronometer>
-            <button (click)="startChronometer()">
-              Start
-            </button>
-            <button (click)="stopChronometer()">
-              Stop
-            </button>
-          </p>
-          <p>
-          </p>
           <ion-grid>
             <ion-row>
               <ion-col col-auto align-self-center>
@@ -88,15 +77,15 @@
       </ion-card>
     </ion-item>
     <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index">
-      <ion-item *ngIf="workoutCard.workout">
+      <ion-item *ngIf="workoutCard.transient && workoutCard.transient.workout">
         <ion-card (click)="workoutCardSelected(workoutCard)">
           <ion-card-header>
-            {{formatWorkoutDate(workoutCard.workout) | async}}
+            {{formatWorkoutDate(workoutCard) | async}}
           </ion-card-header>
           <ion-card-content>
             <ion-grid>
               <ion-row>
-                <ion-col [ngSwitch]="formatWorkoutMood(workoutCard.workout)" col-auto align-self-center>
+                <ion-col [ngSwitch]="formatWorkoutMood(workoutCard)" col-auto align-self-center>
                   <img *ngSwitchCase="'happy'" src="assets/img/emoji_happy.png"
                     style="width: 56px !important; height: 56px !important;">
                   <img *ngSwitchCase="'neutral'" src="assets/img/emoji_neutral.png"
@@ -107,9 +96,9 @@
                     style="width: 56px !important; height: 56px !important;">
                 </ion-col>
                 <ion-col align-self-center>
-                  {{workoutCard.workout.plan.title}}
+                  {{workoutCard.transient.workout.plan.title}}
                   <p text-wrap>
-                    {{'workouts.workout-score.before' | translate}}<ion-icon name="star" color="accent"></ion-icon> {{formatScore(workoutCard.workout) | async}}{{'workouts.workout-score.after' | translate}}
+                    {{'workouts.workout-score.before' | translate}}<ion-icon name="star" color="accent"></ion-icon> {{formatScore(workoutCard) | async}}{{'workouts.workout-score.after' | translate}}
                   </p>
                 </ion-col>
               </ion-row>

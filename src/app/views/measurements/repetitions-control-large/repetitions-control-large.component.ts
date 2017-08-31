@@ -11,10 +11,16 @@ import {
 })
 export class RepetitionsControlLargeComponent {
   @Input()
-  public measurement: Measurement;
+  public original: Measurement;
+
+  @Input()
+  public actual: Measurement;
 
   @Output()
   public change = new EventEmitter<Measurement>();
+  
+  @Output()
+  public complete = new EventEmitter<Measurement>();
 
   public measureKey(measure: Measure): string {
     return Object.keys(Measure).map((k) => ({ key: k, value: Measure[k] }))
@@ -23,11 +29,11 @@ export class RepetitionsControlLargeComponent {
   }
 
   public valueChanged(value: number): void {
-    this.measurement.value = value.toString();
+    this.actual.value = value.toString();
     this.emitChange();
   }
 
   public emitChange() {
-    this.change.emit(this.measurement);
+    this.change.emit(this.actual);
   }
 }

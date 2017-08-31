@@ -1,10 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Step } from '../model';
 
 @Component({
   selector: 'pause-step',
   templateUrl: './pause-step.component.html'
 })
-export class PauseStep {
+export class PauseStepComponent {
   @Input()
-  public step: any;
+  public step: Step;
+  
+  @Output()
+  public complete = new EventEmitter<void>();
+
+  public emitComplete(): void {
+    this.complete.emit();
+  }
 }

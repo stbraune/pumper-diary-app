@@ -11,32 +11,42 @@ import {
 })
 export class MeasurementControlLargeComponent {
   @Input()
-  public measurement: Measurement;
+  public original: Measurement;
+
+  @Input()
+  public actual: Measurement;
 
   @Output()
   public change = new EventEmitter<Measurement>();
+  
+  @Output()
+  public complete = new EventEmitter<Measurement>();
 
   public isCalories() {
-    return this.measurement.measure === Measure.Calories;
+    return this.original.measure === Measure.Calories;
   }
 
   public isDistance() {
-    return this.measurement.measure === Measure.Distance;
+    return this.original.measure === Measure.Distance;
   }
 
   public isDuration() {
-    return this.measurement.measure === Measure.Duration;
+    return this.original.measure === Measure.Duration;
   }
 
   public isRepetitions() {
-    return this.measurement.measure === Measure.Repetitions;
+    return this.original.measure === Measure.Repetitions;
   }
 
   public isWeight() {
-    return this.measurement.measure === Measure.Weight;
+    return this.original.measure === Measure.Weight;
   }
 
   public emitChange() {
-    this.change.emit(this.measurement);
+    this.change.emit(this.actual);
+  }
+
+  public emitComplete() {
+    this.complete.emit(this.actual);
   }
 }

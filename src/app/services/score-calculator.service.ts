@@ -57,7 +57,7 @@ export class ScoreCalculatorService {
           const matches = /(\d{2})\:(\d{2})\:(\d{2})/.exec(measurement.value);
           totals.duration += parseInt(matches[1]) * 3600
             + parseInt(matches[2]) * 60
-            + parseInt(matches[3]) * 1000;
+            + parseInt(matches[3]);
           break;
         case Measure.Repetitions:
           totals.repetitions += parseFloat(measurement.value);
@@ -81,24 +81,23 @@ export class ScoreCalculatorService {
       score += totals.repetitions + totals.weight;
     } else if (totals.distance == 0 && totals.duration > 0) {
       // Use duration in calculation only if no weight, repetitions or distance was measured.
-      if (set.goal) {
-        score += totals.duration * set.goal.entries.filter((e) => e.type === EntryType.Action).length;
-      } else if (set.exercise) {
-        score += totals.duration;
-      }
+      score += totals.duration;
     }
 
     score += totals.distance;
     score += totals.calories;
 
     if (set.goal) {
-      return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
-        return score * exercise.difficulty;
-      });
+      return Observable.of(score * set.goal.exercise.difficulty);
+      // return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
+      //   return score * exercise.difficulty;
+      // });
     } else if (set.exercise) {
-      return this.exercisesService.getExerciseById(set.exercise._id).map((exercise) => {
-        return score * exercise.difficulty;
-      });
+      return Observable.of(score * set.exercise.difficulty);
+      // return this.exercisesService.getExerciseById(set.exercise._id).map((exercise) => {
+      //   console.log('score for set', set, score, exercise.difficulty);
+      //   return score * exercise.difficulty;
+      // });
     }
   }
 }

@@ -4,7 +4,7 @@ export interface WorkoutCard {
   _id?: string;
   _rev?: string;
   workoutId: string;
-  workout?: Workout; // transient
+  transient?: any;
   createdAt?: Date;
   updatedAt?: Date;
 }

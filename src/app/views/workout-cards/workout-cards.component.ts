@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -13,7 +13,6 @@ import { WorkoutCardsService, WorkoutsService,
 import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
 
 import { WorkoutComponent } from './workout';
-import { ChronometerComponent } from '../measurements';
 
 @Component({
   selector: 'workout-cards',
@@ -21,9 +20,6 @@ import { ChronometerComponent } from '../measurements';
 })
 export class WorkoutCardsComponent {
   private workoutCards: WorkoutCard[] = [];
-
-  @ViewChild('chronometer')
-  public chronometer: ChronometerComponent;
 
   public constructor(
     private translateService: TranslateService,
@@ -37,17 +33,6 @@ export class WorkoutCardsComponent {
   ) {
   }
 
-  public startChronometer() {
-    const d = new Date();
-    d.setTime(d.getTime() + 6000);
-    this.chronometer.base = d;
-    this.chronometer.start();
-  }
-
-  public stopChronometer() {
-    this.chronometer.stop();
-  }
-
   public ionViewDidLoad(): void {
     this.loadWorkoutCards();
   }
@@ -55,27 +40,38 @@ export class WorkoutCardsComponent {
   private loadWorkoutCards() {
     this.workoutCardsService.getWorkoutCards().subscribe((workoutCards) => {
       this.workoutCards = workoutCards;
-      // TODO improve performance on this, as it is a expensive query
-      this.workoutCards.map((workoutCard) => {
-        this.workoutsService.getWorkoutById(workoutCard.workoutId).subscribe((workout) => {
-          workoutCard.workout = workout;
-        });
+      this.workoutCards.forEach((workoutCard) => {
+        this.loadWorkoutCard(workoutCard);
       });
     });
   }
 
-  public formatScore(workout: Workout): Observable<string> {
-    return this.scoreCalculatorService.calculateScoreForWorkout(workout).switchMap((score) => {
+  private loadWorkoutCard(workoutCard: WorkoutCard, workout?: Workout) {
+    if (!workout) {
+      this.workoutsService.getWorkoutById(workoutCard.workoutId).subscribe((workout) => {
+        this.loadWorkoutCard(workoutCard, workout);
+      });
+      return;
+    }
+
+    workoutCard.transient = { workout };
+    workoutCard.transient.score = this.loadWorkoutCardScore(workoutCard);
+    workoutCard.transient.mood = this.loadWorkoutCardMood(workoutCard);
+    workoutCard.transient.date = this.loadWorkoutCardDate(workoutCard);
+  }
+
+  private loadWorkoutCardScore(workoutCard: WorkoutCard): Observable<string> {
+    return this.scoreCalculatorService.calculateScoreForWorkout(workoutCard.transient.workout).switchMap((score) => {
       return this.translateService.get('workouts.workout-score.score', { score });
     });
   }
 
-  public formatWorkoutMood(workout: Workout) {
-    if (workout.sets.length === 0) {
+  private loadWorkoutCardMood(workoutCard: WorkoutCard): string {
+    if (workoutCard.transient.workout.sets.length === 0) {
       return 'neutral';
     }
 
-    const moods = workout.sets.map((set) => set.mood);
+    const moods = workoutCard.transient.workout.sets.map((set) => set.mood);
     const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
     switch (average) {
       case Mood.Happy:
@@ -89,9 +85,9 @@ export class WorkoutCardsComponent {
     }
   }
 
-  public formatWorkoutDate(workout: Workout): Observable<string> {
-    const start = workout.start;
-    const end = workout.end;
+  private loadWorkoutCardDate(workoutCard: WorkoutCard): Observable<string> {
+    const start = workoutCard.transient.workout.start;
+    const end = workoutCard.transient.workout.end;
     return Observable.forkJoin(
       this.formatDay(start),
       this.formatTime(start),
@@ -101,25 +97,22 @@ export class WorkoutCardsComponent {
       return `${day}, ${start1} - ${end1}`;
     });
   }
-
+  
   private formatDay(date: Date): Observable<string> {
-    return Observable.of('dont know it');
+    const now = new Date();
+    const diff = this.differenceInDays(this.normalizeDate(date), now);
+    if (diff === 0) {
+      return this.translateService.get('today');
+    } else if (diff === 1) {
+      return this.translateService.get('yesterday');
+    } else if (diff <= 7) {
+      return this.translateService.get('xdaysago', { days: diff });
+    }
 
-    // performance issue here
-    // const now = new Date();
-    // const diff = this.differenceInDays(this.normalizeDate(date), now);
-    // if (diff === 0) {
-    //   return this.translateService.get('today');
-    // } else if (diff === 1) {
-    //   return this.translateService.get('yesterday');
-    // } else if (diff <= 7) {
-    //   return this.translateService.get('xdaysago', { days: diff });
-    // }
-
-    // return this.translateService.get('shortDateFormat').map((shortDateFormat) => {
-    //   return new DatePipe(this.translateService.currentLang)
-    //     .transform(date, shortDateFormat);
-    // });
+    return this.translateService.get('shortDateFormat').map((shortDateFormat) => {
+      return new DatePipe(this.translateService.currentLang)
+        .transform(date, shortDateFormat);
+    });
   }
 
   private normalizeDate(a: Date) {
@@ -131,12 +124,22 @@ export class WorkoutCardsComponent {
   }
 
   private formatTime(date: Date): Observable<string> {
-    return Observable.of('unknown time' + date);
-    // TODO performacne
-    // return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
-    //   return new DatePipe(this.translateService.currentLang)
-    //     .transform(date, shortTimeFormat);
-    // });
+    return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
+      return new DatePipe(this.translateService.currentLang)
+        .transform(date, shortTimeFormat);
+    });
+  }
+
+  public formatScore(workoutCard: WorkoutCard): Observable<string> {
+    return workoutCard.transient.score;
+  }
+
+  public formatWorkoutMood(workoutCard: WorkoutCard): string {
+    return workoutCard.transient.mood;
+  }
+
+  public formatWorkoutDate(workoutCard: WorkoutCard): Observable<string> {
+    return workoutCard.transient.date;
   }
 
   public confirmDeleteWorkoutCard(workoutCard: WorkoutCard) {
@@ -212,18 +215,33 @@ export class WorkoutCardsComponent {
 
   private startWorkout(plan: Plan) {
     console.log('Starting workout for', plan);
-    const workoutModal = this.modalController.create(WorkoutComponent, {
-      data: plan
+    this.workoutsService.createWorkout({
+      start: new Date(),
+      end: new Date(),
+      plan,
+      sets: []
+    }).subscribe((workout) => {
+      console.log('created workout', workout);
+
+      this.workoutCardsService.createWorkoutCard({
+        workoutId: workout._id,
+        transient: { workout }
+      }).subscribe((workoutCard) => {
+        const workoutModal = this.modalController.create(WorkoutComponent, {
+          data: workout
+        });
+        workoutModal.onDidDismiss((result) => {
+          if (result && result.delete) {
+            this.deleteWorkout(workout);
+            this.deleteWorkoutCard(workoutCard, true);
+          } else if (result.success) {
+            this.loadWorkoutCard(workoutCard, workout);
+            this.workoutCards.unshift(workoutCard);
+          }
+        });
+        workoutModal.present();
+      });
     });
-    workoutModal.onDidDismiss((result) => {
-      if (result && result.delete) {
-        this.deleteWorkout(result.data.workout);
-        this.deleteWorkoutCard(result.data.workoutCard, true);
-      } else if (result.success) {
-        this.workoutCards.unshift(result.data.workoutCard);
-      }
-    });
-    workoutModal.present();
   }
 
   private deleteWorkout(workout: Workout) {

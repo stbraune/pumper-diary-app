@@ -1,20 +1,25 @@
-import { Component, ComponentFactoryResolver, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild,
+  ViewChildren, QueryList, OnInit, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController, NavParams, ViewController, Slides, Slide } from 'ionic-angular';
 
 import { WorkoutCardsService, WorkoutsService, ScoreCalculatorService } from '../../../services';
-import { WorkoutCard, Workout, Plan, EntryType } from '../../../model';
+import { WorkoutCard, Workout, Plan, EntryType, Mood, Set, Measurement } from '../../../model';
 
+import { Step } from './model';
 import { ChronometerComponent } from '../../measurements';
-import { ActionStep } from './action-step';
-import { PauseStep } from './pause-step';
+import { ActionStepComponent } from './action-step';
+import { PauseStepComponent } from './pause-step';
 import { SlideHostDirective } from './slide-host';
 
 @Component({
   selector: 'workout',
   templateUrl: './workout.component.html'
 })
-export class WorkoutComponent {
+export class WorkoutComponent implements OnInit, AfterViewInit {
+  @Output()
+  public workoutChanged = new EventEmitter<Workout>();
+
   private workout: Workout;
   private workoutCard: WorkoutCard;
 
@@ -26,7 +31,9 @@ export class WorkoutComponent {
   @ViewChildren(SlideHostDirective)
   public slideHosts: QueryList<SlideHostDirective>;
 
-  private steps = [];
+  private steps: Step[] = [];
+
+  private recentStep: Step;
 
   public constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -35,41 +42,39 @@ export class WorkoutComponent {
     private navParams: NavParams,
     private viewController: ViewController,
     private workoutsService: WorkoutsService,
-    private workoutCardsService: WorkoutCardsService,
     private scoreCalculatorService: ScoreCalculatorService
   ) {
-  }
-
-  public ionViewDidLoad() {
     console.log('creating workout');
-    this.workoutsService.createWorkout({
-      start: new Date(),
-      end: new Date(),
-      plan: this.navParams.get('data'),
-      sets: []
-    }).subscribe((workout) => {
-      console.log('created workout', workout);
-      this.workout = workout;
-      this.initializeSteps();
-
-      this.workoutCardsService.createWorkoutCard({
-        workoutId: this.workout._id,
-        workout: this.workout
-      }).subscribe((workoutCard) => {
-        this.workoutCard = workoutCard;
-      });
-    });
+    this.workout = this.navParams.get('data');
   }
 
+  public ngOnInit(): void {
+    this.initializeSteps();
+  }
+  
   private initializeSteps() {
     this.workout.plan.goals.forEach((goal, goalIndex) => {
       let actionIndex = 0;
       goal.entries.forEach((entry, entryIndex) => {
+        const measurements: Array<{ original: Measurement, actual: Measurement }> = entry.measurements.map((measurement) => ({
+          original: measurement,
+          actual: JSON.parse(JSON.stringify(measurement))
+        }));
+
+        const set: Set = entry.type === EntryType.Action && {
+          goal,
+          measurements: [],
+          mood: Mood.Neutral,
+          note: ''
+        };
+
         this.steps.push({
           goal,
           goalIndex,
           entry,
           entryIndex,
+          set,
+          measurements,
           actionIndex
         });
 
@@ -78,19 +83,22 @@ export class WorkoutComponent {
         }
       });
     });
-    
     console.log(this.steps);
+  }
+
+  public ngAfterViewInit(): void {
+    this.renderActiveStep();
   }
   
   public get activeStepIndex(): number {
-    return this.slides.getActiveIndex();
+    return this.slides.getActiveIndex() || 0;
   }
   
-  private get activeStep() {
+  private get activeStep(): Step | undefined {
     return this.steps[this.activeStepIndex];
   }
 
-  private get activeStepSlideHost() {
+  private get activeStepSlideHost(): SlideHostDirective {
     return this.slideHosts.find((slideHost) => slideHost.data === this.activeStep);
   }
   
@@ -134,31 +142,49 @@ export class WorkoutComponent {
     }
   }
 
-  public stepChanged(x: any): void {
+  public stepChanged(): void {
     console.log('activeSlideHost', this.activeStepIndex, this.activeStep, this.activeStepSlideHost);
 
+    if (this.recentStep) {
+      this.slideHosts.find((slideHost) => slideHost.data === this.recentStep).viewContainerRef.clear();
+    }
+
+    this.updateWorkout();
+    this.renderActiveStep();
+  }
+
+  private renderActiveStep() {
+    console.log('rendering active step', this.steps, this.activeStepIndex, this.activeStep);
     const activeStep = this.activeStep;
     const activeStepSlideHost = this.activeStepSlideHost;
     
     let componentFactory = null;
     if (activeStep.entry.type === EntryType.Action) {
-      componentFactory = this.componentFactoryResolver.resolveComponentFactory(ActionStep);
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(ActionStepComponent);
     } else if (activeStep.entry.type === EntryType.Pause) {
-      componentFactory = this.componentFactoryResolver.resolveComponentFactory(PauseStep);
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(PauseStepComponent);
     }
 
     activeStepSlideHost.viewContainerRef.clear();
     const componentRef = activeStepSlideHost.viewContainerRef.createComponent(componentFactory);
 
     if (activeStep.entry.type === EntryType.Action) {
-      const actionStep = <ActionStep>componentRef.instance;
+      const actionStep = <ActionStepComponent>componentRef.instance;
       actionStep.step = activeStep;
+      actionStep.complete.subscribe(() => {
+        console.log('action completed');
+        this.slides.slideNext();
+      });
     } else if (activeStep.entry.type === EntryType.Pause) {
-      const pauseStep = <PauseStep>componentRef.instance;
+      const pauseStep = <PauseStepComponent>componentRef.instance;
       pauseStep.step = activeStep;
+      pauseStep.complete.subscribe(() => {
+        console.log('pause completed');
+        this.slides.slideNext();
+      });
     }
 
-    this.updateWorkout();
+    this.recentStep = activeStep;
   }
 
   public dismissWorkoutClicked(): void {
@@ -179,8 +205,7 @@ export class WorkoutComponent {
                   success: false,
                   delete: true,
                   data: {
-                    workout: this.workout,
-                    workoutCard: this.workoutCard
+                    workout: this.workout
                   }
                 });
               }
@@ -196,18 +221,26 @@ export class WorkoutComponent {
     this.viewController.dismiss({
       success: true,
       data: {
-        workout: this.workout,
-        workoutCard: this.workoutCard
+        workout: this.workout
       }
     });
   }
 
   private updateWorkout() {
+    if (this.recentStep && this.recentStep.set) {
+      this.recentStep.set.measurements = this.recentStep.measurements
+        .map((measurement) => measurement.actual);
+    }
+
+    this.workout.sets = this.steps.filter((step) => !!step.set).map((step) => step.set);
     this.scoreCalculatorService.calculateScoreForWorkout(this.workout).subscribe((score) => {
       this.score = score;
+      console.log('score', score);
     });
 
     this.workout.end = new Date();
+    this.workoutChanged.emit(this.workout);
+    // TODO move this somehow out of this component
     this.workoutsService.updateWorkout(this.workout).subscribe((savedWorkout) => {
       console.log('Workout saved', savedWorkout);
     });

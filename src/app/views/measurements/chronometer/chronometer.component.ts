@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 
 import { Vibration } from '@ionic-native/vibration';
 import { NativeAudio } from '@ionic-native/native-audio';
@@ -7,7 +7,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
   selector: 'chronometer',
   templateUrl: './chronometer.component.html'
 })
-export class ChronometerComponent implements OnInit {
+export class ChronometerComponent implements OnInit, OnDestroy {
   private _base = new Date();
 
   @Input()
@@ -51,6 +51,10 @@ export class ChronometerComponent implements OnInit {
 
   public ngOnInit(): void {
     this.tick(false);
+  }
+
+  public ngOnDestroy(): void {
+    this.stop();
   }
   
   public get started(): boolean {

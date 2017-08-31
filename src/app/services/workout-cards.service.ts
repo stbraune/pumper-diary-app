@@ -39,14 +39,14 @@ export class WorkoutCardsService {
   }
 
   public createWorkoutCard(workoutCard: WorkoutCard): Observable<WorkoutCard> {
-    const workout = workoutCard.workout;
-    workoutCard.workout = undefined;
+    const transient = workoutCard.transient;
+    workoutCard.transient = undefined;
     workoutCard.updatedAt = workoutCard.createdAt = new Date();
     return Observable.fromPromise(this.workoutCardsDatabase.post(workoutCard)).map((result: any) => {
       if (result.ok) {
         workoutCard._id = result.id;
         workoutCard._rev = result.rev;
-        workoutCard.workout = workout;
+        workoutCard.transient = transient;
         return workoutCard;
       } else {
         throw new Error(`Error while creating workout card ${JSON.stringify(workoutCard)}`);
@@ -55,13 +55,13 @@ export class WorkoutCardsService {
   }
 
   public updateWorkoutCard(workoutCard: WorkoutCard): Observable<WorkoutCard> {
-    const workout = workoutCard.workout;
-    workoutCard.workout = undefined;
+    const transient = workoutCard.transient;
+    workoutCard.transient = undefined;
     workoutCard.updatedAt = new Date();
     return Observable.fromPromise(this.workoutCardsDatabase.put(workoutCard)).map((result: any) => {
       if (result.ok) {
         workoutCard._rev = result.rev;
-        workoutCard.workout = workout;
+        workoutCard.transient = transient;
         return workoutCard;
       } else {
         throw new Error(`Error while updating workout card ${workoutCard._id} ${JSON.stringify(workoutCard)}`);

@@ -14,10 +14,16 @@ import {
 })
 export class DurationControlLargeComponent implements OnChanges {
   @Input()
-  public measurement: Measurement;
+  public original: Measurement;
+
+  @Input()
+  public actual: Measurement;
 
   @Output()
   public change = new EventEmitter<Measurement>();
+
+  @Output()
+  public complete = new EventEmitter<Measurement>();
 
   @ViewChild('chronometer')
   public chronometer: ChronometerControlComponent;
@@ -27,8 +33,8 @@ export class DurationControlLargeComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.measurement) {
-      const matches = /(\d{2})\:(\d{2})\:(\d{2})/.exec(this.measurement.value);
+    if (changes.original) {
+      const matches = /(\d{2})\:(\d{2})\:(\d{2})/.exec(this.original.value);
       this.chronometer.resetChronometer(
         (parseInt(matches[1]) * 3600 + parseInt(matches[2]) * 60 + parseInt(matches[3])) * 1000);
     }
@@ -52,8 +58,8 @@ export class DurationControlLargeComponent implements OnChanges {
     const ss = s > 9 ? s : '0' + s;
 
     const str = hs + ':' + ms + ':' + ss;
-    if (str !== this.measurement.value) {
-      this.measurement.value = str;
+    if (str !== this.actual.value) {
+      this.actual.value = str;
     }
   }
   
@@ -63,9 +69,10 @@ export class DurationControlLargeComponent implements OnChanges {
 
   public onChronometerFinished() {
     this.chronometer.pauseChronometer();
+    this.complete.emit(this.actual);
   }
 
   public emitChange() {
-    this.change.emit(this.measurement);
+    this.change.emit(this.actual);
   }
 }

@@ -33,7 +33,7 @@
   "workout.title.set": "Set {{goalPosition}}.{{actionPosition}}",
   "workout.title.pause": "Pause",
   "workout-delete.title": "Cancel Workout",
-  "workout-delete.prompt": "Are you sure to cancel your current workout? All progress up to this set will be saved.",
+  "workout-delete.prompt": "Are you sure to cancel your current workout? All progress tracked so far will be lost.",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",

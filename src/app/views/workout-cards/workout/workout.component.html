@@ -35,8 +35,7 @@
   <ion-slides #slides (ionSlideDidChange)="stepChanged()" [zoom]="false">
     <ion-slide *ngFor="let step of steps" class="step-slide">
       <ion-content scroll="true" [style.position]="'static'" class="step-slide__content">
-        <div [slide-host]="step" class="step-slide__content-wrapper">
-        </div>
+        <div [slide-host]="step"></div>
       </ion-content>
     </ion-slide>
   </ion-slides>
