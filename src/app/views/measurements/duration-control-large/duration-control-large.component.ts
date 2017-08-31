@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output,
+  ViewChild, AfterViewInit, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
+
+import { ChronometerControlComponent } from '../chronometer-control';
 
 import {
   Measure,
@@ -9,17 +12,57 @@ import {
   selector: 'duration-control-large',
   templateUrl: './duration-control-large.component.html'
 })
-export class DurationControlLargeComponent {
+export class DurationControlLargeComponent implements OnChanges {
   @Input()
   public measurement: Measurement;
 
   @Output()
   public change = new EventEmitter<Measurement>();
 
+  @ViewChild('chronometer')
+  public chronometer: ChronometerControlComponent;
+
+  public ngOnInit(): void {
+    this.chronometer.startChronometer();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.measurement) {
+      const matches = /(\d{2})\:(\d{2})\:(\d{2})/.exec(this.measurement.value);
+      this.chronometer.resetChronometer(
+        (parseInt(matches[1]) * 3600 + parseInt(matches[2]) * 60 + parseInt(matches[3])) * 1000);
+    }
+  }
+
   public measureKey(measure: Measure): string {
     return Object.keys(Measure).map((k) => ({ key: k, value: Measure[k] }))
       .find((e) => e.value === measure)
       .key;
+  }
+
+  public onChronometerTicked() {
+    const abs = this.chronometer.getSecondsSinceLastReset();
+    
+    const h = this.parseInt(abs / 3600);
+    const m = this.parseInt(abs / 60);
+    const s = this.parseInt(abs % 60);
+
+    const hs = h > 9 ? h : '0' + h;
+    const ms = m > 9 ? m : '0' + m;
+    const ss = s > 9 ? s : '0' + s;
+
+    const str = hs + ':' + ms + ':' + ss;
+    if (str !== this.measurement.value) {
+      this.measurement.value = str;
+    }
+  }
+  
+  private parseInt(n: any): number {
+    return parseInt(<string>n);
+  }
+
+  public onChronometerFinished() {
+    this.chronometer.pauseChronometer();
   }
 
   public emitChange() {

@@ -1,6 +1,4 @@
-<ion-item>
-  <ion-label>
-    {{measureKey(measurement.measure) | translate}}
-  </ion-label>
-  <ion-datetime displayFormat="HH:mm:ss" pickerFormat="HH mm ss" [(ngModel)]="measurement.value" (ngModelChange)="emitChange()"></ion-datetime>
-</ion-item>
+<chronometer-control #chronometer [label]="measureKey(measurement.measure) | translate"
+  (chronometerTicked)="onChronometerTicked($event)"
+  (chronometerFinished)="onChronometerFinished($event)">
+</chronometer-control>

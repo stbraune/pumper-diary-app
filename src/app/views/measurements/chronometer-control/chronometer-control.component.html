@@ -1,1 +1,42 @@
-<chronometer #chronometer></chronometer>
+<ion-card>
+  <ion-card-content no-padding>
+    <ion-grid no-padding>
+      <ion-row align-items-stretch class="numeric-up-down-large">
+        <ion-col align-self-center>
+          <ion-grid no-padding>
+            <ion-row>
+              <ion-col>
+                <ion-item>
+                  <chronometer #chronometer
+                    (chronometerTicked)="onChronometerTick($event)"
+                    (chronometerFinished)="onChronometerFinished($event)">
+                  </chronometer>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item class="item-input">
+                  {{label}}
+                </ion-item>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col col-auto>
+          <ion-item>
+            <button ion-button icon-only clear (click)="toggleChronometer()">
+              <ion-icon *ngIf="!started" name="play"></ion-icon>
+              <ion-icon *ngIf="started" name="pause"></ion-icon>
+            </button>
+          </ion-item>
+          <ion-item>
+            <button ion-button icon-only clear (click)="restoreChronometer()">
+              <ion-icon name="refresh"></ion-icon>
+            </button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

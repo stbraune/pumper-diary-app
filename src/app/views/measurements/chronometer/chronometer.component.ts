@@ -52,6 +52,10 @@ export class ChronometerComponent implements OnInit {
   public ngOnInit(): void {
     this.tick(false);
   }
+  
+  public get started(): boolean {
+    return this._started;
+  }
 
   public start(): void {
     if (!this._started) {
@@ -102,6 +106,7 @@ export class ChronometerComponent implements OnInit {
   private tick(loud: boolean) {
     const millis = this.millis;
     if (loud) {
+      this.emitChronometerTicked();
       this.state = this.beep(millis, this.state);
     }
 
@@ -109,7 +114,7 @@ export class ChronometerComponent implements OnInit {
     this.color = this.formatColor(millis);
   }
 
-  private get millis() {
+  public get millis() {
     const now = new Date();
     return now.getTime() - this.base.getTime();
   }
@@ -117,6 +122,7 @@ export class ChronometerComponent implements OnInit {
   private beep(millis: number, state: number) {
     if (0 <= millis && millis < 1000 && state === 1) {
       this.beepLong();
+      this.emitChronometerFinished();
       return 0;
     } else if (-1000 <= millis && millis < 0 && state === 2) {
       this.beepShort();
@@ -175,5 +181,13 @@ export class ChronometerComponent implements OnInit {
   
   private parseInt(n: any): number {
     return parseInt(<string>n);
+  }
+
+  private emitChronometerTicked() {
+    this.chronometerTicked.emit(this.millis);
+  }
+
+  private emitChronometerFinished() {
+    this.chronometerFinished.emit(this.millis);
   }
 }

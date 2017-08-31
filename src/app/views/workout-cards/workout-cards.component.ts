@@ -103,20 +103,23 @@ export class WorkoutCardsComponent {
   }
 
   private formatDay(date: Date): Observable<string> {
-    const now = new Date();
-    const diff = this.differenceInDays(this.normalizeDate(date), now);
-    if (diff === 0) {
-      return this.translateService.get('today');
-    } else if (diff === 1) {
-      return this.translateService.get('yesterday');
-    } else if (diff <= 7) {
-      return this.translateService.get('xdaysago', { days: diff });
-    }
+    return Observable.of('dont know it');
 
-    return this.translateService.get('shortDateFormat').map((shortDateFormat) => {
-      return new DatePipe(this.translateService.currentLang)
-        .transform(date, shortDateFormat);
-    });
+    // performance issue here
+    // const now = new Date();
+    // const diff = this.differenceInDays(this.normalizeDate(date), now);
+    // if (diff === 0) {
+    //   return this.translateService.get('today');
+    // } else if (diff === 1) {
+    //   return this.translateService.get('yesterday');
+    // } else if (diff <= 7) {
+    //   return this.translateService.get('xdaysago', { days: diff });
+    // }
+
+    // return this.translateService.get('shortDateFormat').map((shortDateFormat) => {
+    //   return new DatePipe(this.translateService.currentLang)
+    //     .transform(date, shortDateFormat);
+    // });
   }
 
   private normalizeDate(a: Date) {
@@ -128,10 +131,12 @@ export class WorkoutCardsComponent {
   }
 
   private formatTime(date: Date): Observable<string> {
-    return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
-      return new DatePipe(this.translateService.currentLang)
-        .transform(date, shortTimeFormat);
-    })
+    return Observable.of('unknown time' + date);
+    // TODO performacne
+    // return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
+    //   return new DatePipe(this.translateService.currentLang)
+    //     .transform(date, shortTimeFormat);
+    // });
   }
 
   public confirmDeleteWorkoutCard(workoutCard: WorkoutCard) {

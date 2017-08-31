@@ -1,9 +1,14 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AlertController, NavParams, ViewController, Slides } from 'ionic-angular';
+import { AlertController, NavParams, ViewController, Slides, Slide } from 'ionic-angular';
 
 import { WorkoutCardsService, WorkoutsService, ScoreCalculatorService } from '../../../services';
 import { WorkoutCard, Workout, Plan, EntryType } from '../../../model';
+
+import { ChronometerComponent } from '../../measurements';
+import { ActionStep } from './action-step';
+import { PauseStep } from './pause-step';
+import { SlideHostDirective } from './slide-host';
 
 @Component({
   selector: 'workout',
@@ -18,9 +23,13 @@ export class WorkoutComponent {
   @ViewChild('slides')
   public slides: Slides;
 
+  @ViewChildren(SlideHostDirective)
+  public slideHosts: QueryList<SlideHostDirective>;
+
   private steps = [];
 
   public constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
     private translateService: TranslateService,
     private alertController: AlertController,
     private navParams: NavParams,
@@ -32,12 +41,14 @@ export class WorkoutComponent {
   }
 
   public ionViewDidLoad() {
+    console.log('creating workout');
     this.workoutsService.createWorkout({
       start: new Date(),
       end: new Date(),
       plan: this.navParams.get('data'),
       sets: []
     }).subscribe((workout) => {
+      console.log('created workout', workout);
       this.workout = workout;
       this.initializeSteps();
 
@@ -67,41 +78,48 @@ export class WorkoutComponent {
         }
       });
     });
-
+    
     console.log(this.steps);
   }
-
-  public get currentEntryIsPause(): boolean {
-    return this.activeStep && this.activeStep.entry.type === EntryType.Pause;
-  }
-
-  public get currentEntryIsAction(): boolean {
-    return this.activeStep && this.activeStep.entry.type === EntryType.Action;
-  }
-
-  public get currentGoalIndex(): number {
-    if (!this.activeStep) {
-      return 0;
-    }
-
-    return this.activeStep.goalIndex;
-  }
-
-  public get currentGoalPosition(): number {
-    if (!this.activeStep) {
-      return 0;
-    }
-
-    return this.activeStep.actionIndex;
-  }
-
-  public get currentStepIndex(): number {
+  
+  public get activeStepIndex(): number {
     return this.slides.getActiveIndex();
   }
-
+  
   private get activeStep() {
-    const activeIndex = this.slides.getActiveIndex();
-    return this.steps[activeIndex];
+    return this.steps[this.activeStepIndex];
+  }
+
+  private get activeStepSlideHost() {
+    return this.slideHosts.find((slideHost) => slideHost.data === this.activeStep);
+  }
+  
+  public get activeStepGoalIndex(): number {
+    const activeStep = this.activeStep;
+    if (!activeStep) {
+      return 0;
+    }
+
+    return activeStep.goalIndex;
+  }
+
+  public get activeStepActionIndex(): number {
+    const activeStep = this.activeStep;
+    if (!activeStep) {
+      return 0;
+    }
+
+    return activeStep.actionIndex;
+  }
+
+  public get activeStepEntryIsPause(): boolean {
+    const activeStep = this.activeStep;
+    return activeStep && activeStep.entry.type === EntryType.Pause;
+  }
+
+  public get activeStepEntryIsAction(): boolean {
+    const activeStep = this.activeStep;
+    return activeStep && activeStep.entry.type === EntryType.Action;
   }
 
   public previousStepClicked(): void {
@@ -109,14 +127,37 @@ export class WorkoutComponent {
   }
   
   public nextStepClicked(): void {
-    if (this.currentStepIndex === this.steps.length - 1) {
+    if (this.activeStepIndex === this.steps.length - 1) {
       this.saveWorkoutClicked();
     } else {
       this.slides.slideNext();
     }
   }
 
-  public stepChanged(): void {
+  public stepChanged(x: any): void {
+    console.log('activeSlideHost', this.activeStepIndex, this.activeStep, this.activeStepSlideHost);
+
+    const activeStep = this.activeStep;
+    const activeStepSlideHost = this.activeStepSlideHost;
+    
+    let componentFactory = null;
+    if (activeStep.entry.type === EntryType.Action) {
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(ActionStep);
+    } else if (activeStep.entry.type === EntryType.Pause) {
+      componentFactory = this.componentFactoryResolver.resolveComponentFactory(PauseStep);
+    }
+
+    activeStepSlideHost.viewContainerRef.clear();
+    const componentRef = activeStepSlideHost.viewContainerRef.createComponent(componentFactory);
+
+    if (activeStep.entry.type === EntryType.Action) {
+      const actionStep = <ActionStep>componentRef.instance;
+      actionStep.step = activeStep;
+    } else if (activeStep.entry.type === EntryType.Pause) {
+      const pauseStep = <PauseStep>componentRef.instance;
+      pauseStep.step = activeStep;
+    }
+
     this.updateWorkout();
   }
 

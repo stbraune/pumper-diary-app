@@ -55,7 +55,10 @@ import {
 
 import {
   WorkoutCardsComponent,
-  WorkoutComponent
+  WorkoutComponent,
+  ActionStep,
+  PauseStep,
+  SlideHostDirective
 } from './views/workout-cards';
 
 import {
@@ -100,6 +103,9 @@ import {
 
     WorkoutCardsComponent,
     WorkoutComponent,
+    ActionStep,
+    PauseStep,
+    SlideHostDirective,
 
     PlansComponent,
     PlanEditComponent,
@@ -134,6 +140,8 @@ import {
     
     WorkoutCardsComponent,
     WorkoutComponent,
+    ActionStep,
+    PauseStep,
 
     PlansComponent,
     PlanEditComponent,

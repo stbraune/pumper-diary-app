@@ -54,7 +54,10 @@ export class ScoreCalculatorService {
             .to(UnitConverterService.units.km);
           break;
         case Measure.Duration:
-          totals.duration += parseFloat(measurement.value);
+          const matches = /(\d{2})\:(\d{2})\:(\d{2})/.exec(measurement.value);
+          totals.duration += parseInt(matches[1]) * 3600
+            + parseInt(matches[2]) * 60
+            + parseInt(matches[3]) * 1000;
           break;
         case Measure.Repetitions:
           totals.repetitions += parseFloat(measurement.value);

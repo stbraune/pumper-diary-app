@@ -6,11 +6,11 @@
       </button>
     </ion-buttons>
     <ion-title>
-      <ng-container *ngIf="currentEntryIsAction">
-        Set {{currentGoalIndex + 1}}.{{currentGoalPosition + 1}}
+      <ng-container *ngIf="activeStepEntryIsAction">
+        {{'workout.title.set' | translate:({goalPosition: activeStepGoalIndex + 1, actionPosition: activeStepActionIndex + 1})}}
       </ng-container>
-      <ng-container *ngIf="currentEntryIsPause">
-        Pause
+      <ng-container *ngIf="activeStepEntryIsPause">
+        {{'workout.title.pause' | translate}}
       </ng-container>
     </ion-title>
     <ion-buttons end>
@@ -33,14 +33,10 @@
 
 <ion-content>
   <ion-slides #slides (ionSlideDidChange)="stepChanged()" [zoom]="false">
-    <ion-slide *ngFor="let step of steps">
-      <ion-content scroll="true" [style.position]="'static'">
-        {{step.entry.type}}<br>
-        {{step | json}}
-
-        <measurement-control-large  *ngFor="let measurement of step.entry.measurements"
-          [measurement]="measurement">
-        </measurement-control-large>
+    <ion-slide *ngFor="let step of steps" class="step-slide">
+      <ion-content scroll="true" [style.position]="'static'" class="step-slide__content">
+        <div [slide-host]="step" class="step-slide__content-wrapper">
+        </div>
       </ion-content>
     </ion-slide>
   </ion-slides>
@@ -50,17 +46,17 @@
   <ion-grid no-padding>
     <ion-row>
       <ion-col col-auto align-self-center>
-        <button [style.visibility]="currentStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear">
+        <button [style.visibility]="activeStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear">
           <ion-icon name="arrow-back"></ion-icon>
           {{'back' | translate}}
         </button>
       </ion-col>
       <ion-col align-self-center>
-        <progress-bar [min]="0" [max]="steps.length - 1" [value]="currentStepIndex"></progress-bar>
+        <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex"></progress-bar>
       </ion-col>
       <ion-col col-auto align-self-center>
         <button ion-button icon-end clear (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear">
-          <ng-container *ngIf="currentStepIndex === steps.length - 1; else next">
+          <ng-container *ngIf="activeStepIndex === steps.length - 1; else next">
             {{'finish' | translate}}
           </ng-container>
           <ng-template #next>

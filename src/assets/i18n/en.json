@@ -30,6 +30,8 @@
   "delete-workout-card-succeeded": "Card deleted.",
   "delete-workout-card-failed": "Could not delete workout card. Please try again.",
 
+  "workout.title.set": "Set {{goalPosition}}.{{actionPosition}}",
+  "workout.title.pause": "Pause",
   "workout-delete.title": "Cancel Workout",
   "workout-delete.prompt": "Are you sure to cancel your current workout? All progress up to this set will be saved.",
 
