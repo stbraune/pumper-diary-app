@@ -173,7 +173,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       actionStep.step = activeStep;
       actionStep.complete.subscribe(() => {
         console.log('action completed');
-        this.slides.slideNext();
       });
     } else if (activeStep.entry.type === EntryType.Pause) {
       const pauseStep = <PauseStepComponent>componentRef.instance;
