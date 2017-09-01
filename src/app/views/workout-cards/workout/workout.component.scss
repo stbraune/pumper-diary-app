@@ -7,6 +7,13 @@
 .workout-footer {
   background-color: #fff;
 
+  &__nav-button-col {
+    width: 20%;
+    flex-basis: 20%;
+    max-width: 20%;
+    overflow: hidden;
+  }
+
   &__button {
     .button-inner {
       flex-flow: column;
@@ -34,7 +41,7 @@
     }
   }
 
-  .progress-bar {
+  .progress-bar-container {
     margin: 5px 10px;
   }
 

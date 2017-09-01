@@ -63,6 +63,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     this.saveWorkoutObservable = new Subject<Workout>();
     this.workoutChanged
       .skipUntil(this.saveWorkoutObservable)
+      .debounceTime(500)
       .subscribe((workout) => {
         this.workoutsService.updateWorkout(workout).subscribe((savedWorkout) => {
           this.saveWorkoutObservable.next(savedWorkout);

@@ -44,13 +44,13 @@
 <ion-footer class="workout-footer">
   <ion-grid no-padding>
     <ion-row justify-content-between>
-      <ion-col align-self-center>
+      <ion-col align-self-center class="workout-footer__nav-button-col">
         <button [style.visibility]="activeStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
           <ion-icon name="arrow-back"></ion-icon>
           {{'back' | translate}}
         </button>
       </ion-col>
-      <ion-col align-self-center col-2>
+      <ion-col col-2 align-self-center>
         <div *ngIf="previousActionStep as ps" class="previous-step">
           <h6 *ngIf="stepIsAction(ps)" class="previous-step__header">
             {{ps.set.exercise.title}}
@@ -68,12 +68,12 @@
       </ion-col>
 
       <ion-col align-self-center col-auto>
-        <div class="progress-bar">
+        <div class="progress-bar-container">
           <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex" type="circle"></progress-bar>
         </div>
       </ion-col>
 
-      <ion-col align-self-center col-2>
+      <ion-col col-2 align-self-center>
         <div *ngIf="nextActionStep as ns" class="next-step">
           <h6 *ngIf="stepIsAction(ns)" class="next-step__header">
             {{ns.set.exercise.title}}
@@ -89,7 +89,7 @@
           </p>
         </div>
       </ion-col>
-      <ion-col align-self-center>
+      <ion-col align-self-center class="workout-footer__nav-button-col">
         <button ion-button icon-end clear float-right (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
           <ng-container *ngIf="activeStepIndex === steps.length - 1; else next">
             {{'finish' | translate}}

@@ -40,7 +40,12 @@ export class AppComponent {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.translateService.use(this.platform.lang());
+
+      let userLang = navigator.language.split('-')[0];
+      userLang = /(en|de|bg)/gi.test(userLang) ? userLang : this.platform.lang();
+
+      this.translateService.setDefaultLang('en');
+      this.translateService.use(userLang);
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();

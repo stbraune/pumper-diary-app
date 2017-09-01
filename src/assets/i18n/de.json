@@ -5,6 +5,9 @@
   "delete": "Löschen",
   "no": "Nein",
   "yes": "Ja",
+  "next": "Weiter",
+  "back": "Zurück",
+  "finish": "Fertig",
   
   "today": "Heute",
   "yesterday": "Gestern",
@@ -12,7 +15,33 @@
   "shortDateFormat": "dd.MM.yyyy",
   "shortTimeFormat": "HH:mm",
 
+  "menu.title": "Pumper Diary",
+  "menu.workouts.title": "Workouts",
+  "menu.plans.title": "Pläne",
+  "menu.exercises.title": "Übungen",
+
   "workouts.title": "Workouts",
+  "workouts.workout-score.before": "Du hast ",
+  "workouts.workout-score.score": "{{score}} Punkte ",
+  "workouts.workout-score.after": "erreicht!",
+  "workouts.start-workout.title": "Workout starten",
+  "workouts.start-workout.message": "Wähle den Plan aus, mit dem du trainieren möchtest.",
+  "workouts.start-workout.start": "Starten",
+  "workouts.start-workout.no-plan-selected": "Bitte wähle einen Plan aus!",
+  "delete-workout-succeeded": "Workout gelöscht.",
+  "delete-workout-failed": "Der Workout konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
+  "workout-card-delete.title": "Karte löschen",
+  "workout-card-delete.prompt": "Möchtest du diese Karte wirklich löschen? Aufgezeichnete Trainingsergebnisse zu diesem Workout bleiben weiterhin erhalten.",
+  "delete-workout-card-succeeded": "Karte gelöscht.",
+  "delete-workout-card-failed": "Die Karte konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
+  
+  "workout.title.set": "Satz {{goalPosition}}.{{actionPosition}}",
+  "workout.title.pause": "Pause",
+  "workout-delete.title": "Workout abbrechen",
+  "workout-delete.prompt": "Möchtest du den Workout wirklich abbrechen? Der aufgezeichnete Fortschritt wird dabei verloren gehen.",
+  
+  "workout.action-step.current-exercise": "Jetzt",
+  "workout.action-step.note.label": "Notiz",
 
   "plans.title": "Pläne",
   "plan-add.title": "Plan anlegen",
@@ -62,8 +91,13 @@
   "exercise.measures": "Maße",
 
   "Repetitions": "Wiederholungen",
+  "Repetitions.short": "reps",
   "Weight": "Gewicht",
+  "Weight.short": "wght",
   "Duration": "Dauer",
+  "Duration.short": "hms",
   "Distance": "Distanz",
-  "Calories": "Kalorien"
+  "Distance.short": "dist",
+  "Calories": "Kalorien",
+  "Calories.short": "kcal"
 }
