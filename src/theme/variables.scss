@@ -33,14 +33,25 @@ $app-direction: ltr;
 // colors so you can add, rename and remove colors as needed.
 // The "primary" color is the only required color in the map.
 
+// $colors: (
+//   primary:    #a3d266,
+//   secondary:  #5e8f1e,
+//   accent:     #c45f8a,
+//   danger:     #f53d3d,
+//   light:      #f4f4f4,
+//   shadow:     rgba(0, 0, 0, 0.14),
+//   dark:       #222
+// );
+
 $colors: (
-  primary:    #a3d266,
-  secondary:  #5e8f1e,
-  accent:     #c45f8a,
+  primary:    #FDC30F,
+  secondary:  #FDD65B,
+  accent:     #2096CA,
   danger:     #f53d3d,
-  light:      #f4f4f4,
+  light:      #222,
   shadow:     rgba(0, 0, 0, 0.14),
-  dark:       #222
+  dark:       #CDCDCD,
+  background: #555
 );
 
 
@@ -87,5 +98,21 @@ $colors: (
 ion-header {
   .toolbar-background {
     background-color: map-get($colors, primary);
+  }
+}
+
+workout-cards ion-content, workout ion-content {
+  .fixed-content, .scroll-content {
+    background-color: map-get($colors, background) !important;
+  }
+}
+
+workout-cards .list-md ion-item-sliding {
+  background-color: map-get($colors, background);
+}
+
+workout-cards ion-list {
+  .item-md {
+    background-color: map-get($colors, background);
   }
 }
