@@ -8,6 +8,7 @@ import { Vibration } from '@ionic-native/vibration';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Insomnia } from '@ionic-native/insomnia';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoaderFactory } from './translate-http-loader-factory';
@@ -170,6 +171,7 @@ import {
     SplashScreen,
     Vibration,
     NativeAudio,
+    Insomnia,
     
     DatabaseService,
     PlansService,

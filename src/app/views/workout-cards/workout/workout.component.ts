@@ -3,6 +3,8 @@ import { Component, ComponentFactoryResolver, ViewChild,
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController, NavParams, ViewController, Slides, Slide } from 'ionic-angular';
 
+import { Insomnia } from '@ionic-native/insomnia';
+
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skipUntil';
@@ -42,6 +44,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   private saveWorkoutObservable;
 
   public constructor(
+    private insomnia: Insomnia,
     private componentFactoryResolver: ComponentFactoryResolver,
     private translateService: TranslateService,
     private alertController: AlertController,
@@ -50,7 +53,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     private workoutsService: WorkoutsService,
     private scoreCalculatorService: ScoreCalculatorService
   ) {
-    console.log('creating workout');
     this.workout = this.navParams.get('data');
   }
 
@@ -102,11 +104,11 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
         }
       });
     });
-    console.log(this.steps);
   }
 
   public ngAfterViewInit(): void {
     this.renderActiveStep();
+    this.insomnia.keepAwake();
   }
   
   public get activeStepIndex(): number {
@@ -228,8 +230,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public stepChanged(): void {
-    console.log('activeSlideHost', this.activeStepIndex, this.activeStep, this.activeStepSlideHost);
-
     if (this.recentStep) {
       this.slideHosts.find((slideHost) => slideHost.data === this.recentStep).viewContainerRef.clear();
     }
@@ -239,7 +239,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   private renderActiveStep() {
-    console.log('rendering active step', this.steps, this.activeStepIndex, this.activeStep);
     const activeStep = this.activeStep;
     const activeStepSlideHost = this.activeStepSlideHost;
     
@@ -285,6 +284,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
             {
               text: texts['yes'],
               handler: () => {
+                this.insomnia.allowSleepAgain();
                 this.viewController.dismiss({
                   success: false,
                   delete: true,
@@ -302,6 +302,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   public saveWorkoutClicked(): void {
     this.updateWorkout();
+    this.insomnia.allowSleepAgain();
     this.viewController.dismiss({
       success: true,
       data: {
@@ -319,7 +320,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     this.workout.sets = this.steps.filter((step) => !!step.set).map((step) => step.set);
     this.scoreCalculatorService.calculateScoreForWorkout(this.workout).subscribe((score) => {
       this.score = score;
-      console.log('score', score);
     });
 
     this.workout.end = new Date();
