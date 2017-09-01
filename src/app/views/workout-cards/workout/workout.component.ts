@@ -123,12 +123,58 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       return this.steps[previousIndex];
     }
   }
+  
+  private previousActionStepTemp = {
+    activeStepIndex: -1,
+    previousActionStep: undefined
+  };
+
+  private get previousActionStep(): Step | undefined {
+    const activeStepIndex = this.activeStepIndex;
+    if (this.previousActionStepTemp.activeStepIndex === activeStepIndex) {
+      return this.previousActionStepTemp.previousActionStep;
+    }
+
+    let previousIndex = activeStepIndex - 1;
+    let previousStep = previousIndex >= 0 && this.steps[previousIndex];
+    while (previousStep && !this.stepIsAction(previousStep)) {
+      previousIndex--;
+      previousStep = previousIndex >= 0 && this.steps[previousIndex];
+    }
+    
+    this.previousActionStepTemp.activeStepIndex = activeStepIndex;
+    this.previousActionStepTemp.previousActionStep = previousStep;
+    return previousStep;
+  }
 
   private get nextStep(): Step | undefined {
     const nextIndex = this.activeStepIndex + 1;
     if (nextIndex < this.steps.length) {
       return this.steps[nextIndex];
     }
+  }
+  
+  private nextActionStepTemp = {
+    activeStepIndex: -1,
+    nextActionStep: undefined
+  };
+
+  private get nextActionStep(): Step | undefined {
+    const activeStepIndex = this.activeStepIndex;
+    if (this.nextActionStepTemp.activeStepIndex === activeStepIndex) {
+      return this.nextActionStepTemp.nextActionStep;
+    }
+
+    let nextIndex = activeStepIndex + 1;
+    let nextStep = nextIndex < this.steps.length && this.steps[nextIndex];
+    while (nextStep && !this.stepIsAction(nextStep)) {
+      nextIndex++;
+      nextStep = nextIndex < this.steps.length && this.steps[nextIndex];
+    }
+
+    this.nextActionStepTemp.activeStepIndex = activeStepIndex;
+    this.nextActionStepTemp.nextActionStep = nextStep;
+    return nextStep;
   }
 
   private get activeStepSlideHost(): SlideHostDirective {

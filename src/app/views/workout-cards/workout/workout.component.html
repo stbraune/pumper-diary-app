@@ -51,7 +51,7 @@
         </button>
       </ion-col>
       <ion-col align-self-center col-2>
-        <div *ngIf="previousStep as ps" class="previous-step">
+        <div *ngIf="previousActionStep as ps" class="previous-step">
           <h6 *ngIf="stepIsAction(ps)" class="previous-step__header">
             {{ps.set.exercise.title}}
           </h6>
@@ -74,7 +74,7 @@
       </ion-col>
 
       <ion-col align-self-center col-2>
-        <div *ngIf="nextStep as ns" class="next-step">
+        <div *ngIf="nextActionStep as ns" class="next-step">
           <h6 *ngIf="stepIsAction(ns)" class="next-step__header">
             {{ns.set.exercise.title}}
           </h6>
@@ -90,7 +90,7 @@
         </div>
       </ion-col>
       <ion-col align-self-center>
-        <button ion-button icon-end clear (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
+        <button ion-button icon-end clear float-right (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
           <ng-container *ngIf="activeStepIndex === steps.length - 1; else next">
             {{'finish' | translate}}
           </ng-container>
