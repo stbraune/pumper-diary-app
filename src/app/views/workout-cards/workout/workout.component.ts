@@ -3,6 +3,10 @@ import { Component, ComponentFactoryResolver, ViewChild,
 import { TranslateService } from '@ngx-translate/core';
 import { AlertController, NavParams, ViewController, Slides, Slide } from 'ionic-angular';
 
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/skipUntil';
+
 import { WorkoutCardsService, WorkoutsService, ScoreCalculatorService } from '../../../services';
 import { WorkoutCard, Workout, Plan, EntryType, Mood, Set, Measurement } from '../../../model';
 
@@ -35,6 +39,8 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   private recentStep: Step;
 
+  private saveWorkoutObservable;
+
   public constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
     private translateService: TranslateService,
@@ -50,6 +56,18 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   public ngOnInit(): void {
     this.initializeSteps();
+
+    // TODO move this somehow out of this component
+    this.saveWorkoutObservable = new Subject<Workout>();
+    this.workoutChanged
+      .skipUntil(this.saveWorkoutObservable)
+      .subscribe((workout) => {
+        this.workoutsService.updateWorkout(workout).subscribe((savedWorkout) => {
+          this.saveWorkoutObservable.next(savedWorkout);
+          console.log('Workout saved', savedWorkout);
+        });
+      });
+    this.saveWorkoutObservable.next(this.workout);
   }
   
   private initializeSteps() {
@@ -260,9 +278,5 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
     this.workout.end = new Date();
     this.workoutChanged.emit(this.workout);
-    // TODO move this somehow out of this component
-    this.workoutsService.updateWorkout(this.workout).subscribe((savedWorkout) => {
-      console.log('Workout saved', savedWorkout);
-    });
   }
 }

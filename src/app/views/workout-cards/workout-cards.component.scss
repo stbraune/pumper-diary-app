@@ -1,3 +1,15 @@
 .workout-cards__list {
   padding-bottom: 56px;
+
+  & > .item-md, & > .item-wrapper > .item-md {
+    padding-left: 0;
+
+    & > .item-inner {
+      padding-right: 0;
+
+      & > .input-wrapper .label-md {
+        margin: 0;
+      }
+    }
+  }
 }
