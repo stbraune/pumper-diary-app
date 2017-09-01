@@ -21,11 +21,9 @@ export class AppComponent {
 
   rootPage = WorkoutCardsComponent;
   pages: Array<{title: string, component: any}> = [
-    { title: 'Workouts', component: WorkoutCardsComponent },
-    { title: 'Plans', component: PlansComponent },
-    { title: 'Exercises', component: ExercisesComponent },
-    { title: 'Hello Ionic', component: HelloIonicPage },
-    { title: 'My First List', component: ListPage }
+    { title: 'menu.workouts.title', component: WorkoutCardsComponent },
+    { title: 'menu.plans.title', component: PlansComponent },
+    { title: 'menu.exercises.title', component: ExercisesComponent }
   ];
 
   constructor(

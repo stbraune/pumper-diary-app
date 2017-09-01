@@ -14,7 +14,22 @@ export class ProgressBarComponent {
   @Input()
   public value: number;
 
-  public get widthInPercent(): string {
-    return Math.round(this.value * 10000 / (this.max - this.min) / 100) + '%';
+  @Input()
+  public type: string = 'bar';
+
+  @Input()
+  public inset: boolean = true;
+
+  public get widthInPercent(): number {
+    return Math.round(this.value * 10000 / (this.max - this.min) / 100);
+  }
+
+  public asBar() {
+    return !this.asCircle()
+      || this.type === 'bar';
+  }
+
+  public asCircle() {
+    return this.type === 'circle';
   }
 }

@@ -1,4 +1,6 @@
 .header {
+  background-color: map-get($colors, primary);
+
   .header__navbar {
     .toolbar-background {
       border: none;
@@ -23,6 +25,8 @@
 }
 
 .entry-list {
+  padding-bottom: 56px;
+
   .list-header {
     border-top: none;
   }

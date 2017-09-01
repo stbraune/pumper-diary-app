@@ -14,6 +14,11 @@
   "xdaysago": "{{days}} days ago",
   "shortDateFormat": "yyyy/MM/dd",
   "shortTimeFormat": "HH:mm",
+
+  "menu.title": "Pumper Diary",
+  "menu.workouts.title": "Workouts",
+  "menu.plans.title": "Plans",
+  "menu.exercises.title": "Exercises",
   
   "workouts.title": "Workouts",
   "workouts.workout-score.before": "You reached ",
@@ -34,6 +39,9 @@
   "workout.title.pause": "Pause",
   "workout-delete.title": "Cancel Workout",
   "workout-delete.prompt": "Are you sure to cancel your current workout? All progress tracked so far will be lost.",
+  
+  "workout.action-step.current-exercise": "Now",
+  "workout.action-step.note.label": "Note",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",
@@ -83,8 +91,13 @@
   "exercise.measures": "Measures",
 
   "Repetitions": "Repetitions",
+  "Repetitions.short": "reps",
   "Weight": "Weight",
+  "Weight.short": "wght",
   "Duration": "Duration",
+  "Duration.short": "hms",
   "Distance": "Distance",
-  "Calories": "Calories"
+  "Distance.short": "dist",
+  "Calories": "Calories",
+  "Calories.short": "kcal"
 }

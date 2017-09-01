@@ -41,20 +41,56 @@
   </ion-slides>
 </ion-content>
 
-<ion-footer>
+<ion-footer class="workout-footer">
   <ion-grid no-padding>
-    <ion-row>
-      <ion-col col-auto align-self-center>
-        <button [style.visibility]="activeStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear">
+    <ion-row justify-content-between>
+      <ion-col align-self-center>
+        <button [style.visibility]="activeStepIndex === 0 ? 'hidden' : ''" ion-button icon-start clear (click)="previousStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
           <ion-icon name="arrow-back"></ion-icon>
           {{'back' | translate}}
         </button>
       </ion-col>
-      <ion-col align-self-center>
-        <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex"></progress-bar>
+      <ion-col align-self-center col-2>
+        <div *ngIf="previousStep as ps" class="previous-step">
+          <h6 *ngIf="stepIsAction(ps)" class="previous-step__header">
+            {{ps.set.exercise.title}}
+          </h6>
+          <h6 *ngIf="stepIsPause(ps)" class="previous-step__header">
+            {{'workout.title.pause' | translate}}
+          </h6>
+          <p class="previous-step__measurements">
+            <measurement-display *ngFor="let measurement of ps.measurements"
+              [measurement]="measurement.actual"
+              [short]="true">
+            </measurement-display>
+          </p>
+        </div>
       </ion-col>
-      <ion-col col-auto align-self-center>
-        <button ion-button icon-end clear (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear">
+
+      <ion-col align-self-center col-auto>
+        <div class="progress-bar">
+          <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex" type="circle"></progress-bar>
+        </div>
+      </ion-col>
+
+      <ion-col align-self-center col-2>
+        <div *ngIf="nextStep as ns" class="next-step">
+          <h6 *ngIf="stepIsAction(ns)" class="next-step__header">
+            {{ns.set.exercise.title}}
+          </h6>
+          <h6 *ngIf="stepIsPause(ns)" class="next-step__header">
+            {{'workout.title.pause' | translate}}
+          </h6>
+          <p class="next-step__measurements">
+            <measurement-display *ngFor="let measurement of ns.measurements"
+              [measurement]="measurement.actual"
+              [short]="true">
+            </measurement-display>
+          </p>
+        </div>
+      </ion-col>
+      <ion-col align-self-center>
+        <button ion-button icon-end clear (click)="nextStepClicked()" class="bar-button-clear-md bar-button-clear workout-footer__button">
           <ng-container *ngIf="activeStepIndex === steps.length - 1; else next">
             {{'finish' | translate}}
           </ng-container>

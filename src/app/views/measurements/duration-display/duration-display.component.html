@@ -1,0 +1,9 @@
+<span class="duration-display">
+  <ng-container *ngIf="short">
+    <strong>{{measurement.value}}</strong> {{measureKey(measurement.measure) | translate}}
+  </ng-container>
+  <ng-container *ngIf="!short">
+    {{measureKey(measurement.measure) | translate}} <strong>{{measurement.value}}</strong>
+  </ng-container>
+</span>
+  

@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import {
   FabContainer,
   NavParams,
   PopoverController,
-  ViewController
+  ViewController,
+  Select
 } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
@@ -59,6 +60,7 @@ export class GoalEditComponent {
   }
 
   public exerciseSelected(): void {
+    console.log('exercise selected', this.exercise);
     this.exercisesService.getExerciseById(this.exercise).subscribe((exercise) => {
       this.goal.exercise = exercise;
     }, (error) => {

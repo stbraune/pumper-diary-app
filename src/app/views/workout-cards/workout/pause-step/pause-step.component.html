@@ -1,7 +1,13 @@
 <div class="pause-step">
-  <measurement-control-large *ngFor="let measurement of step.measurements"
-    [original]="measurement.original"
-    [actual]="measurement.actual"
-    (complete)="emitComplete()">
-  </measurement-control-large>
+  <ion-grid class="grid">
+    <ion-row class="row" align-items-center>
+      <ion-col>
+        <measurement-control-large *ngFor="let measurement of step.measurements"
+          [original]="measurement.original"
+          [actual]="measurement.actual"
+          (complete)="emitComplete()">
+        </measurement-control-large>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

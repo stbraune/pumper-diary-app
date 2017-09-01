@@ -1,0 +1,8 @@
+<span class="calories-display">
+  <ng-container *ngIf="short">
+    <strong>{{measurement.value}}</strong> {{measureKey(measurement.measure) | translate}}
+  </ng-container>
+  <ng-container *ngIf="!short">
+    <strong>{{measurement.value}}</strong> {{measureKey(measurement.measure) | translate}}
+  </ng-container>
+</span>

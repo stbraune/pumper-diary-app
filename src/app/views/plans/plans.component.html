@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-list class="plans__list">
     <ion-item-sliding *ngFor="let plan of plans">
       <ion-item (click)="planSelected(plan)">
         {{plan.title}}

@@ -1,0 +1,55 @@
+.step-slide {
+  .slide-zoom {
+    text-align: initial;
+  }
+}
+
+.workout-footer {
+  &__button {
+    .button-inner {
+      flex-flow: column;
+
+      .icon {
+        margin: 5px 0;
+      }
+    }
+  }
+
+  .previous-step {
+    &__header {
+      margin: 0;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__measurements {
+      margin: 0;
+      font-size: 1.1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .progress-bar {
+    margin: 5px 10px;
+  }
+
+  .next-step {
+    &__header {
+      margin: 0;
+      font-size: 1.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__measurements {
+      margin: 0;
+      font-size: 1.1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

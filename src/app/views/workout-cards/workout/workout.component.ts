@@ -63,6 +63,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
         const set: Set = entry.type === EntryType.Action && {
           goal,
+          exercise: goal.exercise,
           measurements: [],
           mood: Mood.Neutral,
           note: ''
@@ -98,6 +99,20 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     return this.steps[this.activeStepIndex];
   }
 
+  private get previousStep(): Step | undefined {
+    const previousIndex = this.activeStepIndex - 1;
+    if (previousIndex >= 0 && this.steps[previousIndex]) {
+      return this.steps[previousIndex];
+    }
+  }
+
+  private get nextStep(): Step | undefined {
+    const nextIndex = this.activeStepIndex + 1;
+    if (nextIndex < this.steps.length) {
+      return this.steps[nextIndex];
+    }
+  }
+
   private get activeStepSlideHost(): SlideHostDirective {
     return this.slideHosts.find((slideHost) => slideHost.data === this.activeStep);
   }
@@ -121,13 +136,19 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public get activeStepEntryIsPause(): boolean {
-    const activeStep = this.activeStep;
-    return activeStep && activeStep.entry.type === EntryType.Pause;
+    return this.stepIsPause(this.activeStep);
   }
 
   public get activeStepEntryIsAction(): boolean {
-    const activeStep = this.activeStep;
-    return activeStep && activeStep.entry.type === EntryType.Action;
+    return this.stepIsAction(this.activeStep);
+  }
+
+  public stepIsPause(step: Step): boolean {
+    return step && step.entry.type === EntryType.Pause;
+  }
+
+  public stepIsAction(step: Step): boolean {
+    return step && step.entry.type === EntryType.Action;
   }
 
   public previousStepClicked(): void {

@@ -1,0 +1,8 @@
+<span class="distance-display">
+  <ng-container *ngIf="short">
+    <strong>{{measurement.value}}</strong> {{measurement.unit}}
+  </ng-container>
+  <ng-container *ngIf="!short">
+    <strong>{{measurement.value}}</strong> {{measurement.unit}}
+  </ng-container>
+</span>

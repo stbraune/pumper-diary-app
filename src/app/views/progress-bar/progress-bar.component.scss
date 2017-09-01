@@ -1,16 +1,129 @@
 @import '../../../theme/variables.scss';
 
 .progress-bar {
-  background-color: map-get($colors, shadow);
-  box-shadow: 0 0 3px rgba(map-get($colors, shadow), 0.3);
-  height: 0.6rem;
-  border-radius: 0.3rem;
-
-  &__progress {
-    background-color: map-get($colors, accent);
-    box-shadow: 0 0 3px rgba(map-get($colors, accent), 0.5);
-    height: 100%;
+  .progress-bar--bar {
+    background-color: map-get($colors, shadow);
+    box-shadow: 0 0 3px rgba(map-get($colors, shadow), 0.3);
+    height: 0.6rem;
     border-radius: 0.3rem;
-    transition: width 500ms;
+
+    &__progress {
+      background-color: map-get($colors, accent);
+      box-shadow: 0 0 3px rgba(map-get($colors, accent), 0.5);
+      height: 100%;
+      border-radius: 0.3rem;
+      transition: width 500ms;
+    }
+  }
+
+  // https://stackoverflow.com/questions/14222138/css-progress-circle
+  .progress-bar--circle {
+    $circle-size: 56px;
+    $circle-background: map-get($colors, shadow);
+    $circle-color: map-get($colors, accent);
+    $inset-size: 43px;
+    $inset-color: map-get($colors, light);
+    $transition-length: 1s;
+    $shadow: 3px 3px 5px rgba(0,0,0,0.2);
+    $percentage-color: map-get($colors, accent);
+    $percentage-font-size: 14px;
+    $percentage-text-width: 56px;
+  
+    width:  $circle-size;
+    height: $circle-size;
+  
+    background-color: $circle-background;
+    border-radius: 50%;
+    .circle {
+      .mask, .fill, .shadow {
+        width:    $circle-size;
+        height:   $circle-size;
+        position: absolute;
+        border-radius: 50%;
+      }
+      .shadow {
+        box-shadow: $shadow inset;
+      }
+      .mask, .fill {
+        -webkit-backface-visibility: hidden;
+        transition: -webkit-transform $transition-length;
+        transition: -ms-transform $transition-length;
+        transition: transform $transition-length;
+        border-radius: 50%;
+      }
+      .mask {
+        clip: rect(0px, $circle-size, $circle-size, $circle-size/2);
+        .fill {
+          clip: rect(0px, $circle-size/2, $circle-size, 0px);
+          background-color: $circle-color;
+        }
+      }
+    }
+    .inset {
+      width:       $inset-size;
+      height:      $inset-size;
+      position:    absolute;
+      margin-left: ($circle-size - $inset-size)/2;
+      margin-top:  ($circle-size - $inset-size)/2;
+  
+      background-color: $inset-color;
+      border-radius: 50%;
+      box-shadow: $shadow;
+      .percentage {
+        height:   $percentage-font-size;
+        width:    $percentage-text-width;
+        overflow: hidden;
+        text-align: center;
+  
+        position: absolute;
+        top:      ($inset-size - $percentage-font-size) / 2;
+        left:     ($inset-size - $percentage-text-width) / 2;
+        
+        text-align: center;
+        font-size:      $percentage-font-size;
+        color: $percentage-color;
+  
+        line-height: 1;
+        .numbers {
+          margin-top: -$percentage-font-size;
+          transition: width $transition-length;
+          span {
+            width:          $percentage-text-width;
+            display:        inline-block;
+            vertical-align: top;
+            text-align:     center;
+            font-weight:    800;
+            font-size:      $percentage-font-size;
+            color:          $percentage-color;
+          }
+        }
+      }
+    }
+  
+    $i: 0;
+    $increment: 180deg / 100;
+    @mixin loop($i){
+      @if $i <= 100 {
+        &[data-progress="#{$i}"] {
+          .circle {
+            .mask.full, .fill {
+              -webkit-transform: rotate($increment * $i);
+              -ms-transform: rotate($increment * $i);
+              transform: rotate($increment * $i);
+            }	
+            .fill.fix {
+              -webkit-transform: rotate($increment * $i * 2);
+              -ms-transform: rotate($increment * $i * 2);
+              transform: rotate($increment * $i * 2);
+            }
+          }
+          .inset .percentage .numbers {
+            width: $i * $percentage-text-width + $percentage-text-width;
+          }
+        }
+        @include loop($i + 1);
+      }
+    }
+    @include loop($i);
   }
 }

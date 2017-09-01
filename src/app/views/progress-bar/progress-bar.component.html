@@ -1,4 +1,23 @@
 <div class="progress-bar">
-  <div class="progress-bar__progress" [style.width]="widthInPercent">
+  <div *ngIf="asBar()" class="progress-bar--bar">
+    <div class="progress-bar--bar__progress" [style.width]="widthInPercent + '%'">
+    </div>
+  </div>
+  <div *ngIf="asCircle()" class="progress-bar--circle" [attr.data-progress]="widthInPercent">
+    <div class="circle">
+      <div class="mask full">
+        <div class="fill"></div>
+      </div>
+      <div class="mask half">
+        <div class="fill"></div>
+        <div class="fill fix"></div>
+      </div>
+      <div class="shadow"></div>
+    </div>
+    <div *ngIf="inset" class="inset">
+      <div class="percentage">
+        {{widthInPercent}}%
+      </div>
+    </div>
   </div>
 </div>
