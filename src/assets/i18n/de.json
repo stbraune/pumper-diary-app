@@ -35,8 +35,10 @@
   "delete-workout-card-succeeded": "Karte gelöscht.",
   "delete-workout-card-failed": "Die Karte konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
   
-  "workout.title.set": "Satz {{goalPosition}}.{{actionPosition}}",
+  "workout.title.set": "Satz #{{goalPosition}}.{{actionPosition}}",
   "workout.title.pause": "Pause",
+  "workout-finish.title": "Workout beenden",
+  "workout-finish.prompt": "Möchtest du den Workout beenden?",
   "workout-delete.title": "Workout abbrechen",
   "workout-delete.prompt": "Möchtest du den Workout wirklich abbrechen? Der aufgezeichnete Fortschritt wird dabei verloren gehen.",
   

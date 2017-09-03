@@ -30,7 +30,7 @@
   </ion-col>
   <ion-col *ngIf="units.length > 0" col-3 class="numeric-up-down-small__col-unit">
     <ion-item>
-      <ion-select [(ngModel)]="unit" (ngModelChange)="unitChanged()">
+      <ion-select [(ngModel)]="unit" interface="popover" (ngModelChange)="unitChanged()">
         <ion-option *ngFor="let unit of units" [value]="unit.key">{{unit.value}}</ion-option>
       </ion-select>
     </ion-item>

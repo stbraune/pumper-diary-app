@@ -19,7 +19,7 @@
               </ion-col>
               <ion-col>
                 <ion-item>
-                  <ion-select *ngIf="units.length > 0" [(ngModel)]="unit" (ngModelChange)="unitChanged()">
+                  <ion-select *ngIf="units.length > 0" interface="popover" [(ngModel)]="unit" (ngModelChange)="unitChanged()">
                     <ion-option *ngFor="let unit of units" [value]="unit.key">{{unit.value}}</ion-option>
                   </ion-select>
                 </ion-item>

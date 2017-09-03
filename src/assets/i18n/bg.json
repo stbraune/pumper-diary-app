@@ -35,8 +35,10 @@
   "delete-workout-card-succeeded": "Картата бе изтрита.",
   "delete-workout-card-failed": "Картата не можа да бъде изтрита. Моля, опитайте отново.",
   
-  "workout.title.set": "изречение {{goalPosition}}.{{actionPosition}}",
+  "workout.title.set": "изречение #{{goalPosition}}.{{actionPosition}}",
   "workout.title.pause": "пауза",
+  "workout-finish.title": "Finish Workout",
+  "workout-finish.prompt": "Do you want to finish your workout?",
   "workout-delete.title": "Отменете тренировката",
   "workout-delete.prompt": "Наистина ли искате да отмените тренировката? Записаният напредък ще бъде загубен.",
   

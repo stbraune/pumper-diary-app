@@ -35,16 +35,26 @@
     </ion-list-header>
     <ion-item class="goals">
       <ion-card class="goals-card">
-        <ion-fab top right edge class="fab-add-goal">
-          <button ion-fab mini color="accent" (click)="addGoalClicked($event)">
-            <ion-icon name="add"></ion-icon>
-          </button>
-        </ion-fab>
-        <ion-list>
-          <ion-item *ngFor="let goal of plan.goals" (click)="goalSelected(goal)">
-            {{goal.exercise.title}}
-          </ion-item>
-        </ion-list>
+        <ion-card-content>
+          <ion-fab top right edge class="fab-add-goal">
+            <button ion-fab mini color="accent" (click)="addGoalClicked($event)">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-fab>
+          <ion-list reorder="true" (ionItemReorder)="reorderGoals($event)" class="goals__list">
+            <ion-item-sliding *ngFor="let goal of plan.goals; let i=index">
+              <ion-item (click)="goalSelected(goal)">
+                <strong>#{{i+1}}</strong> {{goal.exercise.title}}
+              </ion-item>
+              <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteGoal(goal)">
+                <button ion-button expandable color="danger" (click)="confirmDeleteGoal(goal)">
+                  <ion-icon name="trash"></ion-icon>
+                  {{'delete' | translate}}
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+          </ion-list>
+        </ion-card-content>
       </ion-card>
     </ion-item>
   </ion-list>

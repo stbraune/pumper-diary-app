@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import {
   ModalController,
   NavParams,
-  ViewController
+  ViewController,
+  AlertController
 } from 'ionic-angular';
 
 import {
@@ -21,6 +23,8 @@ export class PlanEditComponent {
   private plan: Plan;
 
   public constructor(
+    private translateService: TranslateService,
+    private alertController: AlertController,
     private modalController: ModalController,
     private navParams: NavParams,
     private viewController: ViewController
@@ -30,6 +34,10 @@ export class PlanEditComponent {
 
   public goalSelected(goal: Goal): void {
     let indexOfGoal = this.plan.goals.indexOf(goal);
+    if (indexOfGoal === -1) {
+      return;
+    }
+
     let goalEditModal = this.modalController.create(GoalEditComponent, {
       data: JSON.parse(JSON.stringify(goal))
     });
@@ -60,6 +68,44 @@ export class PlanEditComponent {
   }
 
   public planChanged(): void {
+  }
+
+  public reorderGoals($event: any): void {
+    let goal = this.plan.goals[$event.from];
+    if (goal) {
+      this.plan.goals.splice($event.from, 1);
+      this.plan.goals.splice($event.to, 0, goal);
+    }
+  }
+
+  public confirmDeleteGoal(goal: Goal): void {
+    this.translateService.get(['plan.goal-delete.title', 'plan.goal-delete.prompt', 'yes', 'no'])
+      .subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['plan.goal-delete.title'],
+          message: texts['plan.goal-delete.prompt'],
+          buttons: [
+            {
+              text: texts['no'],
+              role: 'cancel'
+            },
+            {
+              text: texts['yes'],
+              handler: () => {
+                this.deleteGoal(goal);
+              }
+            }
+          ]
+        });
+        alert.present();
+      });
+  }
+
+  private deleteGoal(goal: Goal) {
+    const index = this.plan.goals.indexOf(goal);
+    if (index !== -1) {
+      this.plan.goals.splice(index, 1);
+    }
   }
 
   public savePlanClicked(): void {

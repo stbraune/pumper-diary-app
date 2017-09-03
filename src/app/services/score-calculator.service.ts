@@ -87,17 +87,12 @@ export class ScoreCalculatorService {
     score += totals.distance;
     score += totals.calories;
 
-    if (set.goal) {
+    if (set.exercise) {
       return Observable.of(score * set.goal.exercise.difficulty);
-      // return this.exercisesService.getExerciseById(set.goal.exercise._id).map((exercise) => {
-      //   return score * exercise.difficulty;
-      // });
     } else if (set.exercise) {
-      return Observable.of(score * set.exercise.difficulty);
-      // return this.exercisesService.getExerciseById(set.exercise._id).map((exercise) => {
-      //   console.log('score for set', set, score, exercise.difficulty);
-      //   return score * exercise.difficulty;
-      // });
+      return Observable.of(Math.round(score * set.exercise.difficulty));
+    } else {
+      return Observable.of(0);
     }
   }
 }

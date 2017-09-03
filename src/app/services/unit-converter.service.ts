@@ -27,76 +27,57 @@ export class UnitConverterService {
           case UnitConverterService.units.lb:
             return this.fromLb(value);
           default:
-            return {
-              to: (target: string) => {
-                return 0;
-              }
-            };
+            throw new Error(`Unsupported source unit ${source}`);
         }
       }
     };
   }
 
   public fromKm(value: number): { to: (unit: string) => number } {
-    return {
-      to: (target: string) => {
-        if (target === UnitConverterService.units.km) {
-          return value;
-        }
-
-        if (target == UnitConverterService.units.mi) {
-          return value * UnitConverterService.facs.km_in_mi;
-        }
-
-        throw new Error(`Cannot convert '${value}' from 'km' to '${target}'`);
+    return this.convertFrom(value, UnitConverterService.units.km, (target: string) => {
+      if (target == UnitConverterService.units.mi) {
+        return value * UnitConverterService.facs.km_in_mi;
       }
-    };
+    });
   }
 
   public fromMi(value: number): { to: (unit: string) => number } {
-    return {
-      to: (target: string) => {
-        if (target === UnitConverterService.units.mi) {
-          return value;
-        }
-
-        if (target == UnitConverterService.units.km) {
-          return value / UnitConverterService.facs.km_in_mi;
-        }
-
-        throw new Error(`Cannot convert '${value}' from 'mi' to '${target}'`);
+    return this.convertFrom(value, UnitConverterService.units.mi, (target: string) => {
+      if (target == UnitConverterService.units.km) {
+        return value / UnitConverterService.facs.km_in_mi;
       }
-    };
+    });
   }
 
   public fromKg(value: number): { to: (unit: string) => number } {
-    return {
-      to: (target: string) => {
-        if (target === UnitConverterService.units.kg) {
-          return value;
-        }
-
-        if (target == UnitConverterService.units.lb) {
-          return value / UnitConverterService.facs.lb_in_kg;
-        }
-
-        throw new Error(`Cannot convert '${value}' from 'kg' to '${target}'`);
+    return this.convertFrom(value, UnitConverterService.units.kg, (target: string) => {
+      if (target == UnitConverterService.units.lb) {
+        return value / UnitConverterService.facs.lb_in_kg;
       }
-    };
+    });
   }
 
   public fromLb(value: number): { to: (unit: string) => number } {
+    return this.convertFrom(value, UnitConverterService.units.lb, (target: string) => {
+      if (target == UnitConverterService.units.kg) {
+        return value * UnitConverterService.facs.lb_in_kg;
+      }
+    });
+  }
+
+  private convertFrom(value: number, source: string, convert: (unit: string) => number | undefined) {
     return {
       to: (target: string) => {
-        if (target === UnitConverterService.units.lb) {
+        if (target === source) {
           return value;
         }
 
-        if (target == UnitConverterService.units.kg) {
-          return value * UnitConverterService.facs.lb_in_kg;
+        const result = convert(target);
+        if (result) {
+          return result;
         }
 
-        throw new Error(`Cannot convert '${value}' from 'lb' to '${target}'`);
+        throw new Error(`Cannot convert '${value}' from '${source}' to '${target}'`);
       }
     };
   }

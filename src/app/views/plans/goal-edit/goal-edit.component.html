@@ -18,7 +18,7 @@
       <ion-label>
         {{'exercise' | translate}}
       </ion-label>
-      <ion-select [(ngModel)]="exercise" (ngModelChange)="exerciseSelected()">
+      <ion-select [(ngModel)]="exercise" interface="action-sheet" (ngModelChange)="exerciseSelected()">
         <ion-option *ngFor="let exercise of exercises" [value]="exercise._id">
           {{exercise.title}}
         </ion-option>

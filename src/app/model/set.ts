@@ -5,7 +5,7 @@ import { Mood } from './mood';
 
 export interface Set {
   goal?: Goal;
-  exercise?: Exercise;
+  exercise: Exercise;
   measurements: Measurement[];
   mood: Mood;
   note: string;

@@ -35,8 +35,10 @@
   "delete-workout-card-succeeded": "Card deleted.",
   "delete-workout-card-failed": "Could not delete workout card. Please try again.",
 
-  "workout.title.set": "Set {{goalPosition}}.{{actionPosition}}",
+  "workout.title.set": "Set #{{goalPosition}}.{{actionPosition}}",
   "workout.title.pause": "Pause",
+  "workout-finish.title": "Finish Workout",
+  "workout-finish.prompt": "Do you want to finish your workout?",
   "workout-delete.title": "Cancel Workout",
   "workout-delete.prompt": "Are you sure to cancel your current workout? All progress tracked so far will be lost.",
   
@@ -67,6 +69,8 @@
   "plan.title": "Title",
   "plan.description": "Description",
   "plan.goals": "Goals",
+  "plan.goal-delete.title": "Delete Goal",
+  "plan.goal-delete.prompt": "Are you sure to delete this goal?",
 
   "plan.goals.entries.add-action": "Add Action",
   "plan.goals.entries.add-pause": "Add Pause",

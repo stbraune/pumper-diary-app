@@ -42,6 +42,16 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   private recentStep: Step;
 
   private saveWorkoutObservable;
+  
+  private previousActionStepTemp = {
+    activeStepIndex: -1,
+    previousActionStep: undefined
+  };
+  
+  private nextActionStepTemp = {
+    activeStepIndex: -1,
+    nextActionStep: undefined
+  };
 
   public constructor(
     private insomnia: Insomnia,
@@ -113,7 +123,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
   
   public get activeStepIndex(): number {
-    return this.slides.getActiveIndex() || 0;
+    return Math.min(this.slides.getActiveIndex() || 0, this.steps.length - 1);
   }
   
   private get activeStep(): Step | undefined {
@@ -126,11 +136,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       return this.steps[previousIndex];
     }
   }
-  
-  private previousActionStepTemp = {
-    activeStepIndex: -1,
-    previousActionStep: undefined
-  };
 
   private get previousActionStep(): Step | undefined {
     const activeStepIndex = this.activeStepIndex;
@@ -156,11 +161,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       return this.steps[nextIndex];
     }
   }
-  
-  private nextActionStepTemp = {
-    activeStepIndex: -1,
-    nextActionStep: undefined
-  };
 
   private get nextActionStep(): Step | undefined {
     const activeStepIndex = this.activeStepIndex;
@@ -235,8 +235,13 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       this.slideHosts.find((slideHost) => slideHost.data === this.recentStep).viewContainerRef.clear();
     }
 
-    this.updateWorkout();
-    this.renderActiveStep();
+    
+    if (this.activeStepIndex >= this.steps.length) {
+      this.saveWorkoutClicked();
+    } else {
+      this.updateWorkout();
+      this.renderActiveStep();
+    }
   }
 
   private renderActiveStep() {
@@ -302,13 +307,32 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public saveWorkoutClicked(): void {
-    this.updateWorkout();
-    this.insomnia.allowSleepAgain();
-    this.viewController.dismiss({
-      success: true,
-      data: {
-        workout: this.workout
-      }
+    this.translateService.get(['workout-finish.title', 'workout-finish.prompt', 'yes', 'no'])
+      .subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['workout-finish.title'],
+          message: texts['workout-finish.prompt'],
+          buttons: [
+            {
+              text: texts['no'],
+              role: 'cancel'
+            },
+            {
+              text: texts['yes'],
+              handler: () => {
+                this.updateWorkout();
+                this.insomnia.allowSleepAgain();
+                this.viewController.dismiss({
+                  success: true,
+                  data: {
+                    workout: this.workout
+                  }
+                });
+              }
+            }
+          ]
+        });
+      alert.present();
     });
   }
 

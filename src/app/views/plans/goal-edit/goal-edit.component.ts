@@ -70,8 +70,10 @@ export class GoalEditComponent {
 
   public reorderEntries($event: any) {
     let entry = this.goal.entries[$event.from];
-    this.goal.entries.splice($event.from, 1);
-    this.goal.entries.splice($event.to, 0, entry);
+    if (entry) {
+      this.goal.entries.splice($event.from, 1);
+      this.goal.entries.splice($event.to, 0, entry);
+    }
   }
 
   public isPause(entry: Entry): boolean {

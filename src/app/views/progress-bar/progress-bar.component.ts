@@ -21,7 +21,7 @@ export class ProgressBarComponent {
   public inset: boolean = true;
 
   public get widthInPercent(): number {
-    return Math.round(this.value * 10000 / (this.max - this.min) / 100);
+    return Math.round(this.value * 100 / (this.max - this.min));
   }
 
   public asBar() {
