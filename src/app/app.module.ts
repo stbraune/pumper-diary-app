@@ -21,6 +21,7 @@ import { ListPage } from '../pages/list/list';
 
 import {
   DatabaseService,
+  DateFormatService,
   PlansService,
   ExercisesService,
   MeasurementsService,
@@ -67,6 +68,11 @@ import {
   PauseStepComponent,
   SlideHostDirective
 } from './views/workout-cards';
+
+import {
+  WorkoutHistoryComponent,
+  WorkoutEditComponent
+} from './views/workout-history';
 
 import {
   PlansComponent,
@@ -120,6 +126,9 @@ import {
     PauseStepComponent,
     SlideHostDirective,
 
+    WorkoutHistoryComponent,
+    WorkoutEditComponent,
+
     PlansComponent,
     PlanEditComponent,
     GoalEditComponent,
@@ -155,6 +164,9 @@ import {
     WorkoutComponent,
     ActionStepComponent,
     PauseStepComponent,
+    
+    WorkoutHistoryComponent,
+    WorkoutEditComponent,
 
     PlansComponent,
     PlanEditComponent,
@@ -174,6 +186,7 @@ import {
     Insomnia,
     
     DatabaseService,
+    DateFormatService,
     PlansService,
     ExercisesService,
     MeasurementsService,

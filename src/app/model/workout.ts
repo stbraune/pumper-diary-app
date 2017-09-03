@@ -8,6 +8,7 @@ export interface Workout {
   start: Date;
   end: Date;
   sets: Set[];
+  transient?: any;
   createdAt?: Date;
   updatedAt?: Date;
 }

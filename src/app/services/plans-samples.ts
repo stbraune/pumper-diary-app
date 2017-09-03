@@ -1,6 +1,8 @@
 import { EntryType, Measure } from '../model';
 import { EXERCISES_SAMPLES_NAMED } from './exercises-samples';
 
+import * as uuidv4 from 'uuid/v4';
+
 export const PLANS_SAMPLES_NAMED = {
   FIRST_PLAN: {
     id: 1,
@@ -8,7 +10,7 @@ export const PLANS_SAMPLES_NAMED = {
     description: 'Brust, Trizeps, Bizeps, Bauch, Rücken, Waden',
     goals: [
       {
-        id: 1,
+        id: uuidv4(),
         exercise: EXERCISES_SAMPLES_NAMED.PUSH_UPS_POSITIVE,
         entries: [
           { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' } ] },
@@ -20,7 +22,7 @@ export const PLANS_SAMPLES_NAMED = {
         ]
       },
       {
-        id: 2,
+        id: uuidv4(),
         exercise: EXERCISES_SAMPLES_NAMED.CONCENTRATION_CURLS,
         entries: [
           { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
@@ -32,7 +34,7 @@ export const PLANS_SAMPLES_NAMED = {
         ]
       },
       {
-        id: 3,
+        id: uuidv4(),
         exercise: EXERCISES_SAMPLES_NAMED.DUMBBELL_ROWS,
         entries: [
           { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },
@@ -44,7 +46,7 @@ export const PLANS_SAMPLES_NAMED = {
         ]
       },
       {
-        id: 4,
+        id: uuidv4(),
         exercise: EXERCISES_SAMPLES_NAMED.CRISS_CROSS,
         entries: [
           { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' } ] },
@@ -56,7 +58,7 @@ export const PLANS_SAMPLES_NAMED = {
         ]
       },
       {
-        id: 5,
+        id: uuidv4(),
         exercise: EXERCISES_SAMPLES_NAMED.CALF_RAISE,
         entries: [
           { type: EntryType.Action, measurements: [ { measure: Measure.Repetitions, value: '10' }, { measure: Measure.Weight, value: '10', unit: 'kg' } ] },

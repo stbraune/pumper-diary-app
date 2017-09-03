@@ -39,8 +39,8 @@
   "workout.title.pause": "пауза",
   "workout-finish.title": "Finish Workout",
   "workout-finish.prompt": "Do you want to finish your workout?",
-  "workout-delete.title": "Отменете тренировката",
-  "workout-delete.prompt": "Наистина ли искате да отмените тренировката? Записаният напредък ще бъде загубен.",
+  "workout-cancel.title": "Отменете тренировката",
+  "workout-cancel.prompt": "Наистина ли искате да отмените тренировката? Записаният напредък ще бъде загубен.",
   
   "workout.action-step.current-exercise": "сега",
   "workout.action-step.note.label": "бележка",

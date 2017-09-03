@@ -39,8 +39,8 @@
   "workout.title.pause": "Pause",
   "workout-finish.title": "Workout beenden",
   "workout-finish.prompt": "Möchtest du den Workout beenden?",
-  "workout-delete.title": "Workout abbrechen",
-  "workout-delete.prompt": "Möchtest du den Workout wirklich abbrechen? Der aufgezeichnete Fortschritt wird dabei verloren gehen.",
+  "workout-cancel.title": "Workout abbrechen",
+  "workout-cancel.prompt": "Möchtest du den Workout wirklich abbrechen? Der aufgezeichnete Fortschritt wird dabei verloren gehen.",
   
   "workout.action-step.current-exercise": "Jetzt",
   "workout.action-step.note.label": "Notiz",

@@ -4,7 +4,7 @@ import { Measurement } from './measurement';
 import { Mood } from './mood';
 
 export interface Set {
-  goal?: Goal;
+  goalId?: string;
   exercise: Exercise;
   measurements: Measurement[];
   mood: Mood;

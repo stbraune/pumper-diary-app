@@ -1,4 +1,5 @@
 export * from './database.service';
+export * from './date-format.service';
 export * from './exercises.service';
 export * from './plans.service';
 export * from './measurements.service';

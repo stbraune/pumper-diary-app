@@ -7,7 +7,7 @@ import 'rxjs/add/observable/fromPromise';
 import { by } from './utils';
 import { DatabaseService } from './database.service';
 
-import { WorkoutCard } from '../model';
+import { WorkoutCard, Workout } from '../model';
 
 @Injectable()
 export class WorkoutCardsService {
@@ -22,11 +22,13 @@ export class WorkoutCardsService {
   public getWorkoutCards(): Observable<WorkoutCard[]> {
     return Observable.fromPromise(this.workoutCardsDatabase.allDocs({ include_docs: true }))
       .map((documents: any) => {
-        return documents.rows.map((row) => row.doc).map((workoutCard: WorkoutCard) => {
-          workoutCard.createdAt = new Date(workoutCard.createdAt);
-          workoutCard.updatedAt = new Date(workoutCard.updatedAt);
-          return workoutCard;
-        }).sort(by<WorkoutCard>((workoutCard) => -workoutCard.createdAt.getTime()));
+        return documents.rows.map((row) => row.doc)
+          .filter((doc) => doc.language !== 'query')
+          .map((workoutCard: WorkoutCard) => {
+            workoutCard.createdAt = new Date(workoutCard.createdAt);
+            workoutCard.updatedAt = new Date(workoutCard.updatedAt);
+            return workoutCard;
+          }).sort(by<WorkoutCard>((workoutCard) => -workoutCard.createdAt.getTime()));
       });
   }
 
@@ -35,6 +37,29 @@ export class WorkoutCardsService {
       workoutCard.createdAt = new Date(workoutCard.createdAt);
       workoutCard.updatedAt = new Date(workoutCard.updatedAt);
       return workoutCard;
+    });
+  }
+
+  public getWorkoutCardByWorkout(workout: Workout): Observable<WorkoutCard[]> {
+    return Observable.fromPromise(this.workoutCardsDatabase.createIndex({
+      index: {
+        fields: [ 'workoutId' ],
+        name: 'workoutIdIndex',
+        ddoc: 'workoutIdIndex'
+      }
+    })).switchMap((result: any) => {
+      return Observable.fromPromise(this.workoutCardsDatabase.find({
+        selector: {
+          workoutId: workout._id
+        },
+        use_index: 'workoutIdIndex'
+      })).map((results: any) => {
+        return results.docs.map((workoutCard: WorkoutCard) => {
+          workoutCard.createdAt = new Date(workoutCard.createdAt);
+          workoutCard.updatedAt = new Date(workoutCard.updatedAt);
+          return workoutCard;
+        });
+      });
     });
   }
 
@@ -70,7 +95,10 @@ export class WorkoutCardsService {
   }
 
   public deleteWorkoutCard(workoutCard: WorkoutCard): Observable<boolean> {
+    const transient = workoutCard.transient;
+    workoutCard.transient = undefined;
     return Observable.fromPromise(this.workoutCardsDatabase.remove(workoutCard)).map((result: any) => {
+      workoutCard.transient = transient;
       return result.ok;
     });
   }

@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import PouchDB from 'pouchdb';
-import cordovaSqlitePlugin from 'pouchdb-adapter-cordova-sqlite';
+import PouchDBAdapterCordovaSqlite from 'pouchdb-adapter-cordova-sqlite';
+import PouchDBFind from 'pouchdb-find';
 
 import * as uuidv4 from 'uuid/v4';
 
 @Injectable()
 export class DatabaseService {
   public openDatabase(name: string): any {
-    PouchDB.plugin(cordovaSqlitePlugin);
+    PouchDB.plugin(PouchDBAdapterCordovaSqlite);
+    PouchDB.plugin(PouchDBFind);
     return new PouchDB(name, {
       adapter: 'cordova-sqlite'
     });

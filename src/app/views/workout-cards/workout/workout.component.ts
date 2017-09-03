@@ -93,7 +93,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
         }));
 
         const set: Set = entry.type === EntryType.Action && {
-          goal,
+          goalId: goal.id,
           exercise: goal.exercise,
           measurements: [],
           mood: Mood.Neutral,
@@ -277,11 +277,11 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public dismissWorkoutClicked(): void {
-    this.translateService.get(['workout-delete.title', 'workout-delete.prompt', 'yes', 'no'])
+    this.translateService.get(['workout-cancel.title', 'workout-cancel.prompt', 'yes', 'no'])
       .subscribe((texts) => {
         const alert = this.alertController.create({
-          title: texts['workout-delete.title'],
-          message: texts['workout-delete.prompt'],
+          title: texts['workout-cancel.title'],
+          message: texts['workout-cancel.prompt'],
           buttons: [
             {
               text: texts['no'],

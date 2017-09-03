@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-only (click)="dismissWorkoutClicked()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{'workout-edit.title' | translate}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (click)="saveWorkoutClicked()">
+        {{'save' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label floating>
+        {{'workout-edit.start.label' | translate}}
+      </ion-label>
+      <ion-datetime displayFormat="YYYY/MM/D, HH:mm" pickerFormat="YYYY MMM D HH mm" [(ngModel)]="workout.start" (ngModelChange)="emitChange()"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>
+        {{'workout-edit.start.label' | translate}}
+      </ion-label>
+      <ion-datetime displayFormat="YYYY/MM/D, HH:mm" pickerFormat="YYYY MMM D HH mm" [(ngModel)]="workout.end" (ngModelChange)="emitChange()"></ion-datetime>
+    </ion-item>
+
+    <ion-list-header>
+      {{'workout-edit.tracked-sets' | translate}}
+    </ion-list-header>
+    <ion-item *ngIf="workout.sets.length === 0">
+      <em>{{'workout-edit.no-sets-tracked' | translate}}</em>
+    </ion-item>
+    <ion-card *ngFor="let set of workout.sets">
+      <ion-card-header>
+        <strong>
+          {{'workout.title.set' | translate:({goalPosition: getGoalIndex(set) + 1, actionPosition: getActionIndex(set) + 1})}}
+        </strong>
+        {{set.exercise.title | translate}}
+      </ion-card-header>
+      <ion-card-content>
+        <span *ngFor="let measurement of set.measurements; let i=index">
+          <measurement-control-small
+            [measurement]="measurement"
+            (complete)="emitComplete()">
+          </measurement-control-small>
+        </span>
+        
+        <ion-grid no-padding>
+          <ion-row justify-content-between>
+            <ion-col>
+              <button ion-button clear (click)="moodUnhappyClicked(set)" style="height: 56px;">
+                <img *ngIf="isUnhappy(set)" src="assets/img/emoji_unhappy.png"
+                  style="width: 56px !important; height: 56px !important;">
+                <img *ngIf="!isUnhappy(set)" src="assets/img/emoji_unhappy_bw.png"
+                  style="width: 56px !important; height: 56px !important;">
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button clear (click)="moodNeutralClicked(set)" style="height: 56px;">
+                <img *ngIf="isNeutral(set)" src="assets/img/emoji_neutral.png"
+                  style="width: 56px !important; height: 56px !important;">
+                <img *ngIf="!isNeutral(set)" src="assets/img/emoji_neutral_bw.png"
+                  style="width: 56px !important; height: 56px !important;">
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button clear (click)="moodHappyClicked(set)" style="height: 56px;">
+                <img *ngIf="isHappy(set)" src="assets/img/emoji_happy.png"
+                  style="width: 56px !important; height: 56px !important;">
+                <img *ngIf="!isHappy(set)" src="assets/img/emoji_happy_bw.png"
+                  style="width: 56px !important; height: 56px !important;">
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+        <ion-item class="note-item">
+          <ion-label stacked>
+            {{'workout.note.label' | translate}}
+          </ion-label>
+          <ion-input type="text" [(ngModel)]="set.note"></ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

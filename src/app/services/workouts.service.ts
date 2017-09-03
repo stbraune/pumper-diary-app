@@ -43,11 +43,14 @@ export class WorkoutsService {
   }
 
   public createWorkout(workout: Workout): Observable<Workout> {
+    const transient = workout.transient;
+    workout.transient = undefined;
     workout.updatedAt = workout.createdAt = new Date();
     return Observable.fromPromise(this.workoutsDatabase.post(workout)).map((result: any) => {
       if (result.ok) {
         workout._id = result.id;
         workout._rev = result.rev;
+        workout.transient = transient;
         return workout;
       } else {
         throw new Error(`Error while creating workout ${JSON.stringify(workout)}`);
@@ -56,10 +59,13 @@ export class WorkoutsService {
   }
 
   public updateWorkout(workout: Workout): Observable<Workout> {
+    const transient = workout.transient;
+    workout.transient = undefined;
     workout.updatedAt = new Date();
     return Observable.fromPromise(this.workoutsDatabase.put(workout)).map((result: any) => {
       if (result.ok) {
         workout._rev = result.rev;
+        workout.transient = transient;
         return workout;
       } else {
         throw new Error(`Error while updating workout ${workout._id} ${JSON.stringify(workout)}`);
@@ -68,7 +74,10 @@ export class WorkoutsService {
   }
 
   public deleteWorkout(workout: Workout): Observable<boolean> {
+    const transient = workout.transient;
+    workout.transient = undefined;
     return Observable.fromPromise(this.workoutsDatabase.remove(workout)).map((result: any) => {
+      workout.transient = transient;
       return result.ok;
     });
   }

@@ -17,6 +17,7 @@
 
   "menu.title": "Pumper Diary",
   "menu.workouts.title": "Workouts",
+  "menu.workout-history.title": "History",
   "menu.plans.title": "Plans",
   "menu.exercises.title": "Exercises",
   
@@ -39,11 +40,23 @@
   "workout.title.pause": "Pause",
   "workout-finish.title": "Finish Workout",
   "workout-finish.prompt": "Do you want to finish your workout?",
-  "workout-delete.title": "Cancel Workout",
-  "workout-delete.prompt": "Are you sure to cancel your current workout? All progress tracked so far will be lost.",
+  "workout-cancel.title": "Cancel Workout",
+  "workout-cancel.prompt": "Are you sure to cancel your current workout? All progress tracked so far will be lost.",
   
   "workout.action-step.current-exercise": "Now",
   "workout.action-step.note.label": "Note",
+
+  "workout-history.title": "History",
+  "workout-delete.title": "Delete Workout",
+  "workout-delete.prompt": "Are you sure to delete this workout? All tracked data from this workout will also be deleted.",
+  "workout-edit.title": "Edit Workout",
+  "workout-edit.start.label": "Start Time",
+  "workout-edit.end.label": "Finish Time",
+  "workout-edit.tracked-sets": "Tracked Sets",
+  "workout-edit.no-sets-tracked": "No sets were tracked during this workout.",
+  "workout.note.label": "Note",
+  "save-workout-succeeded": "Workout deleted.",
+  "save-workout-failed": "Could not delete workout. Please try again.",
 
   "plans.title": "Plans",
   "plan-add.title": "Add Plan",

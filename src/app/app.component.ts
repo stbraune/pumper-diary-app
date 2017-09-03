@@ -10,6 +10,7 @@ import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic';
 import { ListPage } from '../pages/list/list';
 
 import { WorkoutCardsComponent } from './views/workout-cards';
+import { WorkoutHistoryComponent } from './views/workout-history';
 import { PlansComponent } from './views/plans';
 import { ExercisesComponent } from './views/exercises';
 
@@ -22,6 +23,7 @@ export class AppComponent {
   rootPage = WorkoutCardsComponent;
   pages: Array<{title: string, component: any}> = [
     { title: 'menu.workouts.title', component: WorkoutCardsComponent },
+    { title: 'menu.workout-history.title', component: WorkoutHistoryComponent },
     { title: 'menu.plans.title', component: PlansComponent },
     { title: 'menu.exercises.title', component: ExercisesComponent }
   ];

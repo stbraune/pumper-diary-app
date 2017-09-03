@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import * as uuidv4 from 'uuid/v4';
+
 import {
   ModalController,
   NavParams,
@@ -52,6 +54,7 @@ export class PlanEditComponent {
 
   public addGoalClicked($event: any) {
     let newGoal: Goal = {
+      id: uuidv4(),
       exercise: undefined,
       entries: []
     };

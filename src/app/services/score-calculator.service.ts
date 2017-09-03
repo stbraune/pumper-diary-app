@@ -3,9 +3,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/forkJoin';
+import 'rxjs/add/operator/switchMap';
 
 import {
   EntryType,
+  Exercise,
   Measure,
   Set,
   Workout
@@ -87,10 +89,10 @@ export class ScoreCalculatorService {
     score += totals.distance;
     score += totals.calories;
 
-    if (set.exercise) {
-      return Observable.of(score * set.goal.exercise.difficulty);
-    } else if (set.exercise) {
-      return Observable.of(Math.round(score * set.exercise.difficulty));
+    if ((<any>set).exercise) {
+      return Observable.of(Math.round(score * (<any>set).exercise.difficulty));
+    } else if ((<any>set).goal) {
+      return Observable.of(score * (<any>set).goal.exercise.difficulty);
     } else {
       return Observable.of(0);
     }

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AlertController, ModalController } from 'ionic-angular';
@@ -8,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/catch';
 
-import { WorkoutCardsService, WorkoutsService,
+import { WorkoutCardsService, WorkoutsService, DateFormatService,
   PlansService, ScoreCalculatorService, ToastService } from '../../services';
 import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
 
@@ -25,6 +24,7 @@ export class WorkoutCardsComponent {
     private translateService: TranslateService,
     private alertController: AlertController,
     private modalController: ModalController,
+    private dateFormatService: DateFormatService,
     private plansService: PlansService,
     private workoutCardsService: WorkoutCardsService,
     private workoutsService: WorkoutsService,
@@ -89,44 +89,12 @@ export class WorkoutCardsComponent {
     const start = workoutCard.transient.workout.start;
     const end = workoutCard.transient.workout.end;
     return Observable.forkJoin(
-      this.formatDay(start),
-      this.formatTime(start),
-      this.formatTime(end)
+      this.dateFormatService.formatDay(start),
+      this.dateFormatService.formatTime(start),
+      this.dateFormatService.formatTime(end)
     ).map((texts) => {
       const [ day, start1, end1 ] = texts;
       return `${day}, ${start1} - ${end1}`;
-    });
-  }
-  
-  private formatDay(date: Date): Observable<string> {
-    const now = new Date();
-    const diff = this.differenceInDays(this.normalizeDate(date), now);
-    if (diff === 0) {
-      return this.translateService.get('today');
-    } else if (diff === 1) {
-      return this.translateService.get('yesterday');
-    } else if (diff <= 7) {
-      return this.translateService.get('xdaysago', { days: diff });
-    }
-
-    return this.translateService.get('shortDateFormat').map((shortDateFormat) => {
-      return new DatePipe(this.translateService.currentLang)
-        .transform(date, shortDateFormat);
-    });
-  }
-
-  private normalizeDate(a: Date) {
-    return new Date(a.getFullYear(), a.getMonth(), a.getDate());
-  }
-  
-  private differenceInDays(a: Date, b: Date) {
-    return Math.floor(Math.abs(a.getTime() - b.getTime()) / (1000 * 3600 * 24));
-  }
-
-  private formatTime(date: Date): Observable<string> {
-    return this.translateService.get('shortTimeFormat').map((shortTimeFormat) => {
-      return new DatePipe(this.translateService.currentLang)
-        .transform(date, shortTimeFormat);
     });
   }
 

@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{'workout-history.title' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="workouts__list">
+    <ion-item-sliding *ngFor="let workout of workouts">
+      <ion-item (click)="workoutSelected(workout)">
+        {{formatWorkoutDate(workout) | async}}
+        <p>
+          {{workout.plan.title}}
+        </p>
+      </ion-item>
+      <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteWorkout(workout)">
+        <button ion-button expandable color="danger" (click)="confirmDeleteWorkout(workout)">
+          <ion-icon name="trash"></ion-icon>
+          {{'delete' | translate}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
