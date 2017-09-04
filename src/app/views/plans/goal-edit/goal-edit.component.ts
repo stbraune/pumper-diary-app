@@ -119,7 +119,7 @@ export class GoalEditComponent {
 
     this.goal.entries.push({
       type: EntryType.Pause,
-      measurements: [ this.measurementsService.createDuration() ]
+      measurements: [ this.measurementsService.createDuration('00:01:30') ]
     });
     fabContainer.close();
   }

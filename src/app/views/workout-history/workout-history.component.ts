@@ -33,16 +33,14 @@ export class WorkoutHistoryComponent {
 
   private loadWorkouts() {
     this.workoutsService.getWorkouts().subscribe((workouts) => {
-      this.workouts = workouts;
-      this.workouts.forEach((workout) => {
-        this.loadWorkout(workout);
-      });
+      this.workouts = workouts.map((workout) => this.loadWorkout(workout));
     });
   }
   
-  private loadWorkout(workout: Workout) {
-    workout.transient = { workout };
+  private loadWorkout(workout: Workout): Workout {
+    workout.transient = { };
     workout.transient.date = this.loadWorkoutDate(workout);
+    return workout;
   }
 
   private loadWorkoutDate(workout: Workout): Observable<string> {
@@ -63,10 +61,9 @@ export class WorkoutHistoryComponent {
   }
 
   public workoutSelected(workout: Workout): void {
-    console.log(workout);
     const transient = workout.transient;
     workout.transient = undefined;
-    const copy = JSON.parse(JSON.stringify(workout));
+    const copy = this.workoutsService.deserializeWorkout(JSON.parse(JSON.stringify(workout)));
     workout.transient = transient;
 
     let workoutEditModal = this.modalController.create(WorkoutEditComponent, {
@@ -114,7 +111,7 @@ export class WorkoutHistoryComponent {
     this.workoutsService.updateWorkout(workout).subscribe((result) => {
       const index = this.workouts.findIndex((e) => e._id === workout._id);
       if (index !== -1) {
-        this.workouts.splice(index, 1, result);
+        this.workouts.splice(index, 1, this.loadWorkout(result));
       }
       this.toastService.showSuccessToast('save-workout-succeeded', result);
     }, (error) => {
@@ -124,18 +121,20 @@ export class WorkoutHistoryComponent {
 
   private deleteWorkout(workout: Workout): void {
     this.workoutCardsService.getWorkoutCardByWorkout(workout).subscribe((workoutCards) => {
-      Observable.forkJoin(...workoutCards.map((workoutCard) => this.workoutCardsService.deleteWorkoutCard(workoutCard))).subscribe((result) => {
-        console.log('deleted workout cards', workoutCards);
+      if (workoutCards.length > 0) {
+        Observable.forkJoin(...workoutCards.map((workoutCard) => this.workoutCardsService.deleteWorkoutCard(workoutCard))).subscribe((result) => {
+          this.deleteWorkout1(workout);
+        });
+      } else {
         this.deleteWorkout1(workout);
-      });
+      }
     }, (error) => {
-      this.deleteWorkout1(workout);
+      this.toastService.showErrorToast('delete-workout-failed', error);
     });
   }
 
   private deleteWorkout1(workout: Workout) {
     this.workoutsService.deleteWorkout(workout).subscribe((result) => {
-      console.log('deleted', workout, result);
       const index = this.workouts.indexOf(workout);
       if (index !== -1) {
         this.workouts.splice(index, 1);

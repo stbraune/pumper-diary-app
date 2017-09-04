@@ -9,11 +9,14 @@
 
 <ion-content>
   <ion-list class="plans__list">
+    <ion-item *ngIf="plans.length === 0">
+      <em>{{'plans.no-plans' | translate}}</em>
+    </ion-item>
     <ion-item-sliding *ngFor="let plan of plans">
       <ion-item (click)="planSelected(plan)">
-        {{plan.title}}
+        {{plan.title | translate}}
         <p>
-          {{plan.description}}
+          {{plan.description | translate}}
         </p>
       </ion-item>
       <ion-item-options icon-start side="right" (ionSwipe)="confirmDeletePlan(plan)">

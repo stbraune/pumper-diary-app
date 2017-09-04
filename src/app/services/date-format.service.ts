@@ -12,13 +12,15 @@ export class DateFormatService {
 
   public formatDay(date: Date): Observable<string> {
     const now = new Date();
-    const diff = this.differenceInDays(this.normalizeDate(date), now);
-    if (diff === 0) {
-      return this.translateService.get('today');
-    } else if (diff === 1) {
-      return this.translateService.get('yesterday');
-    } else if (diff <= 7) {
-      return this.translateService.get('xdaysago', { days: diff });
+    if (now.getTime() > date.getTime()) {
+      const diff = this.differenceInDays(this.normalizeDate(date), now);
+      if (diff === 0) {
+        return this.translateService.get('today');
+      } else if (diff === 1) {
+        return this.translateService.get('yesterday');
+      } else if (diff <= 7) {
+        return this.translateService.get('xdaysago', { days: diff });
+      }
     }
 
     return this.translateService.get('shortDateFormat').map((shortDateFormat) => {

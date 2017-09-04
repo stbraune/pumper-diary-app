@@ -96,7 +96,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
           goalId: goal.id,
           exercise: goal.exercise,
           measurements: [],
-          mood: Mood.Neutral,
+          mood: undefined,
           note: ''
         };
 
@@ -234,7 +234,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     if (this.recentStep) {
       this.slideHosts.find((slideHost) => slideHost.data === this.recentStep).viewContainerRef.clear();
     }
-
     
     if (this.activeStepIndex >= this.steps.length) {
       this.saveWorkoutClicked();

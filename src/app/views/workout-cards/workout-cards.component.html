@@ -12,13 +12,11 @@
     <ion-item *ngIf="true || workoutCards.length === 0">
       <ion-card>
         <ion-card-header>
-          Welcome!
+          {{'workouts.welcome.header' | translate}}
         </ion-card-header>
         <ion-card-content>
           <p text-wrap>
-            Welcome to Pumper Diary, your personal assistant while doing
-            workouts. You may not see very much here until now... Try creating your first training plan
-            and start a workout from this screen today!
+            {{'workouts.welcome.intro' | translate}}
           </p>
           <ion-grid>
             <ion-row>
@@ -27,9 +25,9 @@
                   style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
-                <h2>Exercises</h2>
+                <h2>{{'workouts.welcome.exercises.header' | translate}}</h2>
                 <p text-wrap>
-                  Create your own exercises, configure their difficulty and tell what data to measure.
+                  {{'workouts.welcome.exercises.description' | translate}}
                 </p>
               </ion-col>
             </ion-row>
@@ -39,10 +37,9 @@
                   style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
-                <h2>Plans</h2>
+                <h2>{{'workouts.welcome.plans.header' | translate}}</h2>
                 <p text-wrap>
-                  Manage your own training plans matching your personal needs.
-                  Define the number of sets and goals for each exercise in the plan.
+                  {{'workouts.welcome.plans.description' | translate}}
                 </p>
               </ion-col>
             </ion-row>
@@ -52,9 +49,9 @@
                   style="width: 56px !important; height: 56px !important;">
               </ion-col>
               <ion-col>
-                <h2>Workouts</h2>
+                <h2>{{'workouts.welcome.workouts.header' | translate}}</h2>
                 <p text-wrap>
-                  Start a workout according to one of your training plans and track your results!
+                  {{'workouts.welcome.workouts.description' | translate}}
                 </p>
               </ion-col>
               <ion-col col-auto align-self-center>
@@ -87,7 +84,7 @@
                     style="width: 56px !important; height: 56px !important;">
                 </ion-col>
                 <ion-col align-self-center>
-                  {{workoutCard.transient.workout.plan.title}}
+                  {{workoutCard.transient.workout.plan.title | translate}}
                   <p text-wrap>
                     {{'workouts.workout-score.before' | translate}}<ion-icon name="star" color="accent"></ion-icon> {{formatScore(workoutCard) | async}}{{'workouts.workout-score.after' | translate}}
                   </p>

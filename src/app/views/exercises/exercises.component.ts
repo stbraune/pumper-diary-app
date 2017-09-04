@@ -34,21 +34,27 @@ export class ExercisesComponent {
   }
 
   public exerciseSelected(exercise: Exercise): void {
-    let exerciseEditModal = this.modalController.create(ExerciseEditComponent, {
-      data: JSON.parse(JSON.stringify(exercise))
-    });
-    exerciseEditModal.onDidDismiss((result) => {
-      if (!result) {
-        return;
-      }
+    const copy = JSON.parse(JSON.stringify(exercise));
+    this.translateService.get([copy.title, copy.description]).subscribe((texts) => {
+      copy.title = texts[copy.title];
+      copy.description = texts[copy.description];
 
-      if (result.success) {
-        this.updateExercise(result.data);
-      } else if (result.delete) {
-        this.deleteExercise(result.data);
-      }
+      let exerciseEditModal = this.modalController.create(ExerciseEditComponent, {
+        data: copy
+      });
+      exerciseEditModal.onDidDismiss((result) => {
+        if (!result) {
+          return;
+        }
+  
+        if (result.success) {
+          this.updateExercise(result.data);
+        } else if (result.delete) {
+          this.deleteExercise(result.data);
+        }
+      });
+      exerciseEditModal.present();
     });
-    exerciseEditModal.present();
   }
 
   public confirmDeleteExercise(exercise: Exercise): void {
@@ -79,7 +85,8 @@ export class ExercisesComponent {
       title: '',
       description: '',
       difficulty: 1,
-      measures: []
+      measures: [],
+      tags: []
     };
     let exerciseEditModal = this.modalController.create(ExerciseEditComponent, {
       data: newExercise

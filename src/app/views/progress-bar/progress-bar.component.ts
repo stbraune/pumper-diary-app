@@ -18,10 +18,18 @@ export class ProgressBarComponent {
   public type: string = 'bar';
 
   @Input()
+  public height: string;
+
+  @Input()
   public inset: boolean = true;
 
   public get widthInPercent(): number {
-    return Math.round(this.value * 100 / (this.max - this.min));
+    const div = this.max - this.min;
+    if (div === 0) {
+      return 100;
+    }
+
+    return Math.round(this.value * 100 / div);
   }
 
   public asBar() {

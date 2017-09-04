@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Step } from '../model';
 
-import { Mood } from '../../../../model';
+import { Set, Mood } from '../../../../model';
 
 @Component({
   selector: 'action-step',
@@ -29,16 +29,20 @@ export class ActionStepComponent {
   public isHappy() {
     return this.step.set.mood === Mood.Happy;
   }
-
+  
   public moodUnhappyClicked() {
-    this.step.set.mood = Mood.Unhappy;
+    this.setMood(this.step.set, Mood.Unhappy);
   }
 
   public moodNeutralClicked() {
-    this.step.set.mood = Mood.Neutral;
+    this.setMood(this.step.set, Mood.Neutral);
   }
 
   public moodHappyClicked() {
-    this.step.set.mood = Mood.Happy;
+    this.setMood(this.step.set, Mood.Happy);
+  }
+
+  private setMood(set: Set, mood: Mood) {
+    set.mood = set.mood === mood ? undefined : mood;
   }
 }

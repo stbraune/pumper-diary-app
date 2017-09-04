@@ -13,14 +13,30 @@
   "yesterday": "Gestern",
   "xdaysago": "Vor {{days}} Tagen",
   "shortDateFormat": "dd.MM.yyyy",
+  "shortDateDisplayFormat": "DD.MM.YYYY",
+  "shortDatePickerFormat": "DD MMM YYYY",
   "shortTimeFormat": "HH:mm",
+  "shortTimeDisplayFormat": "HH:mm",
+  "shortTimePickerFormat": "HH mm",
+  "shortMonthNames": "Jan,Febr,März,Apr,Mai,Juni,Juli,Aug,Sept,Okt,Nov,Dez",
 
   "menu.title": "Pumper Diary",
   "menu.workouts.title": "Workouts",
+  "menu.workout-history.title": "Historie",
   "menu.plans.title": "Pläne",
   "menu.exercises.title": "Übungen",
 
   "workouts.title": "Workouts",
+  
+  "workouts.welcome.header": "Willkommen!",
+  "workouts.welcome.intro": "Willkommen bei Pumper Diary, deinem persönlichen Assistenten während deiner Workouts. Möglicherweise siehst du gerade hier noch nicht viel... Erstelle deinen ersten Trainingsplan und starte dein Workout von diesem Bildschirm noch heute!",
+  "workouts.welcome.exercises.header": "Übungen",
+  "workouts.welcome.exercises.description": "Erstelle deine eigenen Übungen, stelle deren Schwierigkeitsgrad ein und gebe an, was du dabei messen möchtest.",
+  "workouts.welcome.plans.header": "Pläne",
+  "workouts.welcome.plans.description": "Verwalte deine eigenen Trainingspläne passend zu deinen persönlichen Bedürfnissen. Lege die Anzahl der Sätze and Ziele für jede Übung im Plan fest.",
+  "workouts.welcome.workouts.header": "Workouts",
+  "workouts.welcome.workouts.description": "Starte ein Workout für einen deiner Pläne und erfasse deine Ergebnisse!",
+  
   "workouts.workout-score.before": "Du hast ",
   "workouts.workout-score.score": "{{score}} Punkte ",
   "workouts.workout-score.after": "erreicht!",
@@ -44,8 +60,23 @@
   
   "workout.action-step.current-exercise": "Jetzt",
   "workout.action-step.note.label": "Notiz",
+  
+  "workout-history.title": "Historie",
+  "workout-history.no-workouts": "Bisher wurden noch keine Workouts erfasst.",
+  "workout-delete.title": "Workout löschen",
+  "workout-delete.prompt": "Möchtest du diesen Workout wirklich löschen? Aufgezeichnete Trainingsergebnisse gehen dabei ebenfalls verloren.",
+  "workout-edit.title": "Workout bearbeiten",
+  "workout-edit.date.label": "Datum",
+  "workout-edit.start.label": "Startzeit",
+  "workout-edit.end.label": "Endezeit",
+  "workout-edit.tracked-sets": "Erfasste Sätze",
+  "workout-edit.no-sets-tracked": "Es wurden keine Ergebnisse in diesem Workout erfasst.",
+  "workout.note.label": "Notiz",
+  "save-workout-succeeded": "Workout gespeichert.",
+  "save-workout-failed": "Der Workout konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
 
   "plans.title": "Pläne",
+  "plans.no-plans": "Es sind noch keine Pläne verfügbar. Lege einen Plan an, indem du den Button unten verwendest.",
   "plan-add.title": "Plan anlegen",
   "plan-edit.title": "Plan bearbeiten",
   "plan-delete.title": "Plan löschen",
@@ -58,23 +89,26 @@
   "goal-add.title": "Ziel anlegen",
   "goal-edit.title": "Ziel bearbeiten",
   "entries": "Einträge",
-  "entries-no": "Es gibt noch keine Einträge. Beginne Einträge hinzuzufügen, in dem du den Button in der rechten unteren Ecke betätigst.",
+  "entries-no": "Es gibt noch keine Einträge. Erstelle Einträge, in dem du den Button unten verwendest.",
   "pause": "Pause",
   "duration": "Dauer",
   "action": "Aktion",
-  "no-exercise-selected": "Du musst zu erst eine Übung wählen, bevor du Ziele hinzufügen kannst.",
+  "no-exercise-selected": "Du musst zu erst eine Übung wählen, bevor du Einträge hinzufügen kannst.",
   "set-exercise-failed": "",
   "add-action-failed": "Es sieht so aus, als sei deine Internetverbindung schlecht. Bitte prüfe deine Verbindung und versuche es noch einmal.",
 
   "plan.title": "Titel",
   "plan.description": "Beschreibung",
   "plan.goals": "Ziele",
+  "plan.goal-delete.title": "Ziel löschen",
+  "plan.goal-delete.prompt": "Möchtest du dieses Ziel wirklich löschen?",
 
   "plan.goals.entries.add-action": "Aktion hinzufügen",
   "plan.goals.entries.add-pause": "Pause hinzufügen",
   "plan.goals.entries.delete-entry": "Eintrag löschen",
 
   "exercises.title": "Übungen",
+  "exercises.no-exercises": "Es sind noch keine Übungen verfügbar. Lege eine Übung an, indem du den Button unten verwendest.",
   "exercise-add.title": "Übung anlegen",
   "exercise-edit.title": "Übung bearbeiten",
   "exercise-delete.title": "Übung löschen",
@@ -101,5 +135,87 @@
   "Distance": "Distanz",
   "Distance.short": "dist",
   "Calories": "Kalorien",
-  "Calories.short": "kcal"
+  "Calories.short": "kcal",
+  
+  "plans-samples": {
+    "start-plan": {
+      "title": "Start",
+      "description": ""
+    },
+    "lady-plan": {
+      "title": "Für meine Lady",
+      "description": ""
+    }
+  },
+
+  "exercises-samples": {
+    "concentration-curls": {
+      "title": "Concentration Curls",
+      "description": "Armbizeps"
+    },
+    "dumbbell-bench-press": {
+      "title": "Dumbbell Bench Press",
+      "description": ""
+    },
+    "criss-cross": {
+      "title": "Criss Cross",
+      "description": ""
+    },
+    "ez-curl-bar": {
+      "title": "SZ-Curls",
+      "description": ""
+    },
+    "pull-over": {
+      "title": "Pull-Over",
+      "description": ""
+    },
+    "leg-drops": {
+      "title": "Leg Drops",
+      "description": ""
+    },
+    "hand-gripper": {
+      "title": "Hand Gripper",
+      "description": ""
+    },
+    "planking": {
+      "title": "Planking",
+      "description": ""
+    },
+    "walking": {
+      "title": "Laufen",
+      "description": ""
+    },
+    "push-ups-positive": {
+      "title": "Push Ups Positiv",
+      "description": ""
+    },
+    "pull-ups-wide": {
+      "title": "Pull Ups Breit",
+      "description": ""
+    },
+    "reverse-crunches": {
+      "title": "Reverse Crunches",
+      "description": ""
+    },
+    "calf-raise": {
+      "title": "Wadenheben",
+      "description": ""
+    },
+    "push-ups-negative": {
+      "title": "Push Ups Negativ",
+      "description": ""
+    },
+    "dumbbell-rows": {
+      "title": "Kurzhantel-Rudern",
+      "description": ""
+    },
+    "squats": {
+      "title": "Kniebeuge",
+      "description": ""
+    },
+    "sit-ups": {
+      "title": "Sit-Ups",
+      "description": ""
+    }
+  }
 }

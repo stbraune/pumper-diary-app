@@ -53,7 +53,7 @@
       <ion-col col-2 align-self-center>
         <div *ngIf="previousActionStep as ps" class="previous-step">
           <h6 *ngIf="stepIsAction(ps)" class="previous-step__header">
-            {{ps.set.exercise.title}}
+            {{ps.set.exercise.title | translate}}
           </h6>
           <h6 *ngIf="stepIsPause(ps)" class="previous-step__header">
             {{'workout.title.pause' | translate}}
@@ -69,14 +69,15 @@
 
       <ion-col align-self-center col-auto>
         <div class="progress-bar-container">
-          <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex" type="circle"></progress-bar>
+          <progress-bar [min]="0" [max]="steps.length - 1" [value]="activeStepIndex" type="circle">
+          </progress-bar>
         </div>
       </ion-col>
 
       <ion-col col-2 align-self-center>
         <div *ngIf="nextActionStep as ns" class="next-step">
           <h6 *ngIf="stepIsAction(ns)" class="next-step__header">
-            {{ns.set.exercise.title}}
+            {{ns.set.exercise.title | translate}}
           </h6>
           <h6 *ngIf="stepIsPause(ns)" class="next-step__header">
             {{'workout.title.pause' | translate}}

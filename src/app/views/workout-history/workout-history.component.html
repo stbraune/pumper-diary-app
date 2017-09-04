@@ -9,11 +9,14 @@
 
 <ion-content>
   <ion-list class="workouts__list">
+    <ion-item *ngIf="workouts.length === 0">
+      <em>{{'workout-history.no-workouts' | translate}}</em>
+    </ion-item>
     <ion-item-sliding *ngFor="let workout of workouts">
       <ion-item (click)="workoutSelected(workout)">
         {{formatWorkoutDate(workout) | async}}
         <p>
-          {{workout.plan.title}}
+          {{workout.plan.title | translate}}
         </p>
       </ion-item>
       <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteWorkout(workout)">

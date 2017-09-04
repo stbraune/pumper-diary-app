@@ -28,39 +28,39 @@ export class MeasurementsService {
     }
   }
 
-  public createCalories(): Measurement {
+  public createCalories(value: string = '0'): Measurement {
     return {
       measure: Measure.Calories,
-      value: '0'
+      value
     };
   }
 
-  public createDistance(): Measurement {
+  public createDistance(value: string = '0'): Measurement {
     return {
       measure: Measure.Distance,
-      value: '0',
+      value,
       unit: UnitConverterService.units.km
     };
   }
 
-  public createDuration(): Measurement {
+  public createDuration(value: string = '00:00:00'): Measurement {
     return {
       measure: Measure.Duration,
-      value: '00:00:00'
+      value
     };
   }
 
-  public createRepetitions(): Measurement {
+  public createRepetitions(value: string = '0'): Measurement {
     return {
       measure: Measure.Repetitions,
-      value: '0'
+      value
     };
   }
 
-  public createWeight(): Measurement {
+  public createWeight(value: string = '0'): Measurement {
     return {
       measure: Measure.Weight,
-      value: '0',
+      value,
       unit: UnitConverterService.units.kg
     };
   }

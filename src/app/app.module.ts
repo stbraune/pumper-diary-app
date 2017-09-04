@@ -33,6 +33,10 @@ import {
 } from './services';
 
 import {
+  SplitPipe
+} from './pipes';
+
+import {
   ProgressBarComponent
 } from './views/progress-bar';
 
@@ -90,6 +94,8 @@ import {
 
 @NgModule({
   declarations: [
+    SplitPipe,
+
     AppComponent,
     HelloIonicPage,
     ItemDetailsPage,

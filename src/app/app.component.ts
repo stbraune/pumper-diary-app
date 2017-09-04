@@ -47,7 +47,7 @@ export class AppComponent {
       userLang = /(en|de|bg)/gi.test(userLang) ? userLang : this.platform.lang();
 
       this.translateService.setDefaultLang('en');
-      this.translateService.use(userLang);
+      this.translateService.use('de' || userLang);
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();

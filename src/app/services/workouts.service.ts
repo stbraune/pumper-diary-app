@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/fromPromise';
 
-import { byDate } from './utils';
+import { by } from './utils';
 import { DatabaseService } from './database.service';
 
 import { Workout } from '../model';
@@ -22,24 +22,13 @@ export class WorkoutsService {
   public getWorkouts(): Observable<Workout[]> {
     return Observable.fromPromise(this.workoutsDatabase.allDocs({ include_docs: true }))
       .map((documents: any) => {
-        return documents.rows.map((row) => row.doc).map((workout: Workout) => {
-          workout.createdAt = new Date(workout.createdAt);
-          workout.updatedAt = new Date(workout.updatedAt);
-          workout.start = new Date(workout.start);
-          workout.end = new Date(workout.end);
-          return workout;
-        }).sort(byDate<Workout>((workout) => workout.createdAt));
+        return documents.rows.map((row) => row.doc).map((workout: Workout) => this.deserializeWorkout(workout))
+          .sort(by<Workout>((workout) => -workout.createdAt.getTime()));
       });
   }
 
   public getWorkoutById(id: string): Observable<Workout> {
-    return Observable.fromPromise(this.workoutsDatabase.get(id)).map((workout: Workout) => {
-      workout.createdAt = new Date(workout.createdAt);
-      workout.updatedAt = new Date(workout.updatedAt);
-      workout.start = new Date(workout.start);
-      workout.end = new Date(workout.end);
-      return workout;
-    });
+    return Observable.fromPromise(this.workoutsDatabase.get(id)).map((workout: Workout) => this.deserializeWorkout(workout));
   }
 
   public createWorkout(workout: Workout): Observable<Workout> {
@@ -80,5 +69,13 @@ export class WorkoutsService {
       workout.transient = transient;
       return result.ok;
     });
+  }
+
+  public deserializeWorkout(workout: Workout): Workout {
+    workout.createdAt = new Date(workout.createdAt);
+    workout.updatedAt = new Date(workout.updatedAt);
+    workout.start = workout.start ? new Date(workout.start) : new Date();
+    workout.end = workout.end ? new Date(workout.end) : new Date();
+    return workout;
   }
 }

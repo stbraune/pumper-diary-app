@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card class="chronometer-control">
   <ion-card-content no-padding>
     <ion-grid no-padding>
       <ion-row align-items-stretch class="numeric-up-down-large">
@@ -17,7 +17,13 @@
             <ion-row>
               <ion-col>
                 <ion-item class="item-input">
-                  {{label}}
+                  <ng-container *ngIf="shouldShowProgressBar">
+                    <progress-bar [min]="0" [max]="100" [value]="currentProgressInPercent" height="16px" type="bar">
+                    </progress-bar>
+                  </ng-container>
+                  <ng-container *ngIf="!shouldShowProgressBar">
+                    {{label}}
+                  </ng-container>
                 </ion-item>
               </ion-col>
             </ion-row>

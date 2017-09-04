@@ -9,11 +9,14 @@
 
 <ion-content>
   <ion-list class="exercises__list">
+    <ion-item *ngIf="exercises.length === 0">
+      <em>{{'exercises.no-exercises' | translate}}</em>
+    </ion-item>
     <ion-item-sliding *ngFor="let exercise of exercises">
       <ion-item (click)="exerciseSelected(exercise)">
-        {{exercise.title}}
+        {{exercise.title | translate}}
         <p *ngIf="exercise.description">
-          {{exercise.description}}
+          {{exercise.description | translate}}
         </p>
       </ion-item>
       <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteExercise(exercise)">

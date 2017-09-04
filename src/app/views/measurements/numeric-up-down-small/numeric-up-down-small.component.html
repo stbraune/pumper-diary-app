@@ -1,27 +1,27 @@
 <ion-row class="numeric-up-down-small">
-  <ion-col col-4 class="numeric-up-down-small__col-label">
+  <ion-col col-5 class="numeric-up-down-small__col-label">
     <ion-item class="item-input item-input-no-bottom-border">
       {{label}}
     </ion-item>
   </ion-col>
-  <ion-col col-1 class="numeric-up-down-small__col-decrement">
+  <ion-col col-auto class="numeric-up-down-small__col-decrement">
     <ion-item>
       <button ion-button icon-only clear (click)="decrementValue()">
         <ion-icon name="remove"></ion-icon>
       </button>
     </ion-item>
   </ion-col>
-  <ion-col *ngIf="units.length > 0" col-3 class="numeric-up-down-small__col-value">
+  <ion-col *ngIf="units.length > 0" class="numeric-up-down-small__col-value">
     <ion-item class="item-input-no-bottom-border">
       <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
     </ion-item>
   </ion-col>
-  <ion-col *ngIf="units.length == 0" col-6 class="numeric-up-down-small__col-value">
+  <ion-col *ngIf="units.length == 0" class="numeric-up-down-small__col-value">
     <ion-item class="item-input-no-bottom-border">
       <ion-input type="number" [(ngModel)]="value" [min]="min" [max]="max" [step]="step" (ngModelChange)="valueChanged()" class="input-value"></ion-input>
     </ion-item>
   </ion-col>
-  <ion-col col-1 class="numeric-up-down-small__col-increment">
+  <ion-col col-auto class="numeric-up-down-small__col-increment">
     <ion-item>
       <button ion-button icon-only clear (click)="incrementValue()">
         <ion-icon name="add"></ion-icon>

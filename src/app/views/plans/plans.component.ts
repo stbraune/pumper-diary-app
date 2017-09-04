@@ -43,15 +43,21 @@ export class PlansComponent {
   }
 
   public planSelected(plan: Plan): void {
-    let planEditModal = this.modalController.create(PlanEditComponent, {
-      data: JSON.parse(JSON.stringify(plan))
+    const copy = JSON.parse(JSON.stringify(plan));
+    this.translateService.get([copy.title, copy.description]).subscribe((texts) => {
+      copy.title = texts[copy.title];
+      copy.description = texts[copy.description];
+
+      let planEditModal = this.modalController.create(PlanEditComponent, {
+        data: copy
+      });
+      planEditModal.onDidDismiss((result) => {
+        if (result && result.success) {
+          this.updatePlan(result.data);
+        }
+      });
+      planEditModal.present();
     });
-    planEditModal.onDidDismiss((result) => {
-      if (result && result.success) {
-        this.updatePlan(result.data);
-      }
-    });
-    planEditModal.present();
   }
 
   public confirmDeletePlan(plan: Plan): void {

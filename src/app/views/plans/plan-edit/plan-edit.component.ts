@@ -32,6 +32,9 @@ export class PlanEditComponent {
     private viewController: ViewController
   ) {
     this.plan = this.navParams.get('data');
+    this.plan.goals.forEach((goal) => {
+      goal.id = goal.id || uuidv4();
+    });
   }
 
   public goalSelected(goal: Goal): void {

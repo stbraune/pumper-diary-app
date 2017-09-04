@@ -71,7 +71,11 @@ export class WorkoutCardsComponent {
       return 'neutral';
     }
 
-    const moods = workoutCard.transient.workout.sets.map((set) => set.mood);
+    const moods = workoutCard.transient.workout.sets.filter((set) => !!set.mood).map((set) => set.mood);
+    if (moods.length === 0) {
+      return 'neutral';
+    }
+
     const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
     switch (average) {
       case Mood.Happy:
@@ -139,44 +143,46 @@ export class WorkoutCardsComponent {
 
   public startWorkoutClicked($event: any) {
     this.plansService.getPlans().subscribe((plans) => {
-      const inputs = plans.map((plan) => ({
-        type: 'radio',
-        value: plan._id,
-        label: plan.title
-      }));
+      this.translateService.get(plans.map((plan) => plan.title)).subscribe((texts) => {
+        const inputs = plans.map((plan) => ({
+          type: 'radio',
+          value: plan._id,
+          label: texts[plan.title]
+        }));
 
-      this.translateService.get([
-        'workouts.start-workout.title', 'workouts.start-workout.message',
-        'workouts.start-workout.start', 'cancel'
-      ]).subscribe((texts) => {
-        const alert = this.alertController.create({
-          title: texts['workouts.start-workout.title'],
-          message: texts['workouts.start-workout.message'],
-          inputs,
-          buttons: [
-            {
-              text: texts['cancel'],
-              role: 'cancel'
-            },
-            {
-              text: texts['workouts.start-workout.start'],
-              handler: (data) => {
-                if (!data) {
-                  this.toastService.showErrorToast('workouts.start-workout.no-plan-selected',
-                    undefined, 3000);
-                  return false;
+        this.translateService.get([
+          'workouts.start-workout.title', 'workouts.start-workout.message',
+          'workouts.start-workout.start', 'cancel'
+        ]).subscribe((texts) => {
+          const alert = this.alertController.create({
+            title: texts['workouts.start-workout.title'],
+            message: texts['workouts.start-workout.message'],
+            inputs,
+            buttons: [
+              {
+                text: texts['cancel'],
+                role: 'cancel'
+              },
+              {
+                text: texts['workouts.start-workout.start'],
+                handler: (data) => {
+                  if (!data) {
+                    this.toastService.showErrorToast('workouts.start-workout.no-plan-selected',
+                      undefined, 3000);
+                    return false;
+                  }
+
+                  this.plansService.getPlanById(data).subscribe((plan) => {
+                    this.startWorkout(plan);
+                  }, (error) => {
+                    this.toastService.showErrorToast('workouts.start-workout.no-plan-selected');
+                  });
                 }
-
-                this.plansService.getPlanById(data).subscribe((plan) => {
-                  this.startWorkout(plan);
-                }, (error) => {
-                  this.toastService.showErrorToast('workouts.start-workout.no-plan-selected');
-                });
               }
-            }
-          ]
+            ]
+          });
+          alert.present();
         });
-        alert.present();
       });
     });
   }

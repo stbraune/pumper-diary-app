@@ -44,7 +44,7 @@
           <ion-list reorder="true" (ionItemReorder)="reorderGoals($event)" class="goals__list">
             <ion-item-sliding *ngFor="let goal of plan.goals; let i=index">
               <ion-item (click)="goalSelected(goal)">
-                <strong>#{{i+1}}</strong> {{goal.exercise.title}}
+                <strong>#{{i+1}}</strong> {{goal.exercise.title | translate}}
               </ion-item>
               <ion-item-options icon-start side="right" (ionSwipe)="confirmDeleteGoal(goal)">
                 <button ion-button expandable color="danger" (click)="confirmDeleteGoal(goal)">
