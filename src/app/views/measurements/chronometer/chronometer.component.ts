@@ -1,7 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-
-import { Vibration } from '@ionic-native/vibration';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { BeepService } from '../../../services';
 
 @Component({
   selector: 'chronometer',
@@ -42,11 +40,8 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   public color = 'chronometer--neutral';
 
   public constructor(
-    private vibration: Vibration,
-    private audio: NativeAudio
+    private beepService: BeepService
   ) {
-    audio.preloadSimple('short', 'assets/sounds/sin_440_300.wav');
-    audio.preloadSimple('long', 'assets/sounds/sin_880_1500.wav');
   }
 
   public ngOnInit(): void {
@@ -110,7 +105,7 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   private tick(loud: boolean) {
     const millis = this.millis;
     if (loud) {
-      this.emitChronometerTicked();
+      this.emitChronometerTicked(millis);
       this.state = this.beep(millis, this.state);
     }
 
@@ -126,7 +121,7 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   private beep(millis: number, state: number) {
     if (0 <= millis && millis < 1000 && state === 1) {
       this.beepLong();
-      this.emitChronometerFinished();
+      this.emitChronometerFinished(millis);
       return 0;
     } else if (-1000 <= millis && millis < 0 && state === 2) {
       this.beepShort();
@@ -144,14 +139,12 @@ export class ChronometerComponent implements OnInit, OnDestroy {
 
   private beepShort() {
     console.log('beep short', this.millis);
-    this.audio.play('short');
-    this.vibration.vibrate(300);
+    this.beepService.beepShort();
   }
   
   private beepLong() {
     console.log('beep long', this.millis);
-    this.audio.play('long');
-    this.vibration.vibrate(1500);
+    this.beepService.beepLong();
   }
   
   private formatDuration(millis: number) {
@@ -187,11 +180,11 @@ export class ChronometerComponent implements OnInit, OnDestroy {
     return parseInt(<string>n);
   }
 
-  private emitChronometerTicked() {
-    this.chronometerTicked.emit(this.millis);
+  private emitChronometerTicked(millis: number) {
+    this.chronometerTicked.emit(millis);
   }
 
-  private emitChronometerFinished() {
-    this.chronometerFinished.emit(this.millis);
+  private emitChronometerFinished(millis: number) {
+    this.chronometerFinished.emit(millis);
   }
 }

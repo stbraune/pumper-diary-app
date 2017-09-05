@@ -9,9 +9,11 @@
   "back": "Back",
   "finish": "Finish",
 
+  "workout-date": "{{day}}, {{start}}",
   "today": "Today",
   "yesterday": "Yesterday",
   "xdaysago": "{{days}} days ago",
+  "veryShortDateFormat": "MMMM y",
   "shortDateFormat": "yyyy/MM/dd",
   "shortDateDisplayFormat": "YYYY/MM/DD",
   "shortDatePickerFormat": "YYYY MMM DD",
@@ -62,6 +64,7 @@
   "workout.action-step.note.label": "Note",
 
   "workout-history.title": "History",
+  "workout-history.count-workouts": "{{count}} Workouts",
   "workout-history.no-workouts": "No workouts were tracked so far.",
   "workout-delete.title": "Delete Workout",
   "workout-delete.prompt": "Are you sure to delete this workout? All tracked data from this workout will also be deleted.",

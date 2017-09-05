@@ -31,8 +31,10 @@
         "@angular/http": "4.1.3",
         "@angular/platform-browser": "4.1.3",
         "@angular/platform-browser-dynamic": "4.1.3",
+        "@ionic-native/background-mode": "^4.2.1",
         "@ionic-native/core": "^3.12.1",
         "@ionic-native/insomnia": "^4.2.1",
+        "@ionic-native/local-notifications": "^4.2.1",
         "@ionic-native/native-audio": "^3.12.1",
         "@ionic-native/splash-screen": "^3.12.1",
         "@ionic-native/status-bar": "^3.12.1",
@@ -42,6 +44,8 @@
         "@ngx-translate/http-loader": "0.0.3",
         "@types/node": "^8.0.24",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-app-event": "file:node_modules\\cordova-plugin-app-event",
+        "cordova-plugin-background-mode": "^0.7.2",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-device": "^1.1.4",
         "cordova-plugin-insomnia": "^4.3.0",
@@ -51,6 +55,7 @@
         "cordova-plugin-statusbar": "^2.2.2",
         "cordova-plugin-vibration": "^2.1.5",
         "cordova-plugin-whitelist": "^1.3.1",
+        "de.appplant.cordova.plugin.local-notification": "^0.8.5",
         "ionic-angular": "3.6.0",
         "ionic-plugin-keyboard": "^2.2.1",
         "ionicons": "3.0.0",
@@ -82,7 +87,9 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
             "ionic-plugin-keyboard": {},
-            "cordova-plugin-insomnia": {}
+            "cordova-plugin-insomnia": {},
+            "de.appplant.cordova.plugin.local-notification": {},
+            "cordova-plugin-background-mode": {}
         },
         "platforms": [
             "android"

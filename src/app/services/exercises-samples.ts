@@ -43,4 +43,4 @@ export const EXERCISES_SAMPLES_NAMED: {
   SIT_UPS: exercise('sit-ups', 1, measures(reps))
 };
 
-export const EXERCISES_SAMPLES = (<any>Object).values(EXERCISES_SAMPLES_NAMED);
+export const EXERCISES_SAMPLES = Object.keys(EXERCISES_SAMPLES_NAMED).map((key) => EXERCISES_SAMPLES_NAMED[key]);

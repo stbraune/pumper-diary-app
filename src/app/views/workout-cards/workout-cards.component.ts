@@ -3,13 +3,14 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AlertController, ModalController } from 'ionic-angular';
 
+import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/catch';
 
-import { WorkoutCardsService, WorkoutsService, DateFormatService,
-  PlansService, ScoreCalculatorService, ToastService } from '../../services';
-import { WorkoutCard, Workout, Mood, Measure, Measurement, Plan } from '../../model';
+import { WorkoutCardsService, WorkoutsService, PlansService, ToastService } from '../../services';
+import { WorkoutCard, Workout, Plan } from '../../model';
 
 import { WorkoutComponent } from './workout';
 
@@ -21,20 +22,45 @@ export class WorkoutCardsComponent {
   private workoutCards: WorkoutCard[] = [];
 
   public constructor(
+    private localNotifications: LocalNotifications,
     private translateService: TranslateService,
     private alertController: AlertController,
     private modalController: ModalController,
-    private dateFormatService: DateFormatService,
     private plansService: PlansService,
     private workoutCardsService: WorkoutCardsService,
     private workoutsService: WorkoutsService,
-    private scoreCalculatorService: ScoreCalculatorService,
     private toastService: ToastService
   ) {
   }
 
   public ionViewDidLoad(): void {
     this.loadWorkoutCards();
+  }
+
+  public enableNotifications() {
+    this.localNotifications.schedule(<ILocalNotification>{
+      id: 1,
+      text: 'A notification from pumper diary!',
+      every: 'minute',
+      led: 'FDC30F'
+    });
+    console.log('enabled notifications');
+  }
+
+  public disableNotifications() {
+    this.localNotifications.cancel(1).then((x) => {
+      console.log('cancelled notifications');
+      this.alertController.create({
+        title: 'Notifications cancelled',
+        message: JSON.stringify(x)
+      }).present();
+    }).catch((error) => {
+      console.log(error);
+      this.alertController.create({
+        title: 'Notification cancelling failed',
+        message: error
+      }).present();
+    });
   }
 
   private loadWorkoutCards() {
@@ -49,57 +75,12 @@ export class WorkoutCardsComponent {
   private loadWorkoutCard(workoutCard: WorkoutCard, workout?: Workout) {
     if (!workout) {
       this.workoutsService.getWorkoutById(workoutCard.workoutId).subscribe((workout) => {
-        this.loadWorkoutCard(workoutCard, workout);
+        this.loadWorkoutCard(workoutCard, this.workoutsService.loadWorkout(workout));
       });
       return;
     }
 
     workoutCard.transient = { workout };
-    workoutCard.transient.score = this.loadWorkoutCardScore(workoutCard);
-    workoutCard.transient.mood = this.loadWorkoutCardMood(workoutCard);
-    workoutCard.transient.date = this.loadWorkoutCardDate(workoutCard);
-  }
-
-  private loadWorkoutCardScore(workoutCard: WorkoutCard): Observable<string> {
-    return this.scoreCalculatorService.calculateScoreForWorkout(workoutCard.transient.workout).switchMap((score) => {
-      return this.translateService.get('workouts.workout-score.score', { score });
-    });
-  }
-
-  private loadWorkoutCardMood(workoutCard: WorkoutCard): string {
-    if (workoutCard.transient.workout.sets.length === 0) {
-      return 'neutral';
-    }
-
-    const moods = workoutCard.transient.workout.sets.filter((set) => !!set.mood).map((set) => set.mood);
-    if (moods.length === 0) {
-      return 'neutral';
-    }
-
-    const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
-    switch (average) {
-      case Mood.Happy:
-        return 'happy';
-      case Mood.Neutral:
-        return 'neutral';
-      case Mood.Unhappy:
-        return 'unhappy';
-      default:
-        return 'unknown' + average;
-    }
-  }
-
-  private loadWorkoutCardDate(workoutCard: WorkoutCard): Observable<string> {
-    const start = workoutCard.transient.workout.start;
-    const end = workoutCard.transient.workout.end;
-    return Observable.forkJoin(
-      this.dateFormatService.formatDay(start),
-      this.dateFormatService.formatTime(start),
-      this.dateFormatService.formatTime(end)
-    ).map((texts) => {
-      const [ day, start1, end1 ] = texts;
-      return `${day}, ${start1} - ${end1}`;
-    });
   }
 
   public formatScore(workoutCard: WorkoutCard): Observable<string> {
@@ -202,7 +183,7 @@ export class WorkoutCardsComponent {
         transient: { workout }
       }).subscribe((workoutCard) => {
         const workoutModal = this.modalController.create(WorkoutComponent, {
-          data: workout
+          data: this.workoutsService.loadWorkout(workout)
         });
         workoutModal.onDidDismiss((result) => {
           if (result && result.delete) {

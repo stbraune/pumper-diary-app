@@ -9,6 +9,8 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Insomnia } from '@ionic-native/insomnia';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoaderFactory } from './translate-http-loader-factory';
@@ -20,6 +22,7 @@ import { ItemDetailsPage } from '../pages/item-details/item-details';
 import { ListPage } from '../pages/list/list';
 
 import {
+  BeepService,
   DatabaseService,
   DateFormatService,
   PlansService,
@@ -190,7 +193,10 @@ import {
     Vibration,
     NativeAudio,
     Insomnia,
+    BackgroundMode,
+    LocalNotifications,
     
+    BeepService,
     DatabaseService,
     DateFormatService,
     PlansService,

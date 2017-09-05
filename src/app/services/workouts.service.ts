@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -6,15 +7,20 @@ import 'rxjs/add/observable/fromPromise';
 
 import { by } from './utils';
 import { DatabaseService } from './database.service';
+import { ScoreCalculatorService } from './score-calculator.service';
+import { DateFormatService } from './date-format.service';
 
-import { Workout } from '../model';
+import { Workout, Mood } from '../model';
 
 @Injectable()
 export class WorkoutsService {
   private workoutsDatabase: any;
 
   public constructor(
-    private databaseService: DatabaseService
+    private databaseService: DatabaseService,
+    private translateService: TranslateService,
+    private scoreCalculatorService: ScoreCalculatorService,
+    private dateFormatService: DateFormatService
   ) {
     this.workoutsDatabase = databaseService.openDatabase('workouts');
   }
@@ -77,5 +83,60 @@ export class WorkoutsService {
     workout.start = workout.start ? new Date(workout.start) : new Date();
     workout.end = workout.end ? new Date(workout.end) : new Date();
     return workout;
+  }
+  
+  public loadWorkout(workout: Workout): Workout {
+    workout.transient = Object.assign(workout.transient || {}, {
+      score: this.loadScore(workout),
+      date: this.loadDate(workout),
+      mood: this.loadMood(workout)
+    });
+    return workout;
+  }
+  
+  private loadScore(workout: Workout): Observable<string> {
+    return this.scoreCalculatorService.calculateScoreForWorkout(workout).switchMap((score) => {
+      return this.translateService.get('workouts.workout-score.score', { score });
+    });
+  }
+
+  private loadMood(workout: Workout): string {
+    if (workout.sets.length === 0) {
+      return 'neutral';
+    }
+
+    const moods = workout.sets.filter((set) => set.mood !== undefined).map((set) => set.mood);
+    if (moods.length === 0) {
+      return 'neutral';
+    }
+
+    const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
+    switch (average) {
+      case Mood.Happy:
+        return 'happy';
+      case Mood.Neutral:
+        return 'neutral';
+      case Mood.Unhappy:
+        return 'unhappy';
+      default:
+        return 'unknown' + average;
+    }
+  }
+
+  private loadDate(workout: Workout): Observable<string> {
+    const start = workout.start;
+    const end = workout.end;
+    return Observable.forkJoin(
+      this.dateFormatService.formatDay(start),
+      this.dateFormatService.formatTime(start),
+      this.dateFormatService.formatTime(end)
+    ).switchMap((texts) => {
+      const [ day, start1, end1 ] = texts;
+      return this.translateService.get('workout-date', {
+        day: day,
+        start: start1,
+        end: end1
+      });
+    });
   }
 }

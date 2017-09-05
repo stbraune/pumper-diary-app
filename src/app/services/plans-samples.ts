@@ -102,4 +102,4 @@ export const PLANS_SAMPLES_NAMED: {
   )
 };
 
-export const PLANS_SAMPLES = (<any>Object).values(PLANS_SAMPLES_NAMED);
+export const PLANS_SAMPLES = Object.keys(PLANS_SAMPLES_NAMED).map((key) => PLANS_SAMPLES_NAMED[key]);

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { Workout } from '../../model';
-import { WorkoutsService, WorkoutCardsService, ToastService, DateFormatService } from '../../services';
+import { WorkoutsService, WorkoutCardsService, ToastService } from '../../services';
 
 import { WorkoutEditComponent } from './workout-edit';
 
@@ -15,12 +15,12 @@ import { WorkoutEditComponent } from './workout-edit';
 })
 export class WorkoutHistoryComponent {
   private workouts: Workout[] = [];
+  public months: any = {};
 
   public constructor(
     private translateService: TranslateService,
     private modalController: ModalController,
     private toastService: ToastService,
-    private dateFormatService: DateFormatService,
     private alertController: AlertController,
     private workoutsService: WorkoutsService,
     private workoutCardsService: WorkoutCardsService
@@ -33,33 +33,32 @@ export class WorkoutHistoryComponent {
 
   private loadWorkouts() {
     this.workoutsService.getWorkouts().subscribe((workouts) => {
-      this.workouts = workouts.map((workout) => this.loadWorkout(workout));
+      this.workouts = workouts.map((workout) => this.workoutsService.loadWorkout(workout));
+      this.groupWorkouts();
+    });
+  }
+
+  private groupWorkouts() {
+    this.months = {};
+    this.workouts.forEach((workout) => {
+      workout.transient = workout.transient || {};
+      workout.transient.month = undefined;
+
+      const monthIndex = `${workout.start.getFullYear()}/${workout.start.getMonth()}`;
+      if (this.months[monthIndex]) {
+        this.months[monthIndex].countWorkouts++;
+      } else {
+        workout.transient.month = this.months[monthIndex] = {
+          date: workout.start,
+          year: workout.start.getFullYear(),
+          month: workout.start.getMonth(),
+          countWorkouts: 1
+        };
+        console.log(workout);
+      }
     });
   }
   
-  private loadWorkout(workout: Workout): Workout {
-    workout.transient = { };
-    workout.transient.date = this.loadWorkoutDate(workout);
-    return workout;
-  }
-
-  private loadWorkoutDate(workout: Workout): Observable<string> {
-    const start = workout.start;
-    const end = workout.end;
-    return Observable.forkJoin(
-      this.dateFormatService.formatDay(start),
-      this.dateFormatService.formatTime(start),
-      this.dateFormatService.formatTime(end)
-    ).map((texts) => {
-      const [ day, start1, end1 ] = texts;
-      return `${day}, ${start1} - ${end1}`;
-    });
-  }
-  
-  public formatWorkoutDate(workout: Workout): Observable<string> {
-    return workout.transient && workout.transient.date;
-  }
-
   public workoutSelected(workout: Workout): void {
     const transient = workout.transient;
     workout.transient = undefined;
@@ -111,7 +110,8 @@ export class WorkoutHistoryComponent {
     this.workoutsService.updateWorkout(workout).subscribe((result) => {
       const index = this.workouts.findIndex((e) => e._id === workout._id);
       if (index !== -1) {
-        this.workouts.splice(index, 1, this.loadWorkout(result));
+        this.workouts.splice(index, 1, this.workoutsService.loadWorkout(result));
+        this.groupWorkouts();
       }
       this.toastService.showSuccessToast('save-workout-succeeded', result);
     }, (error) => {
@@ -138,6 +138,7 @@ export class WorkoutHistoryComponent {
       const index = this.workouts.indexOf(workout);
       if (index !== -1) {
         this.workouts.splice(index, 1);
+        this.groupWorkouts();
       }
       this.toastService.showSuccessToast('delete-workout-succeeded', result);
     }, (error) => {

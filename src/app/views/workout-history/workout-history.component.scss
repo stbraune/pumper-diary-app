@@ -1,3 +1,7 @@
 .workouts__list {
   padding-bottom: 56px;
+
+  .label, .label-md {
+    flex: none;
+  }
 }

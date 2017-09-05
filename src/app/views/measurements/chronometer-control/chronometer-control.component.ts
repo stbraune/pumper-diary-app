@@ -28,18 +28,8 @@ export class ChronometerControlComponent {
   private resetMillis: number;
   private resetWhilePaused: boolean = true;
 
-  public get shouldShowProgressBar() {
-    return this.chronometer.millis <= 0;
-  }
-
-  public get currentProgressInPercent() {
-    const millis = this.chronometer.millis;
-    if (millis > 0) {
-      return 100;
-    }
-
-    return Math.round((this.resetMillis + millis) * 100 / this.resetMillis);
-  }
+  public shouldShowProgressBar = false;
+  public currentProgressInPercent = 0;
 
   public toggleChronometer() {
     if (this.started) {
@@ -116,7 +106,9 @@ export class ChronometerControlComponent {
     return Math.round((new Date().getTime() - this.chronometer.base.getTime() + this.resetMillis) / 1000);
   }
 
-  public onChronometerTick($event: number) {
+  public onChronometerTick(millis: number) {
+    this.shouldShowProgressBar = millis <= 0;
+    this.currentProgressInPercent = millis > 0 ? 100 : Math.round((this.resetMillis + millis) * 100 / this.resetMillis);
     this.chronometerTicked.emit(this.getSeconds());
   }
 

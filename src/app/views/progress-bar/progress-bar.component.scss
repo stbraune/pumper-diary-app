@@ -22,7 +22,7 @@
     $circle-background: map-get($colors, shadow);
     $circle-color: map-get($colors, accent);
     $inset-size: 43px;
-    $inset-color: map-get($colors, light);
+    $inset-color: map-get($colors, dark);
     $transition-length: 1s;
     $shadow: 3px 3px 5px rgba(0,0,0,0.2);
     $percentage-color: map-get($colors, accent);

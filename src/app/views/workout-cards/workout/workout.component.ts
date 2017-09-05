@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlertController, NavParams, ViewController, Slides, Slide } from 'ionic-angular';
 
 import { Insomnia } from '@ionic-native/insomnia';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
@@ -55,6 +56,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   public constructor(
     private insomnia: Insomnia,
+    private backgroundMode: BackgroundMode,
     private componentFactoryResolver: ComponentFactoryResolver,
     private translateService: TranslateService,
     private alertController: AlertController,
@@ -64,6 +66,10 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     private scoreCalculatorService: ScoreCalculatorService
   ) {
     this.workout = this.navParams.get('data');
+  }
+
+  public get isBackgroundOn() {
+    return this.backgroundMode.isEnabled();
   }
 
   public ngOnInit(): void {
@@ -119,6 +125,8 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.renderActiveStep();
+    this.backgroundMode.enable();
+    console.log('enabled background mode', this.backgroundMode.isEnabled(), this.backgroundMode.isActive(), this.backgroundMode.isScreenOff());
     this.insomnia.keepAwake();
   }
   
@@ -290,6 +298,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
               text: texts['yes'],
               handler: () => {
                 this.insomnia.allowSleepAgain();
+                this.backgroundMode.disable();
                 this.viewController.dismiss({
                   success: false,
                   delete: true,
@@ -321,6 +330,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
               handler: () => {
                 this.updateWorkout();
                 this.insomnia.allowSleepAgain();
+                this.backgroundMode.disable();
                 this.viewController.dismiss({
                   success: true,
                   data: {

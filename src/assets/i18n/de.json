@@ -9,9 +9,11 @@
   "back": "Zurück",
   "finish": "Fertig",
   
+  "workout-date": "{{day}}, {{start}}",
   "today": "Heute",
   "yesterday": "Gestern",
   "xdaysago": "Vor {{days}} Tagen",
+  "veryShortDateFormat": "MMMM y",
   "shortDateFormat": "dd.MM.yyyy",
   "shortDateDisplayFormat": "DD.MM.YYYY",
   "shortDatePickerFormat": "DD MMM YYYY",
@@ -21,12 +23,12 @@
   "shortMonthNames": "Jan,Febr,März,Apr,Mai,Juni,Juli,Aug,Sept,Okt,Nov,Dez",
 
   "menu.title": "Pumper Diary",
-  "menu.workouts.title": "Workouts",
+  "menu.workouts.title": "Start",
   "menu.workout-history.title": "Historie",
   "menu.plans.title": "Pläne",
   "menu.exercises.title": "Übungen",
 
-  "workouts.title": "Workouts",
+  "workouts.title": "Pumper Diary",
   
   "workouts.welcome.header": "Willkommen!",
   "workouts.welcome.intro": "Willkommen bei Pumper Diary, deinem persönlichen Assistenten während deiner Workouts. Möglicherweise siehst du gerade hier noch nicht viel... Erstelle deinen ersten Trainingsplan und starte dein Workout von diesem Bildschirm noch heute!",
@@ -63,6 +65,7 @@
   
   "workout-history.title": "Historie",
   "workout-history.no-workouts": "Bisher wurden noch keine Workouts erfasst.",
+  "workout-history.count-workouts": "{{count}} Workouts",
   "workout-delete.title": "Workout löschen",
   "workout-delete.prompt": "Möchtest du diesen Workout wirklich löschen? Aufgezeichnete Trainingsergebnisse gehen dabei ebenfalls verloren.",
   "workout-edit.title": "Workout bearbeiten",
