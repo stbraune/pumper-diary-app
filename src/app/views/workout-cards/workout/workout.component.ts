@@ -10,7 +10,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skipUntil';
 
-import { WorkoutCardsService, WorkoutsService, ScoreCalculatorService } from '../../../services';
+import { WorkoutCardsService, WorkoutsService, ScoreCalculatorService, NotificationService } from '../../../services';
 import { WorkoutCard, Workout, Plan, EntryType, Mood, Set, Measurement } from '../../../model';
 
 import { Step } from './model';
@@ -63,13 +63,10 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     private navParams: NavParams,
     private viewController: ViewController,
     private workoutsService: WorkoutsService,
-    private scoreCalculatorService: ScoreCalculatorService
+    private scoreCalculatorService: ScoreCalculatorService,
+    private notificationService: NotificationService
   ) {
     this.workout = this.navParams.get('data');
-  }
-
-  public get isBackgroundOn() {
-    return this.backgroundMode.isEnabled();
   }
 
   public ngOnInit(): void {
@@ -126,7 +123,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.renderActiveStep();
     this.backgroundMode.enable();
-    console.log('enabled background mode', this.backgroundMode.isEnabled(), this.backgroundMode.isActive(), this.backgroundMode.isScreenOff());
     this.insomnia.keepAwake();
   }
   
@@ -227,16 +223,23 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public previousStepClicked(): void {
+    this.clearPauseNotification();
     this.slides.slidePrev();
   }
   
   public nextStepClicked(): void {
+    if (this.activeStep.entry.type === EntryType.Action) {
+      this.clearPauseNotification();
+    }
+
     if (this.activeStepIndex === this.steps.length - 1) {
       this.saveWorkoutClicked();
     } else {
       this.slides.slideNext();
     }
   }
+
+  private stepEntered: Date;
 
   public stepChanged(): void {
     if (this.recentStep) {
@@ -253,6 +256,8 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   private renderActiveStep() {
     const activeStep = this.activeStep;
+    this.stepEntered = new Date();
+
     const activeStepSlideHost = this.activeStepSlideHost;
     
     let componentFactory = null;
@@ -269,18 +274,28 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       const actionStep = <ActionStepComponent>componentRef.instance;
       actionStep.step = activeStep;
       actionStep.complete.subscribe(() => {
-        console.log('action completed');
+        this.clearPauseNotification();
       });
     } else if (activeStep.entry.type === EntryType.Pause) {
       const pauseStep = <PauseStepComponent>componentRef.instance;
       pauseStep.step = activeStep;
+      pauseStep.started.subscribe(() => {
+        this.notificationService.clearPauseFinished();
+        this.notificationService.notifyPauseFinished(pauseStep.pauseDurationInMillis);
+      });
+      pauseStep.paused.subscribe(() => {
+        this.notificationService.clearPauseFinished();
+      });
       pauseStep.complete.subscribe(() => {
-        console.log('pause completed');
         this.slides.slideNext();
       });
     }
 
     this.recentStep = activeStep;
+  }
+
+  private clearPauseNotification() {
+    this.notificationService.clearPauseFinished();
   }
 
   public dismissWorkoutClicked(): void {
@@ -297,6 +312,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
             {
               text: texts['yes'],
               handler: () => {
+                this.notificationService.clearPauseFinished();
                 this.insomnia.allowSleepAgain();
                 this.backgroundMode.disable();
                 this.viewController.dismiss({
@@ -329,6 +345,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
               text: texts['yes'],
               handler: () => {
                 this.updateWorkout();
+                this.notificationService.clearPauseFinished();
                 this.insomnia.allowSleepAgain();
                 this.backgroundMode.disable();
                 this.viewController.dismiss({
@@ -347,6 +364,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   private updateWorkout() {
     if (this.recentStep && this.recentStep.set) {
+      const now = new Date();
       this.recentStep.set.measurements = this.recentStep.measurements
         .map((measurement) => measurement.actual);
     }

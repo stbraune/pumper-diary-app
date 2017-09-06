@@ -21,6 +21,13 @@
   "shortTimeDisplayFormat": "HH:mm",
   "shortTimePickerFormat": "HH mm",
   "shortMonthNames": "Jan,Febr,März,Apr,Mai,Juni,Juli,Aug,Sept,Okt,Nov,Dez",
+  
+  "notifications": {
+    "pause-finished": {
+      "pause-finished.title": "Pause vorbei!",
+      "pause-finished.text": "Die Pause ist vorbei, weiter geht's!"
+    }
+  },
 
   "menu.title": "Pumper Diary",
   "menu.workouts.title": "Start",
@@ -65,6 +72,7 @@
   
   "workout-history.title": "Historie",
   "workout-history.no-workouts": "Bisher wurden noch keine Workouts erfasst.",
+  "workout-history.one-workout": "1 Workout",
   "workout-history.count-workouts": "{{count}} Workouts",
   "workout-delete.title": "Workout löschen",
   "workout-delete.prompt": "Möchtest du diesen Workout wirklich löschen? Aufgezeichnete Trainingsergebnisse gehen dabei ebenfalls verloren.",
@@ -97,6 +105,8 @@
   "duration": "Dauer",
   "action": "Aktion",
   "no-exercise-selected": "Du musst zu erst eine Übung wählen, bevor du Einträge hinzufügen kannst.",
+  "save-failed-no-exercise": "Du musst zu erst eine Übung wählen, bevor du das Ziel speichern kannst.",
+  "save-failed-no-entries": "Du musst zu erst einige Sätze und Pausen hinzufügen, bevor du das Ziel speichern kannst.",
   "set-exercise-failed": "",
   "add-action-failed": "Es sieht so aus, als sei deine Internetverbindung schlecht. Bitte prüfe deine Verbindung und versuche es noch einmal.",
 

@@ -1,0 +1,57 @@
+<ion-card>
+  <ion-card-header>
+    <strong>
+      {{'workout.title.set' | translate:({goalPosition: goalIndex + 1, actionPosition: actionIndex + 1})}}
+    </strong>
+    <ng-container *ngIf="set.exercise">
+      {{set.exercise.title | translate}}
+    </ng-container>
+    <ng-container *ngIf="!set.exercise && set.goal && set.goal.exercise">
+      {{set.goal.exercise.title | translate}}
+    </ng-container>
+  </ion-card-header>
+  <ion-card-content>
+    <span *ngFor="let measurement of set.measurements; let i=index">
+      <measurement-control-small
+        [measurement]="measurement"
+        (complete)="emitComplete()">
+      </measurement-control-small>
+    </span>
+    
+    <ion-grid no-padding>
+      <ion-row justify-content-between>
+        <ion-col>
+          <button ion-button clear (click)="moodUnhappyClicked(set)" style="height: 56px;">
+            <img *ngIf="isUnhappy(set)" src="assets/img/emoji_unhappy.png"
+              style="width: 56px !important; height: 56px !important;">
+            <img *ngIf="!isUnhappy(set)" src="assets/img/emoji_unhappy_bw.png"
+              style="width: 56px !important; height: 56px !important;">
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button clear (click)="moodNeutralClicked(set)" style="height: 56px;">
+            <img *ngIf="isNeutral(set)" src="assets/img/emoji_neutral.png"
+              style="width: 56px !important; height: 56px !important;">
+            <img *ngIf="!isNeutral(set)" src="assets/img/emoji_neutral_bw.png"
+              style="width: 56px !important; height: 56px !important;">
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button clear (click)="moodHappyClicked(set)" style="height: 56px;">
+            <img *ngIf="isHappy(set)" src="assets/img/emoji_happy.png"
+              style="width: 56px !important; height: 56px !important;">
+            <img *ngIf="!isHappy(set)" src="assets/img/emoji_happy_bw.png"
+              style="width: 56px !important; height: 56px !important;">
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <ion-item class="note-item">
+      <ion-label stacked>
+        {{'workout.note.label' | translate}}
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="set.note"></ion-input>
+    </ion-item>
+  </ion-card-content>
+</ion-card>

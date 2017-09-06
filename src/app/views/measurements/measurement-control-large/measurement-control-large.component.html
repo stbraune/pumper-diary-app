@@ -14,7 +14,10 @@
   [original]="original"
   [actual]="actual"
   (change)="emitChange()"
-  (complete)="emitComplete()">
+  (complete)="emitComplete()"
+  (restored)="emitRestored()"
+  (started)="emitStarted()"
+  (paused)="emitPaused()">
 </duration-control-large>
 <repetitions-control-large *ngIf="isRepetitions()"
   [original]="original"

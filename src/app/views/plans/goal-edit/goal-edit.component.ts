@@ -132,6 +132,16 @@ export class GoalEditComponent {
   }
 
   public saveGoalClicked(): void {
+    if (!this.goal.exercise) {
+      this.toastService.showErrorToast('save-failed-no-exercise', undefined, 3000);
+      return;
+    }
+
+    if (this.goal.entries.length === 0) {
+      this.toastService.showErrorToast('save-failed-no-entries', undefined, 3000);
+      return;
+    }
+
     this.viewController.dismiss({
       success: true,
       data: this.goal

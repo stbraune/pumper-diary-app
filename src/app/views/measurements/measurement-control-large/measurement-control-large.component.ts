@@ -21,6 +21,15 @@ export class MeasurementControlLargeComponent {
   
   @Output()
   public complete = new EventEmitter<Measurement>();
+  
+  @Output()
+  public restored = new EventEmitter<Measurement>();
+  
+  @Output()
+  public started = new EventEmitter<Measurement>();
+  
+  @Output()
+  public paused = new EventEmitter<Measurement>();
 
   public isCalories() {
     return this.original.measure === Measure.Calories;
@@ -48,5 +57,17 @@ export class MeasurementControlLargeComponent {
 
   public emitComplete() {
     this.complete.emit(this.actual);
+  }
+
+  public emitRestored() {
+    this.restored.emit(this.actual);
+  }
+  
+  public emitStarted() {
+    this.started.emit(this.actual);
+  }
+  
+  public emitPaused() {
+    this.paused.emit(this.actual);
   }
 }

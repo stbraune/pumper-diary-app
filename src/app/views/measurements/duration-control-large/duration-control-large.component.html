@@ -1,4 +1,7 @@
 <chronometer-control #chronometer [label]="measureKey(original.measure) | translate"
   (chronometerTicked)="onChronometerTicked($event)"
-  (chronometerFinished)="onChronometerFinished($event)">
+  (chronometerFinished)="onChronometerFinished($event)"
+  (chronometerRestored)="onChronometerRestored($event)"
+  (chronometerStarted)="onChronometerStarted($event)"
+  (chronometerPaused)="onChronometerPaused($event)">
 </chronometer-control>

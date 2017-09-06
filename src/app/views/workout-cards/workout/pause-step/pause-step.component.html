@@ -5,7 +5,10 @@
         <measurement-control-large *ngFor="let measurement of step.measurements"
           [original]="measurement.original"
           [actual]="measurement.actual"
-          (complete)="emitComplete()">
+          (complete)="emitComplete()"
+          (restored)="emitRestored()"
+          (started)="emitStarted()"
+          (paused)="emitPaused()">
         </measurement-control-large>
       </ion-col>
     </ion-row>

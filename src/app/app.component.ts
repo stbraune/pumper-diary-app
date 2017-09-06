@@ -40,6 +40,26 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      // TODO https://stackoverflow.com/questions/41373774/how-to-handle-back-button-on-ionic-2
+      // this.platform.registerBackButtonAction(() => {
+      //   const activeView = this.nav.getActive();
+      //   if (!activeView) {
+      //     return;
+      //   }
+
+      //   if (this.nav.canGoBack()) {
+      //     console.log('going back');
+      //     this.nav.pop();
+      //   } else if (activeView.instance.handleBackButton) {
+      //     console.log('asking the instance');
+      //     activeView.instance.handleBackButton();
+      //   } else {
+      //     console.log('go to first');
+      //     this.nav.parent.select(0);
+      //   }
+      // });
+
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
 

@@ -28,6 +28,7 @@ import {
   PlansService,
   ExercisesService,
   MeasurementsService,
+  NotificationService,
   UnitConverterService,
   ScoreCalculatorService,
   ToastService,
@@ -78,7 +79,8 @@ import {
 
 import {
   WorkoutHistoryComponent,
-  WorkoutEditComponent
+  WorkoutEditComponent,
+  SetEditComponent
 } from './views/workout-history';
 
 import {
@@ -137,6 +139,7 @@ import {
 
     WorkoutHistoryComponent,
     WorkoutEditComponent,
+    SetEditComponent,
 
     PlansComponent,
     PlanEditComponent,
@@ -202,6 +205,7 @@ import {
     PlansService,
     ExercisesService,
     MeasurementsService,
+    NotificationService,
     UnitConverterService,
     ScoreCalculatorService,
     ToastService,

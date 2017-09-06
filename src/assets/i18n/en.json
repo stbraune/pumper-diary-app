@@ -22,6 +22,13 @@
   "shortTimePickerFormat": "HH mm",
   "shortMonthNames": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",
 
+  "notifications": {
+    "pause-finished": {
+      "title": "Pause finished!",
+      "text": "The pause has finished, let's continue!"
+    }
+  },
+
   "menu.title": "Pumper Diary",
   "menu.workouts.title": "Workouts",
   "menu.workout-history.title": "History",
@@ -64,6 +71,7 @@
   "workout.action-step.note.label": "Note",
 
   "workout-history.title": "History",
+  "workout-history.one-workout": "1 Workout",
   "workout-history.count-workouts": "{{count}} Workouts",
   "workout-history.no-workouts": "No workouts were tracked so far.",
   "workout-delete.title": "Delete Workout",
@@ -97,6 +105,8 @@
   "duration": "Duration",
   "action": "Action",
   "no-exercise-selected": "Please selected an exercise first before adding entries to this goal.",
+  "save-failed-no-exercise": "Please select an exercise first before saving this goal.",
+  "save-failed-no-entries": "Please add some sets and pauses before saving this goal.",
   "set-exercise-failed": "",
   "add-action-failed": "Your internet connection appears to be offline. Please check your internet connection and try again.",
 

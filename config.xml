@@ -3,7 +3,7 @@
     <name>Pumper Diary</name>
     <description />
     <author email="stefan.braune@gmail.com" href="http://">Stefan Braune</author>
-    <content original-src="index.html" src="http://192.168.178.22:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -42,6 +42,8 @@
         <splash density="port-xhdpi" src="resources/android/res/drawable-xhdpi/screen.png" />
         <splash density="port-xxhdpi" src="resources/android/res/drawable-xxhdpi/screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/res/drawable-xxxhdpi/screen.png" />
+        <resource-file src="resources/android/res/drawable/icon.png" target="res/drawable/icon.png" />
+        <resource-file src="resources/android/res/drawable/ic_popup_reminder.png" target="res/drawable/ic_popup_reminder.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />

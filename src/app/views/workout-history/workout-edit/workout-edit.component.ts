@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NavParams, ViewController, AlertController } from 'ionic-angular';
 
 import { MeasurementsService } from '../../../services';
-import { Workout, Set, Mood } from '../../../model';
+import { Workout, Set } from '../../../model';
 
 @Component({
   selector: 'workout-edit',
@@ -91,34 +91,6 @@ export class WorkoutEditComponent {
     }
 
     return actionIndex;
-  }
-  
-  public isUnhappy(set: Set) {
-    return set.mood === Mood.Unhappy;
-  }
-
-  public isNeutral(set: Set) {
-    return set.mood === Mood.Neutral;
-  }
-
-  public isHappy(set: Set) {
-    return set.mood === Mood.Happy;
-  }
-
-  public moodUnhappyClicked(set: Set) {
-    this.setMood(set, Mood.Unhappy);
-  }
-
-  public moodNeutralClicked(set: Set) {
-    this.setMood(set, Mood.Neutral);
-  }
-
-  public moodHappyClicked(set: Set) {
-    this.setMood(set, Mood.Happy);
-  }
-
-  private setMood(set: Set, mood: Mood) {
-    set.mood = set.mood === mood ? undefined : mood;
   }
 
   public dismissWorkoutClicked(): void {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { Workout } from '../../model';
-import { WorkoutsService, WorkoutCardsService, ToastService } from '../../services';
+import { WorkoutsService, WorkoutCardsService, ToastService, by } from '../../services';
 
 import { WorkoutEditComponent } from './workout-edit';
 
@@ -34,29 +34,32 @@ export class WorkoutHistoryComponent {
   private loadWorkouts() {
     this.workoutsService.getWorkouts().subscribe((workouts) => {
       this.workouts = workouts.map((workout) => this.workoutsService.loadWorkout(workout));
-      this.groupWorkouts();
+      this.reindexWorkouts();
     });
   }
 
-  private groupWorkouts() {
+  private reindexWorkouts() {
     this.months = {};
-    this.workouts.forEach((workout) => {
-      workout.transient = workout.transient || {};
-      workout.transient.month = undefined;
+    this.workouts = this.workouts
+      .sort(by<Workout>((workout) => -workout.start.getTime()))
+      .map((workout) => {
+        workout.transient = workout.transient || {};
+        workout.transient.month = undefined;
 
-      const monthIndex = `${workout.start.getFullYear()}/${workout.start.getMonth()}`;
-      if (this.months[monthIndex]) {
-        this.months[monthIndex].countWorkouts++;
-      } else {
-        workout.transient.month = this.months[monthIndex] = {
-          date: workout.start,
-          year: workout.start.getFullYear(),
-          month: workout.start.getMonth(),
-          countWorkouts: 1
-        };
-        console.log(workout);
-      }
-    });
+        const monthIndex = `${workout.start.getFullYear()}/${workout.start.getMonth()}`;
+        if (this.months[monthIndex]) {
+          this.months[monthIndex].countWorkouts++;
+        } else {
+          workout.transient.month = this.months[monthIndex] = {
+            date: workout.start,
+            year: workout.start.getFullYear(),
+            month: workout.start.getMonth(),
+            countWorkouts: 1
+          };
+        }
+
+        return workout;
+      });
   }
   
   public workoutSelected(workout: Workout): void {
@@ -111,7 +114,7 @@ export class WorkoutHistoryComponent {
       const index = this.workouts.findIndex((e) => e._id === workout._id);
       if (index !== -1) {
         this.workouts.splice(index, 1, this.workoutsService.loadWorkout(result));
-        this.groupWorkouts();
+        this.reindexWorkouts();
       }
       this.toastService.showSuccessToast('save-workout-succeeded', result);
     }, (error) => {
@@ -138,7 +141,7 @@ export class WorkoutHistoryComponent {
       const index = this.workouts.indexOf(workout);
       if (index !== -1) {
         this.workouts.splice(index, 1);
-        this.groupWorkouts();
+        this.reindexWorkouts();
       }
       this.toastService.showSuccessToast('delete-workout-succeeded', result);
     }, (error) => {

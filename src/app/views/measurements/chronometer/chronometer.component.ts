@@ -14,6 +14,8 @@ export class ChronometerComponent implements OnInit, OnDestroy {
     if (!this._started) {
       this.tick(false);
     }
+
+    this.state = 0;
   }
 
   public get base() {

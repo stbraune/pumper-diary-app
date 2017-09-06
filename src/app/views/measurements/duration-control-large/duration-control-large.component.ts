@@ -25,6 +25,15 @@ export class DurationControlLargeComponent implements OnChanges {
   @Output()
   public complete = new EventEmitter<Measurement>();
 
+  @Output()
+  public restored = new EventEmitter<Measurement>();
+  
+  @Output()
+  public started = new EventEmitter<Measurement>();
+  
+  @Output()
+  public paused = new EventEmitter<Measurement>();
+
   @ViewChild('chronometer')
   public chronometer: ChronometerControlComponent;
 
@@ -68,8 +77,20 @@ export class DurationControlLargeComponent implements OnChanges {
   }
 
   public onChronometerFinished() {
-    this.chronometer.pauseChronometer();
+    this.chronometer.stopChronometer();
     this.complete.emit(this.actual);
+  }
+
+  public onChronometerRestored() {
+    this.restored.emit(this.actual);
+  }
+  
+  public onChronometerPaused() {
+    this.paused.emit(this.actual);
+  }
+  
+  public onChronometerStarted() {
+    this.started.emit(this.actual);
   }
 
   public emitChange() {

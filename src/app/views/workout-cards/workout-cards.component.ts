@@ -3,8 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AlertController, ModalController } from 'ionic-angular';
 
-import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/catch';
@@ -20,9 +18,9 @@ import { WorkoutComponent } from './workout';
 })
 export class WorkoutCardsComponent {
   private workoutCards: WorkoutCard[] = [];
+  private workoutModal;
 
   public constructor(
-    private localNotifications: LocalNotifications,
     private translateService: TranslateService,
     private alertController: AlertController,
     private modalController: ModalController,
@@ -37,31 +35,35 @@ export class WorkoutCardsComponent {
     this.loadWorkoutCards();
   }
 
-  public enableNotifications() {
-    this.localNotifications.schedule(<ILocalNotification>{
-      id: 1,
-      text: 'A notification from pumper diary!',
-      every: 'minute',
-      led: 'FDC30F'
-    });
-    console.log('enabled notifications');
-  }
+  // public enableNotifications() {
+  //   this.localNotifications.schedule(<ILocalNotification>{
+  //     id: 1,
+  //     text: 'A notification from pumper diary!',
+  //     every: 'minute',
+  //     led: 'FDC30F'
+  //   });
+  //   console.log('enabled notifications');
+  // }
 
-  public disableNotifications() {
-    this.localNotifications.cancel(1).then((x) => {
-      console.log('cancelled notifications');
-      this.alertController.create({
-        title: 'Notifications cancelled',
-        message: JSON.stringify(x)
-      }).present();
-    }).catch((error) => {
-      console.log(error);
-      this.alertController.create({
-        title: 'Notification cancelling failed',
-        message: error
-      }).present();
-    });
-  }
+  // public disableNotifications() {
+  //   this.localNotifications.cancel(1).then((x) => {
+  //     console.log('cancelled notifications');
+  //     this.alertController.create({
+  //       title: 'Notifications cancelled',
+  //       message: JSON.stringify(x)
+  //     }).present();
+  //   }).catch((error) => {
+  //     console.log(error);
+  //     this.alertController.create({
+  //       title: 'Notification cancelling failed',
+  //       message: error
+  //     }).present();
+  //   });
+  // }
+
+  // public handleBackButton() {
+  //   if (this.workoutModal)
+  // }
 
   private loadWorkoutCards() {
     this.workoutCardsService.getWorkoutCards().subscribe((workoutCards) => {
@@ -182,7 +184,7 @@ export class WorkoutCardsComponent {
         workoutId: workout._id,
         transient: { workout }
       }).subscribe((workoutCard) => {
-        const workoutModal = this.modalController.create(WorkoutComponent, {
+        const workoutModal = this.workoutModal = this.modalController.create(WorkoutComponent, {
           data: this.workoutsService.loadWorkout(workout)
         });
         workoutModal.onDidDismiss((result) => {

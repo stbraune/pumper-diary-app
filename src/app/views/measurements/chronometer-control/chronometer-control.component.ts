@@ -21,6 +21,15 @@ export class ChronometerControlComponent {
 
   @Output()
   public chronometerFinished = new EventEmitter<void>();
+  
+  @Output()
+  public chronometerStarted = new EventEmitter<void>();
+
+  @Output()
+  public chronometerPaused = new EventEmitter<void>();
+
+  @Output()
+  public chronometerRestored = new EventEmitter<void>();
 
   private paused: boolean = true;
   private pausedMillis: number;
@@ -51,6 +60,9 @@ export class ChronometerControlComponent {
     if (wasRunning) {
       this.startChronometer();
     }
+
+    this.updateProgressBar(-this.resetMillis);
+    this.chronometerRestored.emit();
   }
 
   public startChronometer() {
@@ -70,6 +82,7 @@ export class ChronometerControlComponent {
     }
 
     this.chronometer.start();
+    this.chronometerStarted.emit();
   }
 
   public resetChronometer(minusMillis: number = 0) {
@@ -82,6 +95,12 @@ export class ChronometerControlComponent {
   }
 
   public pauseChronometer() {
+    this.stopChronometer();
+    console.log('paused chrono');
+    this.chronometerPaused.emit();
+  }
+
+  public stopChronometer() {
     if (!this.started) {
       return;
     }
@@ -107,9 +126,13 @@ export class ChronometerControlComponent {
   }
 
   public onChronometerTick(millis: number) {
+    this.updateProgressBar(millis);
+    this.chronometerTicked.emit(this.getSeconds());
+  }
+
+  private updateProgressBar(millis: number) {
     this.shouldShowProgressBar = millis <= 0;
     this.currentProgressInPercent = millis > 0 ? 100 : Math.round((this.resetMillis + millis) * 100 / this.resetMillis);
-    this.chronometerTicked.emit(this.getSeconds());
   }
 
   public onChronometerFinished($event: number) {

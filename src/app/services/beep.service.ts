@@ -9,17 +9,8 @@ export class BeepService {
     private vibration: Vibration,
     private audio: NativeAudio
   ) {
-    console.log('loading samples');
-    audio.preloadSimple('short', 'assets/sounds/sin_440_300.wav').then((result) => {
-      console.log('loaded short', result);
-    }, (error) => {
-      console.log('error loading short', error);
-    });
-    audio.preloadSimple('long', 'assets/sounds/sin_880_1500.wav').then((result) => {
-      console.log('loaded long', result);
-    }, (error) => {
-      console.log('error loading long', error);
-    });
+    audio.preloadSimple('short', 'assets/sounds/sin_440_300.wav');
+    audio.preloadSimple('long', 'assets/sounds/sin_880_1500.wav');
   }
   
   public beepShort() {
