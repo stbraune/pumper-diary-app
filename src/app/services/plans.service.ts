@@ -2,87 +2,59 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/catch';
 
 import { byDate } from './utils';
 import { DatabaseService } from './database.service';
+import { Database } from './database';
 
-import { Plan } from '../model';
+import { Plan, Exercise } from '../model';
 import { PLANS_SAMPLES } from './plans-samples';
+
+declare var emit: any; // fools typescript compiler for mango queries
 
 @Injectable()
 export class PlansService {
-  private plansDatabase: any;
+  private plansDatabase: Database<Plan>;
 
   public constructor(
     private databaseService: DatabaseService
   ) {
-    this.plansDatabase = databaseService.openDatabase('plans');
+    this.plansDatabase = databaseService.openDatabase<Plan>('plan');
   }
 
   public getPlans(): Observable<Plan[]> {
-    return Observable.fromPromise(this.plansDatabase.allDocs({ include_docs: true }))
-      .switchMap((documents: any) => {
-        if (documents.total_rows === 0) {
-          return this.initializeDatabase();
-        }
-
-        return Observable.of(documents.rows.map((row) => row.doc).map((plan: Plan) => {
-          plan.createdAt = new Date(plan.createdAt);
-          plan.updatedAt = new Date(plan.updatedAt);
-          return plan;
-        }).sort(byDate<Plan>((plan) => plan.createdAt)));
-      });
-  }
-
-  private initializeDatabase(): Observable<Plan[]> {
-    return this.createPlans(...PLANS_SAMPLES).map((responses) => {
-      console.info('Created sample plans', responses);
-      return responses;
+    return this.plansDatabase.getEntities().map((plans) => {
+      return plans.sort(byDate<Plan>((plan) => plan.createdAt));
     });
   }
 
   public getPlanById(id: string): Observable<Plan> {
-    return Observable.fromPromise(this.plansDatabase.get(id)).map((plan: Plan) => {
-      plan.createdAt = new Date(plan.createdAt);
-      plan.updatedAt = new Date(plan.updatedAt);
-      return plan;
-    });
+    return this.plansDatabase.getEntityById(id);
   }
 
-  public createPlans(...plans: Plan[]): Observable<Plan[]> {
-    return Observable.forkJoin(plans.map((plan) => this.createPlan(plan)));
+  public postPlan(plan: Plan): Observable<Plan> {
+    return this.plansDatabase.postEntity(plan);
   }
 
-  public createPlan(plan: Plan): Observable<Plan> {
-    plan.updatedAt = plan.createdAt = new Date();
-    return Observable.fromPromise(this.plansDatabase.post(plan)).map((result: any) => {
-      if (result.ok) {
-        plan._id = result.id;
-        plan._rev = result.rev;
-        return plan;
-      } else {
-        throw new Error(`Error while creating plan ${JSON.stringify(plan)}`);
-      }
-    });
+  public putPlan(plan: Plan): Observable<Plan> {
+    return this.plansDatabase.putEntity(plan);
   }
 
-  public updatePlan(plan: Plan): Observable<Plan> {
-    plan.updatedAt = new Date();
-    return Observable.fromPromise(this.plansDatabase.put(plan)).map((result: any) => {
-      if (result.ok) {
-        plan._rev = result.rev;
-        return plan;
-      } else {
-        throw new Error(`Error while upading plan ${plan._id} ${JSON.stringify(plan)}`);
-      }
-    });
+  public removePlan(plan: Plan): Observable<boolean> {
+    return this.plansDatabase.removeEntity(plan);
   }
 
-  public deletePlan(plan: Plan): Observable<boolean> {
-    return Observable.fromPromise(this.plansDatabase.remove(plan)).map((result: any) => {
-      return result.ok;
-    });
+  public findPlansUsingExercise(exercise: Exercise): Observable<Plan[]> {
+    return this.plansDatabase.queryEntities('plans_using_exercise', 'by_id',
+      exercise._id,
+      function(doc) {
+        if (doc._id.startsWith('plan')) {
+          for (let goal of doc.goals) {
+            emit(goal.exercise._id);
+          }
+        }
+      });
   }
 }

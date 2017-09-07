@@ -1,68 +1,71 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
+import { Database } from './database';
+import { Entity, Exercise, Plan } from '../model';
+
 import PouchDB from 'pouchdb';
 import PouchDBAdapterCordovaSqlite from 'pouchdb-adapter-cordova-sqlite';
 import PouchDBFind from 'pouchdb-find';
 
-import * as uuidv4 from 'uuid/v4';
+import { EXERCISES_SAMPLES } from './exercises-samples';
+import { PLANS_SAMPLES } from './plans-samples';
 
 @Injectable()
 export class DatabaseService {
-  public openDatabase(name: string): any {
+  private _database: any;
+
+  public constructor() {
+  }
+  
+  public openDatabase<T extends Entity>(
+    name: string,
+    deserialize?: (item: T) => T,
+    serialize?: (item: T) => T
+  ): Database<T> {
+    return new Database<T>(this.getDatabase(), name, deserialize, serialize);
+  }
+
+  private getDatabase(): any {
+    if (this._database) {
+      return this._database;
+    }
+
     PouchDB.plugin(PouchDBAdapterCordovaSqlite);
     PouchDB.plugin(PouchDBFind);
-    return new PouchDB(name, {
+    return this._database = this.initializeDatabase(new PouchDB('pumper-diary', {
       adapter: 'cordova-sqlite'
-    });
+    }));
   }
 
-  public synchronizeWith(
-    database: any,
-    collection: any[],
-    deserialize?: (serializedItem: any) => void
-  ): Observable<any> {
-    return new Observable<any>((observer) => {
-      database.changes({ live: true, since: 'now', include_docs: true })
-        .on('change', (change) => {
-          //const index = this.findIndex(collection, change.id);
-          const index = collection.findIndex((item) => item._id === change.id);
-          const item = collection[index];
-          
-          if (change.deleted) {
-            if (item) {
-              collection.splice(index, 1); // delete
-              observer.next({ item, action: 'deleted' });
-            }
-          } else {
-            if (deserialize) {
-              deserialize(change.doc);
-            }
-            if (item && item._id === change.id) {
-              collection[index] = change.doc; // update
-              observer.next({ item, action: 'updated' });
-            } else {
-              collection.splice(index, 0, change.doc); // insert
-              observer.next({ item, action: 'added' });
-            }
-          }
+  private initializeDatabase(database: any): Observable<any> {
+    Observable.fromPromise(database.allDocs()).subscribe((documents: any) => {
+      if (documents.total_rows === 0) {
+        return this.createSampleExercises(new Database<Exercise>(database, 'exercise')).subscribe((exercises) => {
+          return this.createSamplePlans(new Database<Plan>(database, 'plan')).subscribe((plans) => {
+            console.log('Sample data created.');
+          });
         });
+      }
+    });
+
+    return database;
+  }
+  
+  private createSampleExercises(exercisesDatabase: Database<Exercise>): Observable<Exercise[]> {
+    return Observable.forkJoin(EXERCISES_SAMPLES.map((exercise) => {
+      return exercisesDatabase.putEntity(exercise);
+    })).map((exercises) => {
+      console.info('Created sample exercises:', exercises);
+      return exercises;
     });
   }
-
-  // // Binary search, the array is by default sorted by _id.
-  // private findIndex(collection: any[], id: string): number {
-  //   let low = 0;
-  //   let high = collection.length
-  //   let mid;
-  //   while (low < high) {
-  //     mid = (low + high) >>> 1;
-  //     collection[mid]._id < id ? low = mid + 1 : high = mid
-  //   }
-  //   return low;
-  // }
-
-  public createUuid(): string {
-    return uuidv4();
+  private createSamplePlans(plansDatabase: Database<Plan>): Observable<Plan[]> {
+    return Observable.forkJoin(PLANS_SAMPLES.map((plan) => {
+      return plansDatabase.putEntity(plan);
+    })).map((plans) => {
+      console.info('Created sample plans:', plans);
+      return plans;
+    });
   }
 }

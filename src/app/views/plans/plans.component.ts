@@ -101,7 +101,7 @@ export class PlansComponent {
   }
 
   private createPlan(plan: Plan): void {
-    this.plansService.createPlan(plan).subscribe((result) => {
+    this.plansService.postPlan(plan).subscribe((result) => {
       this.plans.push(result);
       this.toastService.showSuccessToast('save-plan-succeeded', result);
     }, (error) => {
@@ -110,7 +110,7 @@ export class PlansComponent {
   }
 
   private updatePlan(plan: Plan): void {
-    this.plansService.updatePlan(plan).subscribe((result) => {
+    this.plansService.putPlan(plan).subscribe((result) => {
       const index = this.plans.findIndex((p) => p._id === plan._id);
       if (index !== -1) {
         this.plans.splice(index, 1, result);
@@ -122,7 +122,7 @@ export class PlansComponent {
   }
 
   private deletePlan(plan: Plan): void {
-    this.plansService.deletePlan(plan).subscribe((result) => {
+    this.plansService.removePlan(plan).subscribe((result) => {
       const index = this.plans.indexOf(plan);
       if (index !== -1) {
         this.plans.splice(index, 1);

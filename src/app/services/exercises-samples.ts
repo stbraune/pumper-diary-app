@@ -1,5 +1,5 @@
 import { Exercise, Measure } from '../model';
-import { toUuid } from './utils';
+import { toUuid, uuid } from './utils';
 
 const reps = Measure.Repetitions;
 const weight = Measure.Weight;
@@ -13,6 +13,7 @@ function measures(...measures: Measure[]): Measure[] {
 
 function exercise(key: string, difficulty: number, measures: Measure[]): Exercise {
   return {
+    _id: `exercise_${key}`,
     title: `exercises-samples.${key}.title`,
     description: `exercises-samples.${key}.description`,
     difficulty,

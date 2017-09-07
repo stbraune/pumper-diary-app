@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { ModalController, ToastController, AlertController } from 'ionic-angular';
-
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
 
 import { Exercise } from '../../model';
-import { ExercisesService, ToastService } from '../../services';
+import { ExercisesService, PlansService, ToastService } from '../../services';
 import { ExerciseEditComponent } from './exercise-edit';
 
 @Component({
@@ -19,7 +19,8 @@ export class ExercisesComponent {
     private modalController: ModalController,
     private toastService: ToastService,
     private alertController: AlertController,
-    private exercisesService: ExercisesService
+    private exercisesService: ExercisesService,
+    private plansService: PlansService
   ) {
   }
 
@@ -100,7 +101,7 @@ export class ExercisesComponent {
   }
 
   private createExercise(exercise: Exercise): void {
-    this.exercisesService.createExercise(exercise).subscribe((result) => {
+    this.exercisesService.postExercise(exercise).subscribe((result) => {
       this.exercises.push(result);
       this.toastService.showSuccessToast('save-exercise-succeeded', result);
     }, (error) => {
@@ -109,7 +110,19 @@ export class ExercisesComponent {
   }
 
   private updateExercise(exercise: Exercise): void {
-    this.exercisesService.updateExercise(exercise).subscribe((result) => {
+    this.exercisesService.putExercise(exercise).subscribe((result) => {
+      this.plansService.findPlansUsingExercise(exercise).switchMap((plans) => {
+        return Observable.forkJoin(plans.map((plan) => {
+          plan.goals.filter((goal) => goal.exercise._id === exercise._id).forEach((goal) => {
+            goal.exercise = JSON.parse(JSON.stringify(exercise));
+            return goal;
+          });
+          return plan;
+        }).map((plan) => this.plansService.putPlan(plan)));
+      }).subscribe((updatedPlans) => {
+        console.log('Updated plans: ', updatedPlans);
+      });
+
       const index = this.exercises.findIndex((e) => e._id === exercise._id);
       if (index !== -1) {
         this.exercises.splice(index, 1, result);
@@ -121,7 +134,16 @@ export class ExercisesComponent {
   }
 
   private deleteExercise(exercise: Exercise): void {
-    this.exercisesService.deleteExercise(exercise).subscribe((result) => {
+    this.exercisesService.removeExercise(exercise).subscribe((result) => {
+      this.plansService.findPlansUsingExercise(exercise).switchMap((plans) => {
+        return Observable.forkJoin(plans.map((plan) => {
+          plan.goals = plan.goals.filter((goal) => goal.exercise._id !== exercise._id);
+          return plan;
+        }).map((plan) => this.plansService.putPlan(plan)));
+      }).subscribe((updatedPlans) => {
+        console.log('Updated plans: ', updatedPlans);
+      });
+
       const index = this.exercises.indexOf(exercise);
       if (index !== -1) {
         this.exercises.splice(index, 1);

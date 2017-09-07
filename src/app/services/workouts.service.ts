@@ -3,10 +3,11 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromPromise';
 
 import { by } from './utils';
 import { DatabaseService } from './database.service';
+import { Database } from './database';
+
 import { ScoreCalculatorService } from './score-calculator.service';
 import { DateFormatService } from './date-format.service';
 
@@ -14,7 +15,7 @@ import { Workout, Mood } from '../model';
 
 @Injectable()
 export class WorkoutsService {
-  private workoutsDatabase: any;
+  private workoutsDatabase: Database<Workout>;
 
   public constructor(
     private databaseService: DatabaseService,
@@ -22,59 +23,30 @@ export class WorkoutsService {
     private scoreCalculatorService: ScoreCalculatorService,
     private dateFormatService: DateFormatService
   ) {
-    this.workoutsDatabase = databaseService.openDatabase('workouts');
+    this.workoutsDatabase = databaseService.openDatabase<Workout>('workout',
+      (workout) => this.deserializeWorkout(workout));
   }
 
   public getWorkouts(): Observable<Workout[]> {
-    return Observable.fromPromise(this.workoutsDatabase.allDocs({ include_docs: true }))
-      .map((documents: any) => {
-        return documents.rows.map((row) => row.doc).map((workout: Workout) => this.deserializeWorkout(workout))
-          .sort(by<Workout>((workout) => -workout.createdAt.getTime()));
-      });
+    return this.workoutsDatabase.getEntities().map((workouts) => {
+      return workouts.sort(by<Workout>((workout) => -workout.createdAt.getTime()));
+    });
   }
 
   public getWorkoutById(id: string): Observable<Workout> {
-    return Observable.fromPromise(this.workoutsDatabase.get(id)).map((workout: Workout) => this.deserializeWorkout(workout));
+    return this.workoutsDatabase.getEntityById(id);
   }
 
-  public createWorkout(workout: Workout): Observable<Workout> {
-    const transient = workout.transient;
-    workout.transient = undefined;
-    workout.updatedAt = workout.createdAt = new Date();
-    return Observable.fromPromise(this.workoutsDatabase.post(workout)).map((result: any) => {
-      if (result.ok) {
-        workout._id = result.id;
-        workout._rev = result.rev;
-        workout.transient = transient;
-        return workout;
-      } else {
-        throw new Error(`Error while creating workout ${JSON.stringify(workout)}`);
-      }
-    });
+  public postWorkout(workout: Workout): Observable<Workout> {
+    return this.workoutsDatabase.postEntity(workout);
   }
 
-  public updateWorkout(workout: Workout): Observable<Workout> {
-    const transient = workout.transient;
-    workout.transient = undefined;
-    workout.updatedAt = new Date();
-    return Observable.fromPromise(this.workoutsDatabase.put(workout)).map((result: any) => {
-      if (result.ok) {
-        workout._rev = result.rev;
-        workout.transient = transient;
-        return workout;
-      } else {
-        throw new Error(`Error while updating workout ${workout._id} ${JSON.stringify(workout)}`);
-      }
-    });
+  public putWorkout(workout: Workout): Observable<Workout> {
+    return this.workoutsDatabase.putEntity(workout);
   }
 
-  public deleteWorkout(workout: Workout): Observable<boolean> {
-    const transient = workout.transient;
-    workout.transient = undefined;
-    return Observable.fromPromise(this.workoutsDatabase.remove(workout)).map((result: any) => {
-      workout.transient = transient;
-      return result.ok;
-    });
+  public removeWorkout(workout: Workout): Observable<boolean> {
+    return this.workoutsDatabase.removeEntity(workout);
   }
 
   public deserializeWorkout(workout: Workout): Workout {
@@ -86,6 +58,7 @@ export class WorkoutsService {
   }
   
   public loadWorkout(workout: Workout): Workout {
+    console.log(workout);
     workout.transient = Object.assign(workout.transient || {}, {
       score: this.loadScore(workout),
       date: this.loadDate(workout),

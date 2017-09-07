@@ -81,6 +81,7 @@ function goal(exercise: Exercise, entries: Entry[]): Goal {
 
 function plan(key: string, ...goals: Goal[]): Plan {
   return {
+    _id: `plan_${key}`,
     title: `plans-samples.${key}.title`,
     description: `plans-samples.${key}.description`,
     goals

@@ -57,6 +57,7 @@
   "delete-workout-failed": "Could not delete workout. Please try again.",
   "workout-card-delete.title": "Deleted Workout Card",
   "workout-card-delete.prompt": "Are you sure to delete this card? Your tracked workout data will still be available.",
+  "workout-card-delete.delete-workout-too": "Also delete tracked workout data",
   "delete-workout-card-succeeded": "Card deleted.",
   "delete-workout-card-failed": "Could not delete workout card. Please try again.",
 
@@ -125,7 +126,7 @@
   "exercise-add.title": "Add Exercise",
   "exercise-edit.title": "Edit Exercise",
   "exercise-delete.title": "Delete Exercise",
-  "exercise-delete.prompt": "Are you sure to delete this exercise?",
+  "exercise-delete.prompt": "Are you sure to delete this exercise? Goals in plans using this exercise will automatically be cleared.",
   "save-exercise-succeeded": "Exercise saved.",
   "save-exercise-failed": "Could not save exercise. Please try again.",
   "delete-exercise-succeeded": "Exercise deleted.",

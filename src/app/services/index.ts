@@ -1,5 +1,6 @@
 export * from './beep.service';
 export * from './database.service';
+export * from './database';
 export * from './date-format.service';
 export * from './exercises.service';
 export * from './plans.service';

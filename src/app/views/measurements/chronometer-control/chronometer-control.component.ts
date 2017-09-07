@@ -1,12 +1,12 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, OnInit } from '@angular/core';
+import { BackgroundMode } from '@ionic-native/background-mode';
 import { ChronometerComponent } from '../chronometer';
-
 
 @Component({
   selector: 'chronometer-control',
   templateUrl: './chronometer-control.component.html'
 })
-export class ChronometerControlComponent {
+export class ChronometerControlComponent implements OnInit {
   @ViewChild('chronometer')
   public chronometer: ChronometerComponent;
 
@@ -37,8 +37,37 @@ export class ChronometerControlComponent {
   private resetMillis: number;
   private resetWhilePaused: boolean = true;
 
+  private wasStartedBeforeBackgroundModeActivated = false;
+
   public shouldShowProgressBar = false;
   public currentProgressInPercent = 0;
+
+  public constructor(
+    private backgroundMode: BackgroundMode
+  ) { }
+
+  public ngOnInit(): void {
+    try {
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('background mode activated');
+        this.wasStartedBeforeBackgroundModeActivated = this.started;
+        if (this.started) {
+          console.log('pausing chronometer');
+          this.pauseChronometer();
+        }
+      });
+      
+      this.backgroundMode.on('deactivate').subscribe(() => {
+        console.log('background mode deactivated');
+        if (this.wasStartedBeforeBackgroundModeActivated) {
+          console.log('starting chronometer');
+          this.startChronometer();
+        }
+      });
+    } catch (error) {
+      console.warn('Cordova not available', error);
+    }
+  }
 
   public toggleChronometer() {
     if (this.started) {

@@ -9,7 +9,7 @@
   
 <ion-content class="workout-cards__content">
   <ion-list no-lines class="workout-cards__list">
-    <ion-item *ngIf="true || workoutCards.length === 0">
+    <ion-item *ngIf="shouldShowWelcomeCard()">
       <ion-card>
         <ion-card-header>
           {{'workouts.welcome.header' | translate}}
@@ -65,7 +65,7 @@
       </ion-card>
     </ion-item>
     <ion-item-sliding *ngFor="let workoutCard of workoutCards; let i=index">
-      <ion-item *ngIf="workoutCard.transient?.workout">
+      <ion-item>
         <ion-card (click)="workoutCardSelected(workoutCard)">
           <ion-card-header>
             {{workoutCard.transient?.workout.transient?.date | async}}

@@ -78,7 +78,7 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
       .skipUntil(this.saveWorkoutObservable)
       .debounceTime(500)
       .subscribe((workout) => {
-        this.workoutsService.updateWorkout(workout).subscribe((savedWorkout) => {
+        this.workoutsService.putWorkout(workout).subscribe((savedWorkout) => {
           this.saveWorkoutObservable.next(savedWorkout);
           console.log('Workout saved', savedWorkout);
         });
@@ -268,11 +268,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     } else if (activeStep.entry.type === EntryType.Pause) {
       const pauseStep = <PauseStepComponent>componentRef.instance;
       pauseStep.step = activeStep;
-      pauseStep.started.subscribe(() => {
-        this.notificationService.notifyPauseFinished(pauseStep.pauseDurationInMillis);
-      });
-      pauseStep.paused.subscribe(() => {
-      });
       pauseStep.complete.subscribe(() => {
         this.slides.slideNext();
       });

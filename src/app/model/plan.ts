@@ -1,11 +1,8 @@
+import { Entity } from './entity';
 import { Goal } from './goal';
 
-export interface Plan {
-  _id?: string;
-  _rev?: string;
+export interface Plan extends Entity {
   title: string;
   description: string;
   goals: Goal[];
-  createdAt?: Date;
-  updatedAt?: Date;
 }

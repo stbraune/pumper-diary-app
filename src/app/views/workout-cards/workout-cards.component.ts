@@ -35,35 +35,9 @@ export class WorkoutCardsComponent {
     this.loadWorkoutCards();
   }
 
-  // public enableNotifications() {
-  //   this.localNotifications.schedule(<ILocalNotification>{
-  //     id: 1,
-  //     text: 'A notification from pumper diary!',
-  //     every: 'minute',
-  //     led: 'FDC30F'
-  //   });
-  //   console.log('enabled notifications');
-  // }
-
-  // public disableNotifications() {
-  //   this.localNotifications.cancel(1).then((x) => {
-  //     console.log('cancelled notifications');
-  //     this.alertController.create({
-  //       title: 'Notifications cancelled',
-  //       message: JSON.stringify(x)
-  //     }).present();
-  //   }).catch((error) => {
-  //     console.log(error);
-  //     this.alertController.create({
-  //       title: 'Notification cancelling failed',
-  //       message: error
-  //     }).present();
-  //   });
-  // }
-
-  // public handleBackButton() {
-  //   if (this.workoutModal)
-  // }
+  public shouldShowWelcomeCard(): boolean {
+    return true;
+  }
 
   private loadWorkoutCards() {
     this.workoutCardsService.getWorkoutCards().subscribe((workoutCards) => {
@@ -82,7 +56,7 @@ export class WorkoutCardsComponent {
       return;
     }
 
-    workoutCard.transient = { workout };
+    workoutCard.transient = { workout: this.workoutsService.loadWorkout(workout) };
   }
 
   public formatScore(workoutCard: WorkoutCard): Observable<string> {
@@ -98,25 +72,35 @@ export class WorkoutCardsComponent {
   }
 
   public confirmDeleteWorkoutCard(workoutCard: WorkoutCard) {
-    this.translateService.get(['workout-card-delete.title', 'workout-card-delete.prompt', 'yes', 'no'])
-    .subscribe((texts) => {
-      const alert = this.alertController.create({
-        title: texts['workout-card-delete.title'],
-        message: texts['workout-card-delete.prompt'],
-        buttons: [
-          {
-            text: texts['no'],
-            role: 'cancel'
-          },
-          {
-            text: texts['yes'],
-            handler: () => {
-              this.deleteWorkoutCard(workoutCard);
+    this.translateService.get(['workout-card-delete.title', 'workout-card-delete.prompt', 'workout-card-delete.delete-workout-too', 'yes', 'no'])
+      .subscribe((texts) => {
+        const alert = this.alertController.create({
+          title: texts['workout-card-delete.title'],
+          message: texts['workout-card-delete.prompt'],
+          inputs: [
+            {
+              type: 'checkbox',
+              label: texts['workout-card-delete.delete-workout-too'],
+              value: 'true'
             }
-          }
-        ]
-      });
-      alert.present();
+          ],
+          buttons: [
+            {
+              text: texts['no'],
+              role: 'cancel'
+            },
+            {
+              text: texts['yes'],
+              handler: (data) => {
+                if (data.length > 0 && workoutCard.transient && workoutCard.transient.workout) {
+                  this.deleteWorkout(workoutCard.transient.workout);
+                }
+                this.deleteWorkoutCard(workoutCard);
+              }
+            }
+          ]
+        });
+        alert.present();
     });
   }
 
@@ -125,14 +109,9 @@ export class WorkoutCardsComponent {
   }
 
   public startWorkoutClicked($event: any) {
-    this.plansService.getPlans().subscribe((plans) => {
-      this.translateService.get(plans.map((plan) => plan.title)).subscribe((texts) => {
-        const inputs = plans.map((plan) => ({
-          type: 'radio',
-          value: plan._id,
-          label: texts[plan.title]
-        }));
-
+    this.plansService.getPlans()
+      .switchMap((plans) => this.createPlansRadioBoxes(plans))
+      .subscribe((inputs) => {
         this.translateService.get([
           'workouts.start-workout.title', 'workouts.start-workout.message',
           'workouts.start-workout.start', 'cancel'
@@ -154,7 +133,7 @@ export class WorkoutCardsComponent {
                       undefined, 3000);
                     return false;
                   }
-
+  
                   this.plansService.getPlanById(data).subscribe((plan) => {
                     this.startWorkout(plan);
                   }, (error) => {
@@ -167,12 +146,25 @@ export class WorkoutCardsComponent {
           alert.present();
         });
       });
+  }
+
+  private createPlansRadioBoxes(plans: Plan[]): Observable<any[]> {
+    if (plans.length === 0) {
+      return Observable.of([]);
+    }
+
+    return this.translateService.get(plans.map((plan) => plan.title)).map((texts) => {
+      return plans.map((plan) => ({
+        type: 'radio',
+        value: plan._id,
+        label: texts[plan.title]
+      }));
     });
   }
 
   private startWorkout(plan: Plan) {
     console.log('Starting workout for', plan);
-    this.workoutsService.createWorkout({
+    this.workoutsService.postWorkout({
       start: new Date(),
       end: new Date(),
       plan,
@@ -180,7 +172,7 @@ export class WorkoutCardsComponent {
     }).subscribe((workout) => {
       console.log('created workout', workout);
 
-      this.workoutCardsService.createWorkoutCard({
+      this.workoutCardsService.postWorkoutCard({
         workoutId: workout._id,
         transient: { workout }
       }).subscribe((workoutCard) => {
@@ -202,7 +194,7 @@ export class WorkoutCardsComponent {
   }
 
   private deleteWorkout(workout: Workout) {
-    this.workoutsService.deleteWorkout(workout).subscribe((result) => {
+    this.workoutsService.removeWorkout(workout).subscribe((result) => {
       this.toastService.showSuccessToast('delete-workout-succeeded', workout);
     }, (error) => {
       this.toastService.showErrorToast('delete-workout-failed', error);
@@ -210,7 +202,7 @@ export class WorkoutCardsComponent {
   }
 
   private deleteWorkoutCard(workoutCard: WorkoutCard, hideToast: boolean = false) {
-    this.workoutCardsService.deleteWorkoutCard(workoutCard).subscribe((result) => {
+    this.workoutCardsService.removeWorkoutCard(workoutCard).subscribe((result) => {
       const index = this.workoutCards.indexOf(workoutCard);
       if (index !== -1) {
         this.workoutCards.splice(index, 1);

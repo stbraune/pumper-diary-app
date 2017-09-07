@@ -57,6 +57,7 @@
   "delete-workout-failed": "Der Workout konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
   "workout-card-delete.title": "Karte löschen",
   "workout-card-delete.prompt": "Möchtest du diese Karte wirklich löschen? Aufgezeichnete Trainingsergebnisse zu diesem Workout bleiben weiterhin erhalten.",
+  "workout-card-delete.delete-workout-too": "Aufgezeichnete Trainingsergebnisse auch löschen",
   "delete-workout-card-succeeded": "Karte gelöscht.",
   "delete-workout-card-failed": "Die Karte konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
   
@@ -125,7 +126,7 @@
   "exercise-add.title": "Übung anlegen",
   "exercise-edit.title": "Übung bearbeiten",
   "exercise-delete.title": "Übung löschen",
-  "exercise-delete.prompt": "Möchtest du diese Übung wirklich löschen?",
+  "exercise-delete.prompt": "Möchtest du diese Übung wirklich löschen? Ziele in Plänen, die diese Übung verwenden, werden ebenfalls entfernt.",
   "save-exercise-succeeded": "Übung gespeichert.",
   "save-exercise-failed": "Die Übung konnte nicht gespeichert werden. Bitte versuche es noch einmal.",
   "delete-exercise-succeeded": "Übung gelöscht.",

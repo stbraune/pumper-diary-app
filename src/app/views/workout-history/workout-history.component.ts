@@ -33,6 +33,7 @@ export class WorkoutHistoryComponent {
 
   private loadWorkouts() {
     this.workoutsService.getWorkouts().subscribe((workouts) => {
+      console.log(workouts);
       this.workouts = workouts.map((workout) => this.workoutsService.loadWorkout(workout));
       this.reindexWorkouts();
     });
@@ -110,7 +111,7 @@ export class WorkoutHistoryComponent {
   }
 
   private updateWorkout(workout: Workout): void {
-    this.workoutsService.updateWorkout(workout).subscribe((result) => {
+    this.workoutsService.putWorkout(workout).subscribe((result) => {
       const index = this.workouts.findIndex((e) => e._id === workout._id);
       if (index !== -1) {
         this.workouts.splice(index, 1, this.workoutsService.loadWorkout(result));
@@ -125,7 +126,7 @@ export class WorkoutHistoryComponent {
   private deleteWorkout(workout: Workout): void {
     this.workoutCardsService.getWorkoutCardByWorkout(workout).subscribe((workoutCards) => {
       if (workoutCards.length > 0) {
-        Observable.forkJoin(...workoutCards.map((workoutCard) => this.workoutCardsService.deleteWorkoutCard(workoutCard))).subscribe((result) => {
+        Observable.forkJoin(...workoutCards.map((workoutCard) => this.workoutCardsService.removeWorkoutCard(workoutCard))).subscribe((result) => {
           this.deleteWorkout1(workout);
         });
       } else {
@@ -137,7 +138,7 @@ export class WorkoutHistoryComponent {
   }
 
   private deleteWorkout1(workout: Workout) {
-    this.workoutsService.deleteWorkout(workout).subscribe((result) => {
+    this.workoutsService.removeWorkout(workout).subscribe((result) => {
       const index = this.workouts.indexOf(workout);
       if (index !== -1) {
         this.workouts.splice(index, 1);

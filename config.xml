@@ -3,7 +3,7 @@
     <name>Pumper Diary</name>
     <description />
     <author email="stefan.braune@gmail.com" href="http://">Stefan Braune</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.178.22:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />

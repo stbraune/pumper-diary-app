@@ -1,10 +1,6 @@
+import { Entity } from './entity';
 import { Workout } from './workout';
 
-export interface WorkoutCard {
-  _id?: string;
-  _rev?: string;
+export interface WorkoutCard extends Entity {
   workoutId: string;
-  transient?: any;
-  createdAt?: Date;
-  updatedAt?: Date;
 }

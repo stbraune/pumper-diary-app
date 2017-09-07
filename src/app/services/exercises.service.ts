@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/switchMap';
 
 import { byDate } from './utils';
 import { DatabaseService } from './database.service';
+import { Database } from './database';
 
 import { EXERCISES_SAMPLES } from './exercises-samples';
 
@@ -17,76 +17,33 @@ import {
 
 @Injectable()
 export class ExercisesService {
-  private exercisesDatabase: any;
+  private exercisesDatabase: Database<Exercise>;
 
   public constructor(
     private databaseService: DatabaseService
   ) {
-    this.exercisesDatabase = databaseService.openDatabase('exercises');
+    this.exercisesDatabase = databaseService.openDatabase<Exercise>('exercise');
   }
 
   public getExercises(): Observable<Exercise[]> {
-    return Observable.fromPromise(this.exercisesDatabase.allDocs({ include_docs: true }))
-      .switchMap((documents: any) => {
-        if (documents.total_rows === 0) {
-          return this.initializeDatabase();
-        }
-
-        return Observable.of(documents.rows.map((row) => row.doc).map((exercise: Exercise) => {
-          exercise.createdAt = new Date(exercise.createdAt);
-          exercise.updatedAt = new Date(exercise.updatedAt);
-          return exercise;
-        }).sort(byDate<Exercise>((exercise) => exercise.createdAt)));
-      });
+    return this.exercisesDatabase.getEntities().map((exercises) => {
+      return exercises.sort(byDate<Exercise>((exercise) => exercise.createdAt));
+    });
   }
   
-  private initializeDatabase(): Observable<Exercise[]> {
-    return this.createExercises(...EXERCISES_SAMPLES).map((responses) => {
-      console.info('Created sample exercises', responses);
-      return responses;
-    });
-  }
-
   public getExerciseById(id: string): Observable<Exercise> {
-    return Observable.fromPromise(this.exercisesDatabase.get(id)).map((exercise: Exercise) => {
-      exercise.createdAt = new Date(exercise.createdAt);
-      exercise.updatedAt = new Date(exercise.updatedAt);
-      return exercise;
-    });
+    return this.exercisesDatabase.getEntityById(id);
   }
 
-  public createExercises(...exercises: Exercise[]): Observable<Exercise[]> {
-    return Observable.forkJoin(exercises.map((exercise) => this.createExercise(exercise)));
+  public postExercise(exercise: Exercise): Observable<Exercise> {
+    return this.exercisesDatabase.postEntity(exercise);
   }
 
-  public createExercise(exercise: Exercise): Observable<Exercise> {
-    exercise.updatedAt = exercise.createdAt = new Date();
-    return Observable.fromPromise(this.exercisesDatabase.post(exercise)).map((result: any) => {
-      if (result.ok) {
-        exercise._id = result.id;
-        exercise._rev = result.rev;
-        return exercise;
-      } else {
-        throw new Error(`Error while creating exercise ${JSON.stringify(exercise)}`);
-      }
-    });
+  public putExercise(exercise: Exercise): Observable<Exercise> {
+    return this.exercisesDatabase.putEntity(exercise);
   }
 
-  public updateExercise(exercise: Exercise): Observable<Exercise> {
-    exercise.updatedAt = new Date();
-    return Observable.fromPromise(this.exercisesDatabase.put(exercise)).map((result: any) => {
-      if (result.ok) {
-        exercise._rev = result.rev;
-        return exercise;
-      } else {
-        throw new Error(`Error while updating exercise ${exercise._id} ${JSON.stringify(exercise)}`);
-      }
-    });
-  }
-
-  public deleteExercise(exercise: Exercise): Observable<boolean> {
-    return Observable.fromPromise(this.exercisesDatabase.remove(exercise)).map((result: any) => {
-      return result.ok;
-    });
+  public removeExercise(exercise: Exercise): Observable<boolean> {
+    return this.exercisesDatabase.removeEntity(exercise);
   }
 }
