@@ -43,7 +43,7 @@ export class DatabaseService {
       if (documents.total_rows === 0) {
         return this.createSampleExercises(new Database<Exercise>(database, 'exercise')).subscribe((exercises) => {
           return this.createSamplePlans(new Database<Plan>(database, 'plan')).subscribe((plans) => {
-            console.log('Sample data created.');
+            console.info('Sample data created.');
           });
         });
       }

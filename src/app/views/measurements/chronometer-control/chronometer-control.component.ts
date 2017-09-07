@@ -49,18 +49,14 @@ export class ChronometerControlComponent implements OnInit {
   public ngOnInit(): void {
     try {
       this.backgroundMode.on('activate').subscribe(() => {
-        console.log('background mode activated');
         this.wasStartedBeforeBackgroundModeActivated = this.started;
         if (this.started) {
-          console.log('pausing chronometer');
           this.pauseChronometer();
         }
       });
       
       this.backgroundMode.on('deactivate').subscribe(() => {
-        console.log('background mode deactivated');
         if (this.wasStartedBeforeBackgroundModeActivated) {
-          console.log('starting chronometer');
           this.startChronometer();
         }
       });
@@ -125,7 +121,6 @@ export class ChronometerControlComponent implements OnInit {
 
   public pauseChronometer() {
     this.stopChronometer();
-    console.log('paused chrono');
     this.chronometerPaused.emit();
   }
 

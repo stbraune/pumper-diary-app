@@ -33,7 +33,6 @@ export class WorkoutHistoryComponent {
 
   private loadWorkouts() {
     this.workoutsService.getWorkouts().subscribe((workouts) => {
-      console.log(workouts);
       this.workouts = workouts.map((workout) => this.workoutsService.loadWorkout(workout));
       this.reindexWorkouts();
     });

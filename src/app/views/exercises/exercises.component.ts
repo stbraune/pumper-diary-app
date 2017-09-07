@@ -120,7 +120,7 @@ export class ExercisesComponent {
           return plan;
         }).map((plan) => this.plansService.putPlan(plan)));
       }).subscribe((updatedPlans) => {
-        console.log('Updated plans: ', updatedPlans);
+        console.info('Updated plans: ', updatedPlans);
       });
 
       const index = this.exercises.findIndex((e) => e._id === exercise._id);
@@ -141,7 +141,7 @@ export class ExercisesComponent {
           return plan;
         }).map((plan) => this.plansService.putPlan(plan)));
       }).subscribe((updatedPlans) => {
-        console.log('Updated plans: ', updatedPlans);
+        console.info('Updated plans: ', updatedPlans);
       });
 
       const index = this.exercises.indexOf(exercise);

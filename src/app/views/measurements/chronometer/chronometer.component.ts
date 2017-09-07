@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { BeepService } from '../../../services';
 
 @Component({
@@ -42,7 +42,8 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   public color = 'chronometer--neutral';
 
   public constructor(
-    private beepService: BeepService
+    private beepService: BeepService,
+    private ngZone: NgZone
   ) {
   }
 
@@ -61,7 +62,14 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   public start(): void {
     if (!this._started) {
       this._started = true;
-      this.start1();
+      
+      if (NgZone.isInAngularZone()) {
+        this.start1();
+      } else {
+        this.ngZone.run(() => {
+          this.start1();
+        })
+      }
     }
   }
   
@@ -77,16 +85,19 @@ export class ChronometerComponent implements OnInit, OnDestroy {
       window['msRequestAnimationFrame'] ||
       window['oRequestAnimationFrame'];
     if (requestAnimationFrame) {
-      const last = new Date().getTime();
+      let last = undefined;
       const self = this;
-      const interval = function() {
+      const interval = function(now) {
+        if (!last) last = now;
+
         if (self._started) {
           requestAnimationFrame(interval);
-        }
 
-        const now = new Date().getTime();
-        if (now - last >= self.resolution) {
-          self.tick(self.loud);
+          const delta = now - last;
+          if (delta > self.resolution) {
+            self.tick(self.loud);
+            last = now;
+          }
         }
       };
       requestAnimationFrame(interval);
@@ -140,12 +151,10 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   }
 
   private beepShort() {
-    console.log('beep short', this.millis);
     this.beepService.beepShort();
   }
   
   private beepLong() {
-    console.log('beep long', this.millis);
     this.beepService.beepLong();
   }
   

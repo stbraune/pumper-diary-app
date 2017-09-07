@@ -170,8 +170,6 @@ export class WorkoutCardsComponent {
       plan,
       sets: []
     }).subscribe((workout) => {
-      console.log('created workout', workout);
-
       this.workoutCardsService.postWorkoutCard({
         workoutId: workout._id,
         transient: { workout }

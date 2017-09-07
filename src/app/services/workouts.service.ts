@@ -58,7 +58,6 @@ export class WorkoutsService {
   }
   
   public loadWorkout(workout: Workout): Workout {
-    console.log(workout);
     workout.transient = Object.assign(workout.transient || {}, {
       score: this.loadScore(workout),
       date: this.loadDate(workout),

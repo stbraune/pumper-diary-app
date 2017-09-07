@@ -54,7 +54,6 @@ export class ExerciseEditComponent {
   }
 
   public exerciseChanged() {
-    console.log(JSON.stringify(this.exercise));
   }
 
   public dismissExerciseClicked(): void {

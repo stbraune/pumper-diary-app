@@ -60,7 +60,6 @@ export class GoalEditComponent {
   }
 
   public exerciseSelected(): void {
-    console.log('exercise selected', this.exercise);
     this.exercisesService.getExerciseById(this.exercise).subscribe((exercise) => {
       this.goal.exercise = exercise;
     }, (error) => {
