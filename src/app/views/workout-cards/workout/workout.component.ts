@@ -223,15 +223,10 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
   }
 
   public previousStepClicked(): void {
-    this.clearPauseNotification();
     this.slides.slidePrev();
   }
   
   public nextStepClicked(): void {
-    if (this.activeStep.entry.type === EntryType.Action) {
-      this.clearPauseNotification();
-    }
-
     if (this.activeStepIndex === this.steps.length - 1) {
       this.saveWorkoutClicked();
     } else {
@@ -239,7 +234,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private stepEntered: Date;
 
   public stepChanged(): void {
     if (this.recentStep) {
@@ -256,8 +250,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   private renderActiveStep() {
     const activeStep = this.activeStep;
-    this.stepEntered = new Date();
-
     const activeStepSlideHost = this.activeStepSlideHost;
     
     let componentFactory = null;
@@ -273,18 +265,13 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     if (activeStep.entry.type === EntryType.Action) {
       const actionStep = <ActionStepComponent>componentRef.instance;
       actionStep.step = activeStep;
-      actionStep.complete.subscribe(() => {
-        this.clearPauseNotification();
-      });
     } else if (activeStep.entry.type === EntryType.Pause) {
       const pauseStep = <PauseStepComponent>componentRef.instance;
       pauseStep.step = activeStep;
       pauseStep.started.subscribe(() => {
-        this.notificationService.clearPauseFinished();
         this.notificationService.notifyPauseFinished(pauseStep.pauseDurationInMillis);
       });
       pauseStep.paused.subscribe(() => {
-        this.notificationService.clearPauseFinished();
       });
       pauseStep.complete.subscribe(() => {
         this.slides.slideNext();
@@ -292,10 +279,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
     }
 
     this.recentStep = activeStep;
-  }
-
-  private clearPauseNotification() {
-    this.notificationService.clearPauseFinished();
   }
 
   public dismissWorkoutClicked(): void {
@@ -312,7 +295,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
             {
               text: texts['yes'],
               handler: () => {
-                this.notificationService.clearPauseFinished();
                 this.insomnia.allowSleepAgain();
                 this.backgroundMode.disable();
                 this.viewController.dismiss({
@@ -345,7 +327,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
               text: texts['yes'],
               handler: () => {
                 this.updateWorkout();
-                this.notificationService.clearPauseFinished();
                 this.insomnia.allowSleepAgain();
                 this.backgroundMode.disable();
                 this.viewController.dismiss({
@@ -364,7 +345,6 @@ export class WorkoutComponent implements OnInit, AfterViewInit {
 
   private updateWorkout() {
     if (this.recentStep && this.recentStep.set) {
-      const now = new Date();
       this.recentStep.set.measurements = this.recentStep.measurements
         .map((measurement) => measurement.actual);
     }

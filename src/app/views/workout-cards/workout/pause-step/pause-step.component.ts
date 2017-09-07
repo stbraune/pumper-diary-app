@@ -38,17 +38,14 @@ export class PauseStepComponent {
   }
 
   public emitRestored(): void {
-    console.log('restored step');
     this.restored.emit();
   }
   
   public emitStarted(): void {
-    console.log('started step');
     this.started.emit();
   }
 
   public emitPaused(): void {
-    console.log('paused step');
     this.paused.emit();
   }
 }
