@@ -1,4 +1,5 @@
 {
+  "edit": "Bearbeiten",
   "save": "Speichern",
   "close": "Schließen",
   "cancel": "Abbrechen",
@@ -8,7 +9,7 @@
   "next": "Weiter",
   "back": "Zurück",
   "finish": "Fertig",
-  
+
   "workout-date": "{{day}}, {{start}}",
   "today": "Heute",
   "yesterday": "Gestern",
@@ -24,8 +25,8 @@
   
   "notifications": {
     "pause-finished": {
-      "pause-finished.title": "Pause vorbei!",
-      "pause-finished.text": "Die Pause ist vorbei, weiter geht's!"
+      "title": "Pause vorbei!",
+      "text": "Die Pause ist vorbei, weiter geht's!"
     }
   },
 
@@ -36,7 +37,7 @@
   "menu.exercises.title": "Übungen",
 
   "workouts.title": "Pumper Diary",
-  
+
   "workouts.welcome.header": "Willkommen!",
   "workouts.welcome.intro": "Willkommen bei Pumper Diary, deinem persönlichen Assistenten während deiner Workouts. Möglicherweise siehst du gerade hier noch nicht viel... Erstelle deinen ersten Trainingsplan und starte dein Workout von diesem Bildschirm noch heute!",
   "workouts.welcome.exercises.header": "Übungen",
@@ -45,7 +46,7 @@
   "workouts.welcome.plans.description": "Verwalte deine eigenen Trainingspläne passend zu deinen persönlichen Bedürfnissen. Lege die Anzahl der Sätze and Ziele für jede Übung im Plan fest.",
   "workouts.welcome.workouts.header": "Workouts",
   "workouts.welcome.workouts.description": "Starte ein Workout für einen deiner Pläne und erfasse deine Ergebnisse!",
-  
+
   "workouts.workout-score.before": "Du hast ",
   "workouts.workout-score.score": "{{score}} Punkte ",
   "workouts.workout-score.after": "erreicht!",
@@ -67,16 +68,22 @@
   "workout-finish.prompt": "Möchtest du den Workout beenden?",
   "workout-cancel.title": "Workout abbrechen",
   "workout-cancel.prompt": "Möchtest du den Workout wirklich abbrechen? Der aufgezeichnete Fortschritt wird dabei verloren gehen.",
-  
+
   "workout.action-step.current-exercise": "Jetzt",
   "workout.action-step.note.label": "Notiz",
   
   "workout-history.title": "Historie",
-  "workout-history.no-workouts": "Bisher wurden noch keine Workouts erfasst.",
   "workout-history.one-workout": "1 Workout",
   "workout-history.count-workouts": "{{count}} Workouts",
+  "workout-history.no-workouts": "Bisher wurden noch keine Workouts erfasst.",
   "workout-delete.title": "Workout löschen",
   "workout-delete.prompt": "Möchtest du diesen Workout wirklich löschen? Aufgezeichnete Trainingsergebnisse gehen dabei ebenfalls verloren.",
+
+  "workout-view.no-sets-tracked": "Es wurden keine Ergebnisse für diesen Workout erfasst.",
+  "workout-view.goal": "Ziel #{{position}} {{exercise}}",
+  "workout-view.exercise": "Übung #{{position}} {{exercise}}",
+  "set-view.no-measurements-tracked": "Nichts erfasst.",
+
   "workout-edit.title": "Workout bearbeiten",
   "workout-edit.date.label": "Datum",
   "workout-edit.start.label": "Startzeit",
@@ -109,7 +116,6 @@
   "save-failed-no-exercise": "Du musst zu erst eine Übung wählen, bevor du das Ziel speichern kannst.",
   "save-failed-no-entries": "Du musst zu erst einige Sätze und Pausen hinzufügen, bevor du das Ziel speichern kannst.",
   "set-exercise-failed": "",
-  "add-action-failed": "Es sieht so aus, als sei deine Internetverbindung schlecht. Bitte prüfe deine Verbindung und versuche es noch einmal.",
 
   "plan.title": "Titel",
   "plan.description": "Beschreibung",

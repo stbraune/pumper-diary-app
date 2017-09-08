@@ -1,4 +1,5 @@
 {
+  "edit": "Edit",
   "save": "спасяване",
   "close": "близо",
   "cancel": "осуетявам",
@@ -9,18 +10,43 @@
   "back": "назад",
   "finish": "готов",
   
+  "workout-date": "{{day}}, {{start}}",
   "today": "днес",
   "yesterday": "вчера",
   "xdaysago": "Преди {{days}} дни",
+  "veryShortDateFormat": "MMMM y",
   "shortDateFormat": "dd.MM.yyyy",
+  "shortDateDisplayFormat": "DD.MM.YYYY",
+  "shortDatePickerFormat": "DD MMM YYYY",
   "shortTimeFormat": "HH:mm",
+  "shortTimeDisplayFormat": "HH:mm",
+  "shortTimePickerFormat": "HH mm",
+  "shortMonthNames": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec",
+  
+    "notifications": {
+      "pause-finished": {
+        "title": "Pause finished!",
+        "text": "The pause has finished, let's continue!"
+      }
+    },
 
   "menu.title": "Дневник на помпата",
   "menu.workouts.title": "тренировки",
+  "menu.workout-history.title": "History",
   "menu.plans.title": "планове",
   "menu.exercises.title": "упражнения",
 
   "workouts.title": "тренировки",
+
+  "workouts.welcome.header": "Welcome!",
+  "workouts.welcome.intro": "Welcome to Pumper Diary, your personal assistant while doing workouts. You may not see very much here until now... Try creating your first training plan and start a workout from this screen today!",
+  "workouts.welcome.exercises.header": "Exercises",
+  "workouts.welcome.exercises.description": "Create your own exercises, configure their difficulty and tell what data to measure.",
+  "workouts.welcome.plans.header": "Plans",
+  "workouts.welcome.plans.description": "Manage your own training plans matching your personal needs. Define the number of sets and goals for each exercise in the plan.",
+  "workouts.welcome.workouts.header": "Workouts",
+  "workouts.welcome.workouts.description": "Start a workout according to one of your training plans and track your results!",
+
   "workouts.workout-score.before": "Вие сте достигнали ",
   "workouts.workout-score.score": "{{score}} точки",
   "workouts.workout-score.after": "!",
@@ -32,6 +58,7 @@
   "delete-workout-failed": "Тренировката не може да бъде изтрита. Моля, опитайте отново.",
   "workout-card-delete.title": "Изчистете картата",
   "workout-card-delete.prompt": "Наистина ли искате да изтриете тази карта? Записаните резултати от обучението за тази тренировка остават непроменени.",
+  "workout-card-delete.delete-workout-too": "Also delete tracked results",
   "delete-workout-card-succeeded": "Картата бе изтрита.",
   "delete-workout-card-failed": "Картата не можа да бъде изтрита. Моля, опитайте отново.",
   
@@ -44,8 +71,31 @@
   
   "workout.action-step.current-exercise": "сега",
   "workout.action-step.note.label": "бележка",
+  
+  "workout-history.title": "History",
+  "workout-history.one-workout": "1 Workout",
+  "workout-history.count-workouts": "{{count}} Workouts",
+  "workout-history.no-workouts": "No workouts were tracked so far.",
+  "workout-delete.title": "Delete Workout",
+  "workout-delete.prompt": "Are you sure to delete this workout? All tracked data from this workout will also be deleted.",
+
+  "workout-view.no-sets-tracked": "No results were tracked during this workout.",
+  "workout-view.goal": "Goal #{{position}} {{exercise}}",
+  "workout-view.exercise": "Exercise #{{position}} {{exercise}}",
+  "set-view.no-measurements-tracked": "Nothing tracked.",
+  
+  "workout-edit.title": "Edit Workout",
+  "workout-edit.date.label": "Date",
+  "workout-edit.start.label": "Start Time",
+  "workout-edit.end.label": "Finish Time",
+  "workout-edit.tracked-sets": "Tracked Sets",
+  "workout-edit.no-sets-tracked": "No results were tracked during this workout.",
+  "workout.note.label": "Note",
+  "save-workout-succeeded": "Workout saved.",
+  "save-workout-failed": "Could not save workout. Please try again.",
 
   "plans.title": "планове",
+  "plans.no-plans": "There are no plans available yet. Create a new plan by pushing the button below.",
   "plan-add.title": "Създайте план",
   "plan-edit.title": "Редактирайте плана",
   "plan-delete.title": "Изтрийте плана",
@@ -63,18 +113,22 @@
   "duration": "продължителност",
   "action": "действие",
   "no-exercise-selected": "Първо трябва да изберете упражнение, преди да можете да добавяте цели.",
+  "save-failed-no-exercise": "Please select an exercise first before saving this goal.",
+  "save-failed-no-entries": "Please add some sets and pauses before saving this goal.",
   "set-exercise-failed": "",
-  "add-action-failed": "Изглежда връзката ви с интернет е лоша. Моля, проверете връзката си и опитайте отново.",
 
   "plan.title": "заглавие",
   "plan.description": "описание",
   "plan.goals": "цели",
+  "plan.goal-delete.title": "Delete Goal",
+  "plan.goal-delete.prompt": "Are you sure to delete this goal?",
 
   "plan.goals.entries.add-action": "Добави действие",
   "plan.goals.entries.add-pause": "Добавете пауза",
   "plan.goals.entries.delete-entry": "Изтриване на влизане",
 
   "exercises.title": "упражнения",
+  "exercises.no-exercises": "There are no exercises available yet. Create a new exercise by pushing the button below.",
   "exercise-add.title": "Създаване на упражнение",
   "exercise-edit.title": "Редактирайте упражнението",
   "exercise-delete.title": "Изтрийте упражнението",
@@ -101,5 +155,87 @@
   "Distance": "разстояние",
   "Distance.short": "dist",
   "Calories": "калории",
-  "Calories.short": "kcal"
+  "Calories.short": "kcal",
+  
+  "plans-samples": {
+    "start-plan": {
+      "title": "Start",
+      "description": ""
+    },
+    "simple-plan": {
+      "title": "Simple",
+      "description": ""
+    }
+  },
+
+  "exercises-samples": {
+    "concentration-curls": {
+      "title": "Concentration Curls",
+      "description": ""
+    },
+    "dumbbell-bench-press": {
+      "title": "Dumbbell Bench Press",
+      "description": ""
+    },
+    "criss-cross": {
+      "title": "Criss Cross",
+      "description": ""
+    },
+    "ez-curl-bar": {
+      "title": "EZ Curl Bar",
+      "description": ""
+    },
+    "pull-over": {
+      "title": "Pull Over",
+      "description": ""
+    },
+    "leg-drops": {
+      "title": "Leg Drops",
+      "description": ""
+    },
+    "hand-gripper": {
+      "title": "Hand Gripper",
+      "description": ""
+    },
+    "planking": {
+      "title": "Planking",
+      "description": ""
+    },
+    "walking": {
+      "title": "Walking",
+      "description": ""
+    },
+    "push-ups-positive": {
+      "title": "Push Ups Positive",
+      "description": ""
+    },
+    "pull-ups-wide": {
+      "title": "Pull Ups Wide",
+      "description": ""
+    },
+    "reverse-crunches": {
+      "title": "Reverse Crunches",
+      "description": ""
+    },
+    "calf-raise": {
+      "title": "Calf Raise",
+      "description": ""
+    },
+    "push-ups-negative": {
+      "title": "Push Ups Negative",
+      "description": ""
+    },
+    "dumbbell-rows": {
+      "title": "Dumbbell Rows",
+      "description": ""
+    },
+    "squats": {
+      "title": "Squats",
+      "description": ""
+    },
+    "sit-ups": {
+      "title": "Sit-Ups",
+      "description": ""
+    }
+  }
 }
