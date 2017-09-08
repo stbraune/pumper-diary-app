@@ -5,7 +5,6 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
-import { byDate } from './utils';
 import { DatabaseService } from './database.service';
 import { Database } from './database';
 
@@ -25,9 +24,7 @@ export class PlansService {
   }
 
   public getPlans(): Observable<Plan[]> {
-    return this.plansDatabase.getEntities().map((plans) => {
-      return plans.sort(byDate<Plan>((plan) => plan.createdAt));
-    });
+    return this.plansDatabase.getEntities();
   }
 
   public getPlanById(id: string): Observable<Plan> {

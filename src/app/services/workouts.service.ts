@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { by } from './utils';
 import { DatabaseService } from './database.service';
 import { Database } from './database';
 
@@ -28,8 +27,8 @@ export class WorkoutsService {
   }
 
   public getWorkouts(): Observable<Workout[]> {
-    return this.workoutsDatabase.getEntities().map((workouts) => {
-      return workouts.sort(by<Workout>((workout) => -workout.createdAt.getTime()));
+    return this.workoutsDatabase.getEntities({
+      descending: true
     });
   }
 

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 
-import { byDate } from './utils';
 import { DatabaseService } from './database.service';
 import { Database } from './database';
 
@@ -26,9 +25,7 @@ export class ExercisesService {
   }
 
   public getExercises(): Observable<Exercise[]> {
-    return this.exercisesDatabase.getEntities().map((exercises) => {
-      return exercises.sort(byDate<Exercise>((exercise) => exercise.createdAt));
-    });
+    return this.exercisesDatabase.getEntities();
   }
   
   public getExerciseById(id: string): Observable<Exercise> {

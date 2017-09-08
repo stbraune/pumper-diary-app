@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-import { by } from './utils';
 import { DatabaseService } from './database.service';
 import { Database } from './database';
 
@@ -22,8 +21,14 @@ export class WorkoutCardsService {
   }
 
   public getWorkoutCards(): Observable<WorkoutCard[]> {
-    return this.workoutCardsDatabase.getEntities().map((workoutCards) => {
-      return workoutCards.sort(by<WorkoutCard>((workoutCard) => -workoutCard.createdAt.getTime()));
+    const now = new Date();
+    const oneMonthAgo = new Date(now.getTime());
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    return this.workoutCardsDatabase.getEntities({
+      startkey: now.toJSON(),
+      endkey: oneMonthAgo.toJSON(),
+      descending: true,
     });
   }
 

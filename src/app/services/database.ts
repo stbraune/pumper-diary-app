@@ -20,11 +20,15 @@ export class Database<T extends Entity> {
     return this._database;
   }
 
-  public getEntities(map?: (item: T) => T): Observable<T[]> {
+  public getEntities(options?: any): Observable<T[]> {
+    const defaultEndkey = options && options.descending ? '' : '\uffff';
+    const defaultStartkey = options && options.descending ? '\uffff' : '';
     return Observable.fromPromise(this._database.allDocs({
       include_docs: true,
-      startkey: `${this._name}_`,
-      endkey: `${this._name}_\uffff`
+      startkey: `${this._name}_${options && options.startkey ? options.startkey : defaultStartkey}`,
+      endkey: `${this._name}_${options && options.endkey ? options.endkey : defaultEndkey}`,
+      descending: options && options.descending,
+      limit: options && options.limit
     })).map((documents: any) => {
       return documents.rows.map((row) => row.doc).map((item) => this.deserializeEntity(item));
     });
@@ -39,13 +43,14 @@ export class Database<T extends Entity> {
     return observable;
   }
 
-  public postEntity(item: T): Observable<T> {
+  public postEntity(item: T, id?: string): Observable<T> {
+    const now = new Date();
     const transient = item.transient;
-    item._id = `${this._name}_${uuidv4()}`;
+    item._id = `${this._name}_${id || now.toJSON()}`;
     item.transient = undefined;
-    item.updatedAt = item.createdAt = new Date();
+    item.updatedAt = item.createdAt = now;
 
-    return Observable.fromPromise(this._database.post(this.serializeEntity(item))).map((result: any) => {
+    return Observable.fromPromise(this._database.put(this.serializeEntity(item))).map((result: any) => {
       if (result.ok) {
         item._id = result.id;
         item._rev = result.rev;

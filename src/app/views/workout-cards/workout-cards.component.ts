@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AlertController, ModalController } from 'ionic-angular';
+import { AlertController, ModalController, NavController } from 'ionic-angular';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
@@ -11,6 +11,7 @@ import { WorkoutCardsService, WorkoutsService, PlansService, ToastService } from
 import { WorkoutCard, Workout, Plan } from '../../model';
 
 import { WorkoutComponent } from './workout';
+import { WorkoutViewComponent } from './../workout-history/workout-view';
 
 @Component({
   selector: 'workout-cards',
@@ -24,6 +25,7 @@ export class WorkoutCardsComponent {
     private translateService: TranslateService,
     private alertController: AlertController,
     private modalController: ModalController,
+    private navController: NavController,
     private plansService: PlansService,
     private workoutCardsService: WorkoutCardsService,
     private workoutsService: WorkoutsService,
@@ -105,7 +107,11 @@ export class WorkoutCardsComponent {
   }
 
   public workoutCardSelected(workoutCard: WorkoutCard) {
-    // TODO implement me somehow
+    if (workoutCard.transient.workout) {
+      this.navController.push(WorkoutViewComponent, {
+        workout: workoutCard.transient.workout
+      });
+    }
   }
 
   public startWorkoutClicked($event: any) {
