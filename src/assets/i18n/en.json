@@ -1,4 +1,5 @@
 {
+  "edit": "Edit",
   "save": "Save",
   "close": "Close",
   "cancel": "Cancel",
@@ -57,7 +58,7 @@
   "delete-workout-failed": "Could not delete workout. Please try again.",
   "workout-card-delete.title": "Deleted Workout Card",
   "workout-card-delete.prompt": "Are you sure to delete this card? Your tracked workout data will still be available.",
-  "workout-card-delete.delete-workout-too": "Also delete tracked workout data",
+  "workout-card-delete.delete-workout-too": "Also delete tracked results",
   "delete-workout-card-succeeded": "Card deleted.",
   "delete-workout-card-failed": "Could not delete workout card. Please try again.",
 
@@ -77,6 +78,12 @@
   "workout-history.no-workouts": "No workouts were tracked so far.",
   "workout-delete.title": "Delete Workout",
   "workout-delete.prompt": "Are you sure to delete this workout? All tracked data from this workout will also be deleted.",
+  
+  "workout-view.no-sets-tracked": "No results were tracked during this workout.",
+  "workout-view.goal": "Goal #{{position}} {{exercise}}",
+  "workout-view.exercise": "Exercise #{{position}} {{exercise}}",
+  "set-view.no-measurements-tracked": "Nothing tracked.",
+
   "workout-edit.title": "Edit Workout",
   "workout-edit.date.label": "Date",
   "workout-edit.start.label": "Start Time",
@@ -156,8 +163,8 @@
       "title": "Start",
       "description": ""
     },
-    "lady-plan": {
-      "title": "For my Lady",
+    "simple-plan": {
+      "title": "Simple",
       "description": ""
     }
   },

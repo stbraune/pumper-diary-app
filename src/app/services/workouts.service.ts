@@ -72,7 +72,7 @@ export class WorkoutsService {
     });
   }
 
-  private loadMood(workout: Workout): string {
+  public loadMood(workout: Workout): string {
     if (workout.sets.length === 0) {
       return 'neutral';
     }
@@ -82,8 +82,15 @@ export class WorkoutsService {
       return 'neutral';
     }
 
-    const average = Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length);
-    switch (average) {
+    return this.convertMood(Math.round(moods.reduce((prev, cur) => prev + cur, 0) / moods.length));
+  }
+
+  public convertMood(mood: Mood): string {
+    if (mood === undefined || mood === null) {
+      return 'unknown';
+    }
+
+    switch (mood) {
       case Mood.Happy:
         return 'happy';
       case Mood.Neutral:
@@ -91,7 +98,7 @@ export class WorkoutsService {
       case Mood.Unhappy:
         return 'unhappy';
       default:
-        return 'unknown' + average;
+        return 'unknown';
     }
   }
 

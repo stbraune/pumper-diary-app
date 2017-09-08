@@ -1,0 +1,31 @@
+<ion-item>
+  <ion-label class="label-no-flex" [ngSwitch]="item.mood">
+    <img *ngSwitchCase="'happy'" item-start
+      src="assets/img/emoji_happy.png"
+      style="width: 28px !important; height: 28px !important;">
+    <img *ngSwitchCase="'neutral'" item-start
+      src="assets/img/emoji_neutral.png"
+      style="width: 28px !important; height: 28px !important;">
+    <img *ngSwitchCase="'unhappy'" item-start
+      src="assets/img/emoji_unhappy.png"
+      style="width: 28px !important; height: 28px !important;">
+    <img *ngSwitchCase="'unknown'" item-start
+      src="assets/img/emoji_neutral_bw.png"
+      style="width: 28px !important; height: 28px !important;">
+  </ion-label>
+  <div item-content>
+    <span *ngIf="item.set.measurements.length === 0">
+      <em>{{'set-view.no-measurements-tracked' | translate}}</em>
+    </span>
+    <span *ngFor="let measurement of item.set.measurements; let i=index">
+      <measurement-display [measurement]="measurement">
+      </measurement-display>
+    </span>
+    <p *ngIf="item.set.note">
+      <em>{{note}}</em>
+    </p>
+  </div>
+  <span item-end>
+    <ion-icon name="star" color="accent"></ion-icon> {{item.score | async}}
+  </span>
+</ion-item>

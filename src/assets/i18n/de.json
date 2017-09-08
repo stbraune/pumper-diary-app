@@ -57,7 +57,7 @@
   "delete-workout-failed": "Der Workout konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
   "workout-card-delete.title": "Karte löschen",
   "workout-card-delete.prompt": "Möchtest du diese Karte wirklich löschen? Aufgezeichnete Trainingsergebnisse zu diesem Workout bleiben weiterhin erhalten.",
-  "workout-card-delete.delete-workout-too": "Aufgezeichnete Trainingsergebnisse auch löschen",
+  "workout-card-delete.delete-workout-too": "Ergebnisse auch löschen",
   "delete-workout-card-succeeded": "Karte gelöscht.",
   "delete-workout-card-failed": "Die Karte konnte nicht gelöscht werden. Bitte versuche es noch einmal.",
   
@@ -156,8 +156,8 @@
       "title": "Start",
       "description": ""
     },
-    "lady-plan": {
-      "title": "Für meine Lady",
+    "simple-plan": {
+      "title": "Einfach",
       "description": ""
     }
   },

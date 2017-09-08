@@ -19,7 +19,7 @@
           {{month.date | date:('veryShortDateFormat' | translate)}}
         </div>
         <span item-end *ngIf="month.countWorkouts === 1">
-            {{'workout-history.one-workout' | translate}}
+          {{'workout-history.one-workout' | translate}}
         </span>
         <span item-end *ngIf="month.countWorkouts !== 1">
           {{'workout-history.count-workouts' | translate:({count: month.countWorkouts})}}

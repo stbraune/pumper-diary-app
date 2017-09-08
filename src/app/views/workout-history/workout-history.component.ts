@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { ModalController, ToastController, AlertController } from 'ionic-angular';
+import { ModalController, AlertController, NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 
 import { Workout } from '../../model';
 import { WorkoutsService, WorkoutCardsService, ToastService, by } from '../../services';
 
+import { WorkoutViewComponent } from './workout-view';
 import { WorkoutEditComponent } from './workout-edit';
 
 @Component({
@@ -19,6 +20,7 @@ export class WorkoutHistoryComponent {
 
   public constructor(
     private translateService: TranslateService,
+    private navController: NavController,
     private modalController: ModalController,
     private toastService: ToastService,
     private alertController: AlertController,
@@ -63,27 +65,31 @@ export class WorkoutHistoryComponent {
   }
   
   public workoutSelected(workout: Workout): void {
-    const transient = workout.transient;
-    workout.transient = undefined;
-    const copy = this.workoutsService.deserializeWorkout(JSON.parse(JSON.stringify(workout)));
-    workout.transient = transient;
-
-    let workoutEditModal = this.modalController.create(WorkoutEditComponent, {
-      data: copy
+    this.navController.push(WorkoutViewComponent, {
+      workout: workout
     });
 
-    workoutEditModal.onDidDismiss((result) => {
-      if (!result) {
-        return;
-      }
+    // const transient = workout.transient;
+    // workout.transient = undefined;
+    // const copy = this.workoutsService.deserializeWorkout(JSON.parse(JSON.stringify(workout)));
+    // workout.transient = transient;
 
-      if (result.success) {
-        this.updateWorkout(result.data);
-      } else if (result.delete) {
-        this.deleteWorkout(result.data);
-      }
-    });
-    workoutEditModal.present();
+    // let workoutEditModal = this.modalController.create(WorkoutEditComponent, {
+    //   data: copy
+    // });
+
+    // workoutEditModal.onDidDismiss((result) => {
+    //   if (!result) {
+    //     return;
+    //   }
+
+    //   if (result.success) {
+    //     this.updateWorkout(result.data);
+    //   } else if (result.delete) {
+    //     this.deleteWorkout(result.data);
+    //   }
+    // });
+    // workoutEditModal.present();
   }
 
   public confirmDeleteWorkout(workout: Workout): void {
@@ -107,19 +113,6 @@ export class WorkoutHistoryComponent {
         });
         alert.present();
       });
-  }
-
-  private updateWorkout(workout: Workout): void {
-    this.workoutsService.putWorkout(workout).subscribe((result) => {
-      const index = this.workouts.findIndex((e) => e._id === workout._id);
-      if (index !== -1) {
-        this.workouts.splice(index, 1, this.workoutsService.loadWorkout(result));
-        this.reindexWorkouts();
-      }
-      this.toastService.showSuccessToast('save-workout-succeeded', result);
-    }, (error) => {
-      this.toastService.showErrorToast('save-workout-failed', error);
-    });
   }
 
   private deleteWorkout(workout: Workout): void {

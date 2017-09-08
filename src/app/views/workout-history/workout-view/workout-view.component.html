@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{workout.plan.title | translate}}, {{workout.transient?.date | async}}</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (click)="editWorkoutClicked()">
+        {{'edit' | translate}}
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-lines>
+    <ion-item>
+      <ion-label class="label-no-flex" [ngSwitch]="workout?.transient?.mood">
+        <img *ngSwitchCase="'happy'" item-start
+          src="assets/img/emoji_happy.png"
+          style="width: 56px !important; height: 56px !important;">
+        <img *ngSwitchCase="'neutral'" item-start
+          src="assets/img/emoji_neutral.png"
+          style="width: 56px !important; height: 56px !important;">
+        <img *ngSwitchCase="'unhappy'" item-start
+          src="assets/img/emoji_unhappy.png"
+          style="width: 56px !important; height: 56px !important;">
+        <img *ngSwitchCase="'unknown'" item-start
+          src="assets/img/emoji_unknown.png"
+          style="width: 56px !important; height: 56px !important;">
+      </ion-label>
+      <div item-content>
+        {{workout.plan.title | translate}}
+        <p>
+          {{workout.transient?.date | async}}
+        </p>
+        <p>
+          {{duration}}
+        </p>
+      </div>
+      <span item-end>
+        <ion-icon name="star" color="accent"></ion-icon> {{workout.transient?.score | async}}
+      </span>
+    </ion-item>
+    
+    <ion-item *ngIf="items.length === 0">
+      <em>{{'workout-view.no-sets-tracked' | translate}}</em>
+    </ion-item>
+
+    <ng-container *ngFor="let item of items">
+      <ng-container *ngIf="item.set">
+        <ion-item-divider color="light">
+          <div>
+            {{'workout-view.exercise' | translate:({position: item.goalIndex + 1, exercise: (item.exercise.title | translate)})}}
+          </div>
+          <span item-end class="divider-score">
+            <ion-icon name="star" color="accent"></ion-icon> {{item.score | async}}
+          </span>
+        </ion-item-divider>
+        <set-view [item]="item">
+        </set-view>
+      </ng-container>
+      <ng-container *ngIf="item.goal">
+        <ion-item-divider color="light">
+          <div>
+            {{'workout-view.goal' | translate:({position: item.goalIndex + 1, exercise: (item.exercise.title | translate)})}}
+          </div>
+          <span item-end class="divider-score">
+            <ion-icon name="star" color="accent"></ion-icon> {{item.score | async}}
+          </span>
+        </ion-item-divider>
+        <set-view *ngFor="let child of item.sets; let i=index" [item]="child">
+        </set-view>
+      </ng-container>
+    </ng-container>
+  </ion-list>
+</ion-content>
+  

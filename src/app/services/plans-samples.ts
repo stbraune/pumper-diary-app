@@ -97,7 +97,7 @@ export const PLANS_SAMPLES_NAMED: {
     goal(EXERCISES_SAMPLES_NAMED.CONCENTRATION_CURLS, set(action('12', '8.5'), pause(), 3)),
     goal(EXERCISES_SAMPLES_NAMED.PULL_UPS_WIDE, set(action('4'), pause(), 3, true))
   ),
-  LADY_PLAN: plan('lady-plan',
+  SIMPLE_PLAN: plan('simple-plan',
     goal(EXERCISES_SAMPLES_NAMED.SQUATS, set(action('10'), pause('00:01:00'), 3)),
     goal(EXERCISES_SAMPLES_NAMED.SIT_UPS, set(action('10'), pause('00:01:00'), 3, true))
   )

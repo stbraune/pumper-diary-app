@@ -79,7 +79,9 @@ import {
 
 import {
   WorkoutHistoryComponent,
+  WorkoutViewComponent,
   WorkoutEditComponent,
+  SetViewComponent,
   SetEditComponent
 } from './views/workout-history';
 
@@ -138,7 +140,9 @@ import {
     SlideHostDirective,
 
     WorkoutHistoryComponent,
+    WorkoutViewComponent,
     WorkoutEditComponent,
+    SetViewComponent,
     SetEditComponent,
 
     PlansComponent,
@@ -178,6 +182,7 @@ import {
     PauseStepComponent,
     
     WorkoutHistoryComponent,
+    WorkoutViewComponent,
     WorkoutEditComponent,
 
     PlansComponent,
