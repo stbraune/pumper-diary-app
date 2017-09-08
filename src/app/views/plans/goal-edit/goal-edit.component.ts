@@ -99,15 +99,11 @@ export class GoalEditComponent {
       return;
     }
 
-    this.exercisesService.getExerciseById(this.goal.exercise._id).subscribe((exercise) => {
-      this.goal.entries.push({
-        type: EntryType.Action,
-        measurements: exercise.measures.map((measure) => this.measurementsService.createMeasurement(measure))
-      });
-      fabContainer.close();
-    }, (error) => {
-      this.toastService.showErrorToast('add-action-failed', error);
+    this.goal.entries.push({
+      type: EntryType.Action,
+      measurements: this.goal.exercise.measures.map((measure) => this.measurementsService.createMeasurement(measure))
     });
+    fabContainer.close();
   }
 
   public addPauseClicked($event: any, fabContainer: FabContainer): void {
