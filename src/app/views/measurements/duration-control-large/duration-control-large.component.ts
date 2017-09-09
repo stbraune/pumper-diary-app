@@ -2,11 +2,8 @@ import { Component, EventEmitter, Input, Output,
   ViewChild, AfterViewInit, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 
 import { ChronometerControlComponent } from '../chronometer-control';
-
-import {
-  Measure,
-  Measurement
-} from '../../../model';
+import { Measure, Measurement } from '../../../model';
+import { DateFormatService } from '../../../services';
 
 @Component({
   selector: 'duration-control-large',
@@ -37,6 +34,10 @@ export class DurationControlLargeComponent implements OnChanges {
   @ViewChild('chronometer')
   public chronometer: ChronometerControlComponent;
 
+  public constructor(
+    private dateFormatService: DateFormatService
+  ) { }
+
   public ngOnInit(): void {
     this.chronometer.startChronometer();
   }
@@ -57,23 +58,10 @@ export class DurationControlLargeComponent implements OnChanges {
 
   public onChronometerTicked() {
     const abs = this.chronometer.getSecondsSinceLastReset();
-    
-    const h = this.parseInt(abs / 3600);
-    const m = this.parseInt(abs / 60);
-    const s = this.parseInt(abs % 60);
-
-    const hs = h > 9 ? h : '0' + h;
-    const ms = m > 9 ? m : '0' + m;
-    const ss = s > 9 ? s : '0' + s;
-
-    const str = hs + ':' + ms + ':' + ss;
+    const str = this.dateFormatService.formatSeconds(abs);
     if (str !== this.actual.value) {
       this.actual.value = str;
     }
-  }
-  
-  private parseInt(n: any): number {
-    return parseInt(<string>n);
   }
 
   public onChronometerFinished() {

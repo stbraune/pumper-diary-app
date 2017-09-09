@@ -80,6 +80,7 @@
   "workout-delete.prompt": "Möchtest du diesen Workout wirklich löschen? Aufgezeichnete Trainingsergebnisse gehen dabei ebenfalls verloren.",
 
   "workout-view.no-sets-tracked": "Es wurden keine Ergebnisse für diesen Workout erfasst.",
+  "workout-view.duration": "Dauer: {{duration}}",
   "workout-view.goal": "Ziel #{{position}} {{exercise}}",
   "workout-view.exercise": "Übung #{{position}} {{exercise}}",
   "set-view.no-measurements-tracked": "Nichts erfasst.",

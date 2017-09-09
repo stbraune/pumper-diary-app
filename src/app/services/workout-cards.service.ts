@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -14,10 +14,15 @@ declare var emit: any;
 export class WorkoutCardsService {
   private workoutCardsDatabase: Database<WorkoutCard>;
 
+  public workoutCardSaved = new EventEmitter<WorkoutCard>();
+  public workoutCardRemoved = new EventEmitter<WorkoutCard>();
+
   public constructor(
     private databaseService: DatabaseService
   ) {
     this.workoutCardsDatabase = databaseService.openDatabase<WorkoutCard>('workout-card');
+    this.workoutCardsDatabase.entitySaved.subscribe((workoutCard: WorkoutCard) => this.workoutCardSaved.emit(workoutCard));
+    this.workoutCardsDatabase.entityRemoved.subscribe((workoutCard: WorkoutCard) => this.workoutCardRemoved.emit(workoutCard));
   }
 
   public getWorkoutCards(): Observable<WorkoutCard[]> {

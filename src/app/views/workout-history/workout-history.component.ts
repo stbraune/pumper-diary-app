@@ -31,6 +31,21 @@ export class WorkoutHistoryComponent {
 
   public ionViewDidLoad(): void {
     this.loadWorkouts();
+
+    this.workoutsService.workoutSaved.subscribe((workout: Workout) => {
+      const index = this.workouts.findIndex((e) => e._id === workout._id);
+      if (index !== -1) {
+        this.workouts.splice(index, 1, this.workoutsService.loadWorkout(workout));
+      }
+    });
+
+    this.workoutsService.workoutRemoved.subscribe((workout: Workout) => {
+      const index = this.workouts.indexOf(workout);
+      if (index !== -1) {
+        this.workouts.splice(index, 1);
+        this.reindexWorkouts();
+      }
+    });
   }
 
   private loadWorkouts() {
@@ -68,28 +83,6 @@ export class WorkoutHistoryComponent {
     this.navController.push(WorkoutViewComponent, {
       workout: workout
     });
-
-    // const transient = workout.transient;
-    // workout.transient = undefined;
-    // const copy = this.workoutsService.deserializeWorkout(JSON.parse(JSON.stringify(workout)));
-    // workout.transient = transient;
-
-    // let workoutEditModal = this.modalController.create(WorkoutEditComponent, {
-    //   data: copy
-    // });
-
-    // workoutEditModal.onDidDismiss((result) => {
-    //   if (!result) {
-    //     return;
-    //   }
-
-    //   if (result.success) {
-    //     this.updateWorkout(result.data);
-    //   } else if (result.delete) {
-    //     this.deleteWorkout(result.data);
-    //   }
-    // });
-    // workoutEditModal.present();
   }
 
   public confirmDeleteWorkout(workout: Workout): void {
@@ -131,11 +124,6 @@ export class WorkoutHistoryComponent {
 
   private deleteWorkout1(workout: Workout) {
     this.workoutsService.removeWorkout(workout).subscribe((result) => {
-      const index = this.workouts.indexOf(workout);
-      if (index !== -1) {
-        this.workouts.splice(index, 1);
-        this.reindexWorkouts();
-      }
       this.toastService.showSuccessToast('delete-workout-succeeded', result);
     }, (error) => {
       this.toastService.showErrorToast('delete-workout-failed', error);

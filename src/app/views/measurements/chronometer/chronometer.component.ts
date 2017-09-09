@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, NgZone } from '@angular/core';
-import { BeepService } from '../../../services';
+import { BeepService, DateFormatService } from '../../../services';
 
 @Component({
   selector: 'chronometer',
@@ -43,6 +43,7 @@ export class ChronometerComponent implements OnInit, OnDestroy {
 
   public constructor(
     private beepService: BeepService,
+    private dateFormatService: DateFormatService,
     private ngZone: NgZone
   ) {
   }
@@ -159,25 +160,7 @@ export class ChronometerComponent implements OnInit, OnDestroy {
   }
   
   private formatDuration(millis: number) {
-    const abs = Math.abs(millis / 100);
-
-    const h = this.parseInt((abs) / 36000);
-    const m = this.parseInt((abs % 36000) / 600);
-    const s = this.parseInt((abs % 600) / 10);
-    const x = this.parseInt(abs % 10);
-
-    if (h > 0) {
-      const hs = h > 9 ? h : '0' + h;
-      const ms = m > 9 ? m : '0' + m;
-      const ss = s > 9 ? s : '0' + s;
-      const xs = x;
-      return hs + ':' + ms + ':' + ss + ':' +  xs;
-    } else {
-      const ms = m > 9 ? m : '0' + m;
-      const ss = s > 9 ? s : '0' + s;
-      const xs = x;
-      return ms + ':' + ss + ':' +  xs;
-    }
+    return this.dateFormatService.formatMillis(millis);
   }
 
   private formatColor(millis: number) {

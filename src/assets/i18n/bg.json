@@ -80,6 +80,7 @@
   "workout-delete.prompt": "Are you sure to delete this workout? All tracked data from this workout will also be deleted.",
 
   "workout-view.no-sets-tracked": "No results were tracked during this workout.",
+  "workout-view.duration": "Duration: {{duration}}",
   "workout-view.goal": "Goal #{{position}} {{exercise}}",
   "workout-view.exercise": "Exercise #{{position}} {{exercise}}",
   "set-view.no-measurements-tracked": "Nothing tracked.",

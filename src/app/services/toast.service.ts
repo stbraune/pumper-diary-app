@@ -12,6 +12,7 @@ export class ToastService {
 
   public showSuccessToast(messageKey: string, data?: any) {
     this.translateService.get([messageKey]).subscribe((texts) => {
+      console.info(texts[messageKey], data);
       this.toastController.create({
         message: texts[messageKey],
         duration: 2000
@@ -21,6 +22,10 @@ export class ToastService {
 
   public showErrorToast(messageKey: string, error?: any, duration?: number) {
     this.translateService.get([messageKey, 'close']).subscribe((texts) => {
+      if (error) {
+        console.error(texts[messageKey], error);
+      }
+
       this.toastController.create({
         message: texts[messageKey],
         closeButtonText: texts['close'],

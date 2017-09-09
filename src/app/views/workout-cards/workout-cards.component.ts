@@ -35,6 +35,17 @@ export class WorkoutCardsComponent {
 
   public ionViewDidLoad(): void {
     this.loadWorkoutCards();
+
+    this.workoutCardsService.workoutCardRemoved.subscribe((workoutCard: WorkoutCard) => {
+      const index = this.workoutCards.indexOf(workoutCard);
+      if (index !== -1) {
+        this.workoutCards.splice(index, 1);
+      }
+    });
+
+    this.workoutsService.workoutRemoved.subscribe((workout: Workout) => {
+      
+    });
   }
 
   public shouldShowWelcomeCard(): boolean {
@@ -207,11 +218,6 @@ export class WorkoutCardsComponent {
 
   private deleteWorkoutCard(workoutCard: WorkoutCard, hideToast: boolean = false) {
     this.workoutCardsService.removeWorkoutCard(workoutCard).subscribe((result) => {
-      const index = this.workoutCards.indexOf(workoutCard);
-      if (index !== -1) {
-        this.workoutCards.splice(index, 1);
-      }
-
       if (hideToast) {
         console.log('Workout card deleted', workoutCard);
       } else {

@@ -1,3 +1,4 @@
+import { EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/catch';
@@ -8,6 +9,9 @@ import * as uuidv4 from 'uuid/v4';
 import { Entity } from '../model';
 
 export class Database<T extends Entity> {
+  public entitySaved = new EventEmitter<T>();
+  public entityRemoved = new EventEmitter<T>();
+
   public constructor(
     private _database: any,
     private _name: string,
@@ -52,9 +56,9 @@ export class Database<T extends Entity> {
 
     return Observable.fromPromise(this._database.put(this.serializeEntity(item))).map((result: any) => {
       if (result.ok) {
-        item._id = result.id;
         item._rev = result.rev;
         item.transient = transient;
+        this.entitySaved.emit(item);
         return item;
       } else {
         throw new Error(`Error while creating entity: ${JSON.stringify(item)}`);
@@ -63,15 +67,17 @@ export class Database<T extends Entity> {
   }
 
   public putEntity(item: T): Observable<T> {
+    const now = new Date();
     const transient = item.transient;
     item.transient = undefined;
-    item.updatedAt = new Date();
+    item.updatedAt = now;
     item.createdAt = item.createdAt || item.updatedAt;
 
     return Observable.fromPromise(this._database.put(this.serializeEntity(item))).map((result: any) => {
       if (result.ok) {
         item._rev = result.rev;
         item.transient = transient;
+        this.entitySaved.emit(item);
         return item;
       } else {
         throw new Error(`Error while updating entity ${item._id}: ${JSON.stringify(item)}`);
@@ -81,6 +87,7 @@ export class Database<T extends Entity> {
 
   public removeEntity(item: T): Observable<boolean> {
     return Observable.fromPromise(this._database.remove(item)).map((result: any) => {
+      this.entityRemoved.emit(item);
       return result.ok;
     });
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -17,10 +17,15 @@ declare var emit: any; // fools typescript compiler for mango queries
 export class PlansService {
   private plansDatabase: Database<Plan>;
 
+  public planSaved = new EventEmitter<Plan>();
+  public planRemoved = new EventEmitter<Plan>();
+
   public constructor(
     private databaseService: DatabaseService
   ) {
     this.plansDatabase = databaseService.openDatabase<Plan>('plan');
+    this.plansDatabase.entitySaved.subscribe((plan: Plan) => this.planSaved.emit(plan));
+    this.plansDatabase.entityRemoved.subscribe((plan: Plan) => this.planRemoved.emit(plan));
   }
 
   public getPlans(): Observable<Plan[]> {

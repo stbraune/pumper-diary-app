@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{workout.plan.title | translate}}, {{workout.transient?.date | async}}</ion-title>
+    <ion-title>{{workout.plan.title | translate}}, {{workout.transient?.dateShort | async}}</ion-title>
     <ion-buttons end>
       <button ion-button clear (click)="editWorkoutClicked()">
         {{'edit' | translate}}
@@ -32,7 +32,7 @@
           {{workout.transient?.date | async}}
         </p>
         <p>
-          {{duration}}
+          {{'workout-view.duration' | translate:({duration: workout.transient?.duration})}}
         </p>
       </div>
       <span item-end>

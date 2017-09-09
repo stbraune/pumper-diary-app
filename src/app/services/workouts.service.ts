@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +16,9 @@ import { Workout, Mood } from '../model';
 export class WorkoutsService {
   private workoutsDatabase: Database<Workout>;
 
+  public workoutSaved = new EventEmitter<Workout>();
+  public workoutRemoved = new EventEmitter<Workout>();
+
   public constructor(
     private databaseService: DatabaseService,
     private translateService: TranslateService,
@@ -24,6 +27,8 @@ export class WorkoutsService {
   ) {
     this.workoutsDatabase = databaseService.openDatabase<Workout>('workout',
       (workout) => this.deserializeWorkout(workout));
+    this.workoutsDatabase.entitySaved.subscribe((workout: Workout) => this.workoutSaved.emit(workout));
+    this.workoutsDatabase.entityRemoved.subscribe((workout: Workout) => this.workoutRemoved.emit(workout));
   }
 
   public getWorkouts(): Observable<Workout[]> {
@@ -60,6 +65,8 @@ export class WorkoutsService {
     workout.transient = Object.assign(workout.transient || {}, {
       score: this.loadScore(workout),
       date: this.loadDate(workout),
+      dateShort: this.dateFormatService.formatDateShort(workout.start),
+      duration: this.dateFormatService.formatDuration(workout.start, workout.end),
       mood: this.loadMood(workout)
     });
     return workout;
