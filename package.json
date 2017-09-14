@@ -18,7 +18,7 @@
         "gen:keystore": "keytool -genkey -v -keystore ./release-key.keystore -alias zdevelopment.release -keyalg RSA -keysize 2048 -validity 10000",
         "build:release:android:build": "ionic cordova build android --prod --release",
         "build:release:android:sign": "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ./release-key.keystore ./platforms/android/build/outputs/apk/android-release-unsigned.apk zdevelopment.release",
-        "build:release:android:align": "rimraf ./platforms/android/build/outputs/apk/android.apk && zipalign -v 4 ./platforms/android/build/outputs/apk/android-release-unsigned.apk ./platforms/android/build/outputs/apk/PumperDiary.apk",
+        "build:release:android:align": "rimraf ./platforms/android/build/outputs/apk/PumperDiary.apk && zipalign -v 4 ./platforms/android/build/outputs/apk/android-release-unsigned.apk ./platforms/android/build/outputs/apk/PumperDiary.apk",
         "build:release": "npm run build:release:android:build && npm run build:release:android:sign && npm run build:release:android:align",
         "install:apk": "adb install -r ./platforms/android/build/outputs/apk/PumperDiary.apk",
         "install:release": "npm run build:release && npm run install:apk"
