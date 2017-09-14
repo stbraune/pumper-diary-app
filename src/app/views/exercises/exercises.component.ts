@@ -3,8 +3,8 @@ import { ModalController, ToastController, AlertController } from 'ionic-angular
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { Exercise } from '../../model';
-import { ExercisesService, PlansService, ToastService } from '../../services';
+import { Exercise, EntryType } from '../../model';
+import { ExercisesService, PlansService, ToastService, MeasurementsService } from '../../services';
 import { ExerciseEditComponent } from './exercise-edit';
 
 @Component({
@@ -20,7 +20,8 @@ export class ExercisesComponent {
     private toastService: ToastService,
     private alertController: AlertController,
     private exercisesService: ExercisesService,
-    private plansService: PlansService
+    private plansService: PlansService,
+    private measurementsService: MeasurementsService
   ) {
   }
 
@@ -115,7 +116,17 @@ export class ExercisesComponent {
         return Observable.forkJoin(plans.map((plan) => {
           plan.goals.filter((goal) => goal.exercise._id === exercise._id).forEach((goal) => {
             goal.exercise = JSON.parse(JSON.stringify(exercise));
-            return goal;
+            goal.entries.filter((entry) => entry.type === EntryType.Action).forEach((entry) => {
+              exercise.measures.forEach((measure) => {
+                if (!entry.measurements.find((measurement) => measurement.measure === measure)) {
+                  // add measurements, we now also want to track
+                  entry.measurements.push(this.measurementsService.createMeasurement(measure));
+                }
+              });
+
+              // remove measurements, we do not want to track anymore
+              entry.measurements = entry.measurements.filter((measurement) => exercise.measures.indexOf(measurement.measure) !== -1);
+            });
           });
           return plan;
         }).map((plan) => this.plansService.putPlan(plan)));
